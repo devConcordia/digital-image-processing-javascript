@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset='UTF-8' />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=yes" />
+		<title>ImageRGB - Clahe</title>
+		<style>
+			
+			pre {
+				white-space:pre-wrap;
+				font-family:Courier new;
+				padding:10px;
+			}
+			
+			canvas {
+				display:block; 
+				margin:10px; 
+				box-shadow:2px 3px 15px #777;
+				
+				image-rendering: pixelated;
+			}
+			
+		</style>
+        <script type="module">
+			
+			import Renderer2D from "/module/graph/Renderer2D/Renderer2D.mjs";
+			
+			import pixel from "/module/pixel/index.mjs";
+			
+			///
+			var source0 = new Image();
+				source0.src = "../src/hill.jpg";
+			//	source0.src = "../src/fire-breathing.jpg";
+			
+			window.addEventListener('load', function(e) {
+				
+				/// load image
+				print("Original source");
+				let context = createContext( source0 );
+				
+				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
+				
+				/// 
+				let image = pixel.ImageRGB.FromImageData( imagedata );
+				
+				///
+				print("Histogram original");
+				createHistogramChart( image );
+				
+				/// 
+				/// 
+				print("Clahe");
+				let image_clahe = image.clahe();
+				createContext( image.clahe().toImageData() );
+			//	createContext( image.clahe() );
+				
+				///
+				///
+				print("Histogram Clahe");
+				createHistogramChart( image_clahe );
+				
+			}, false);
+			
+			
+			/** 
+			 *	fix histogram data
+			 */
+			function fix( object ) {
+				
+				let output = new Uint32Array( 256 );
+				
+				for( let k in object )
+					output[k] = object[k];
+				
+				return output;
+				
+			}
+			
+			function createHistogramChart( image ) {
+				
+				let { red, green, blue } = image.histogram();
+				
+				let renderer = new Renderer2D( 815, 300 );
+				let chart = renderer.createChart( 25, 25, 255 * 3, 255 );
+				
+				chart.clear('#fff');
+				chart.save({ strokeStyle: "#ddd", setLineDash:[5,5] });
+				chart.grid( 16, 16 );
+				
+				chart.bars([ fix(red), fix(green), fix(blue) ], [ "#f00", "#0f0", "#00f" ]);
+				
+				document.body.appendChild( renderer.canvas );
+				
+				return renderer.canvas;
+				
+			}
+			
+			
+			function print() {
+				
+				let pre = document.createElement('pre');
+				let text = Array.from( arguments ).join('\n');
+				
+				pre.appendChild(document.createTextNode( text ));
+				
+				document.body.appendChild( pre );
+				
+				return pre;
+				
+			}
+			
+			function createContext( source ) {
+				
+				var canvas = document.createElement("canvas"),
+					context = canvas.getContext("2d");
+				
+				canvas.width = source.width;
+				canvas.height = source.height;
+				
+				if( source instanceof Image )
+					context.drawImage( source, 0, 0, source.width, source.height );
+				
+				if( source instanceof ImageData )
+					context.putImageData( source, 0, 0 );
+					
+				document.body.appendChild( canvas );
+				
+				return context;
+				
+			}
+			
+		</script>
+    </head>
+    <body>
+    </body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset='UTF-8' />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=yes" />
+		<title>ImageBinary - ASCII Art</title>
+		<style>
+			
+			pre {
+				white-space:pre-wrap;
+				font-family:Courier new;
+				padding:10px;
+			}
+			
+			canvas {
+				display:block; 
+				margin:10px; 
+				box-shadow:2px 3px 15px #777;
+				
+			/*	width:100px; */
+				
+				image-rendering: pixelated;
+			}
+			
+		</style>
+        <script type="module">
+			
+			import pixel from "/module/pixel/index.mjs";
+			
+			///
+			var source0 = new Image();
+			//	source0.src = "../src/NutsAndBolts.jpg";
+				source0.src = "../src/horse.png";
+			
+			window.addEventListener('load', function(e) {
+				
+				/// load image
+				print("Original");
+				let context = createContext( source0 );
+				
+				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
+				
+				let image_g = pixel.ImageGray.FromImageData( imagedata, { scale:[.25,.25] });//.conv( pixel.Matrix.Sobel(5) );
+				
+				let image_b = pixel.ImageBinary.FromImageGray( image_g, 127 );
+				
+				
+		//		let image_b = pixel.ImageBinary.FromImageData( imagedata, 127 );
+				
+			//	createContext( image_b.toImageData() );
+				
+				print( "1. ASCII Art" );
+				print( image_b.toString('.', '@') );
+				
+				
+			}, false);
+			
+			function print() {
+				
+				let pre = document.createElement('pre');
+				let text = Array.from( arguments ).join('\n');
+				
+				pre.appendChild(document.createTextNode( text ));
+				
+				document.body.appendChild( pre );
+				
+				return pre;
+				
+			}
+			
+			function createContext( source ) {
+				
+				var canvas = document.createElement("canvas"),
+					context = canvas.getContext("2d");
+				
+				canvas.width = source.width;
+				canvas.height = source.height;
+				
+				if( source instanceof Image )
+					context.drawImage( source, 0, 0, source.width, source.height );
+				
+				if( source instanceof ImageData )
+					context.putImageData( source, 0, 0 );
+					
+				document.body.appendChild( canvas );
+				
+				return context;
+				
+			}
+			
+		</script>
+    </head>
+    <body>
+    </body>
+</html>

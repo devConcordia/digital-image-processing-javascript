@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset='UTF-8' />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=yes" />
+		<title>ImageGray - Basic usage</title>
+		<style>
+			
+			pre {
+				white-space:pre-wrap;
+				font-family:Courier new;
+				padding:10px;
+			}
+			
+			canvas {
+				display:block; 
+				margin:10px; 
+				box-shadow:2px 3px 15px #777;
+				
+				image-rendering: pixelated;
+			}
+			
+		</style>
+        <script type="module">
+			
+			import pixel from "/module/pixel/index.mjs";
+			
+			///
+			var source0 = new Image();
+				source0.src = "../src/NutsAndBolts.jpg";
+			
+			window.addEventListener('load', function(e) {
+				
+				/// load image
+				print("Original");
+				let context = createContext( source0 );
+				
+				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
+				
+				/// 
+				/// 
+				print("Example 1. ImageGray is resized in 50%");
+				
+				let image0 = pixel.ImageGray.FromImageData( imagedata, { 
+					scale: [ .5, .5 ]
+				});
+				
+				createContext( image0.toImageData() );
+				
+				/// 
+				/// 
+				print("Example 2. ImageGray is cropped 100x100 with margin top and left 50px");
+				
+				let image1 = pixel.ImageGray.FromImageData( imagedata, { 
+					crop: [ 50, 50, 100, 100 ] 
+				});
+				
+				createContext( image1.toImageData() );
+				
+				/// 
+				/// 
+				print("Example 3. ImageGray is cropped and resized in 200%");
+				
+				let image2 = pixel.ImageGray.FromImageData( imagedata, { 
+					crop: [ 50, 50, 100, 100 ],
+					scale: [ 2, 2 ]
+				});
+				
+				createContext( image2.toImageData() );
+				
+				/// 
+				/// 
+				print("Example 4. ImageGray from ImageRGB");
+				
+				let imagergb = pixel.ImageRGB.FromImageData( imagedata );
+				
+				let image3 = pixel.ImageGray.FromImageRGB( imagergb );
+				
+				createContext( image3.toImageData() );
+				
+			}, false);
+			
+			function print() {
+				
+				let pre = document.createElement('pre');
+				let text = Array.from( arguments ).join('\n');
+				
+				pre.appendChild(document.createTextNode( text ));
+				
+				document.body.appendChild( pre );
+				
+				return pre;
+				
+			}
+			
+			function createContext( source ) {
+				
+				var canvas = document.createElement("canvas"),
+					context = canvas.getContext("2d");
+				
+				canvas.width = source.width;
+				canvas.height = source.height;
+				
+				if( source instanceof Image )
+					context.drawImage( source, 0, 0, source.width, source.height );
+				
+				if( source instanceof ImageData )
+					context.putImageData( source, 0, 0 );
+					
+				document.body.appendChild( canvas );
+				
+				return context;
+				
+			}
+			
+		</script>
+    </head>
+    <body>
+    </body>
+</html>

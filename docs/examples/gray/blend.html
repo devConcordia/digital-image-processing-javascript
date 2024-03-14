@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset='UTF-8' />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=yes" />
+		<title>ImageGray - Blend</title>
+		<style>
+			
+			pre {
+				white-space:pre-wrap;
+				font-family:Courier new;
+				padding:10px;
+			}
+			
+			canvas {
+				display:block; 
+				margin:10px; 
+				box-shadow:2px 3px 15px #777;
+				
+				image-rendering: pixelated;
+			}
+			
+		</style>
+        <script type="module">
+			
+			import pixel from "/module/pixel/index.mjs";
+			
+			///
+			var source0 = new Image();
+				source0.src = "../src/NutsAndBolts.jpg";
+			
+			var source1 = new Image();
+				source1.src = "../src/otter.jpg";
+			
+			window.addEventListener('load', function(e) {
+				
+				/// load image
+				print("Original sources");
+				
+				print("Source A");
+				let context0 = createContext( source0 );
+				
+				print("Source B");
+				let context1 = createContext( source1 );
+				
+				let imagedata0 = context0.getImageData( 0, 0, source0.width, source0.height );
+				let imagedata1 = context1.getImageData( 0, 0, source1.width, source1.height );
+				
+				/// 
+				let imageA = pixel.ImageGray.FromImageData( imagedata0 );
+				let imageB = pixel.ImageGray.FromImageData( imagedata1 );
+				
+				/// 
+				/// 
+				print("1. A.blend( B )");
+				createContext( imageA.blend( imageB ).toImageData() );
+				
+				/// 
+				/// 
+				print("2. A.blendMin( B )");
+				createContext( imageA.blendMin( imageB ).toImageData() );
+				
+				/// 
+				/// 
+				print("3. A.blendMax( B )");
+				createContext( imageA.blendMax( imageB ).toImageData() );
+				
+			}, false);
+			
+			function print() {
+				
+				let pre = document.createElement('pre');
+				let text = Array.from( arguments ).join('\n');
+				
+				pre.appendChild(document.createTextNode( text ));
+				
+				document.body.appendChild( pre );
+				
+				return pre;
+				
+			}
+			
+			function createContext( source ) {
+				
+				var canvas = document.createElement("canvas"),
+					context = canvas.getContext("2d");
+				
+				canvas.width = source.width;
+				canvas.height = source.height;
+				
+				if( source instanceof Image )
+					context.drawImage( source, 0, 0, source.width, source.height );
+				
+				if( source instanceof ImageData )
+					context.putImageData( source, 0, 0 );
+					
+				document.body.appendChild( canvas );
+				
+				return context;
+				
+			}
+			
+		</script>
+    </head>
+    <body>
+    </body>
+</html>

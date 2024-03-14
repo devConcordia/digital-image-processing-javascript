@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset='UTF-8' />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=yes" />
+		<title>ImageRGB - Convolution</title>
+		<style>
+			
+			pre {
+				white-space:pre-wrap;
+				font-family:Courier new;
+				padding:10px;
+			}
+			
+			canvas {
+				display:block; 
+				margin:10px; 
+				box-shadow:2px 3px 15px #777;
+				
+				image-rendering: pixelated;
+			}
+			
+		</style>
+        <script type="module">
+			
+			import Renderer2D from "/module/graph/Renderer2D/Renderer2D.mjs";
+			
+			import pixel from "/module/pixel/index.mjs";
+			
+			///
+			var source0 = new Image();
+				source0.src = "../src/NutsAndBolts.jpg";
+			
+			window.addEventListener('load', function(e) {
+				
+				/// load image
+				print("Original source");
+				let context = createContext( source0 );
+				
+				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
+				
+				/// 
+				/// 
+				let image = pixel.ImageRGB.FromImageData( imagedata );
+				
+				///
+			//	print("Example 1. Prewitt");
+			//	createContext( image.conv( pixel.Matrix.Prewitt() ).toImageData() );
+				
+				///
+				print("Example 2. Sobel");
+				createContext( image.conv( pixel.Matrix.Sobel() ).toImageData() );
+				
+				///
+				print("Example 3. Laplace");
+				createContext( image.conv( pixel.Matrix.Laplace() ).toImageData() );
+			
+				///
+			//	print("Example 4. Scharr");
+			//	createContext( image.conv( pixel.Matrix.Scharr() ).toImageData() );
+				
+				///
+			//	print("Example 4. Feldman");
+			//	createContext( image.conv( pixel.Matrix.Feldman() ).toImageData() );
+				
+				///
+				print("Example 5. Sharpen");
+				createContext( image.conv( pixel.Matrix.Sharpen() ).toImageData() );
+				
+				///
+			//	print("Example 6. GaussianBlur");
+			//	createContext( image.conv( pixel.Matrix.GaussianBlur(7,10) ).toImageData() );
+			
+				///
+				print("Example 7. Emboss");
+				createContext( image.conv( pixel.Matrix.Emboss() ).toImageData() );
+				
+				
+			}, false);
+			
+			function print() {
+				
+				let pre = document.createElement('pre');
+				let text = Array.from( arguments ).join('\n');
+				
+				pre.appendChild(document.createTextNode( text ));
+				
+				document.body.appendChild( pre );
+				
+				return pre;
+				
+			}
+			
+			function createContext( source ) {
+				
+				var canvas = document.createElement("canvas"),
+					context = canvas.getContext("2d");
+				
+				canvas.width = source.width;
+				canvas.height = source.height;
+				
+				if( source instanceof Image )
+					context.drawImage( source, 0, 0, source.width, source.height );
+				
+				if( source instanceof ImageData )
+					context.putImageData( source, 0, 0 );
+					
+				document.body.appendChild( canvas );
+				
+				return context;
+				
+			}
+			
+		</script>
+    </head>
+    <body>
+    </body>
+</html>
