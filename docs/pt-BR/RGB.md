@@ -18,12 +18,18 @@ canvasContext2d.putImageData( claheImageData, 0, 0 );
 
 ```
 
-Histogram antes
+
+| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/hill.jpg" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe.png" width="300" /> |
+|:-:|:-:|
+| Antes  | Depois    |
+
+
+Histograma antes
 
 ![](https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe-histogram-original.png)
 
 
-Histogram depois
+Histograma depois
 
 ![](https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe-histogram-final.png)
 
