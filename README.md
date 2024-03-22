@@ -17,8 +17,8 @@ Este método é um auxílio para iniciar imagens já em um [Canvas](https://deve
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| path      | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | caminho para a imagem |
-| handlerCallback | [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function) | função chamada quando a imagem carregar |
+| path      | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | Caminho para a imagem. |
+| handlerCallback | [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function) | Função chamada quando a imagem carregar. |
 
 O `handlerCallback` é chamado com dois argumentos: [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D) e [Image](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image).
 
@@ -26,7 +26,7 @@ No exemplo a seguir, uma imagem é carragada e o canvas informado é adicionado 
 
 ```javascript
 
-pixel.Load('path/to/image', function( context, imagedata ) {
+pixel.Load('path/to/image', function handlerCallback( context, imagedata ) {
 	
 	document.body.appendChild( context.canvas );
 	
@@ -49,19 +49,17 @@ com o método `pixel.ImageRGB.FromImageData`.
 
 **options**
 
-Deverá ser um 
-
 | Opção | Tipo | Descrição |
 |-------|------|-----------|
-| crop  | [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | *cropX* ponto incial para o recorte no eixo X\n*cropY* ponto incial para o recorte no eixo Y\n*cropWidth* e *cropHeight* dimensões do recorte. |
-| scale | [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | *scaleX* altera a escala no eixo X\n *scaleY* altera a escala no eixo Y. |
+| crop  | [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | *cropX* ponto incial para o recorte no eixo X.<br>*cropY* ponto incial para o recorte no eixo Y.<br>*cropWidth* e *cropHeight* dimensões do recorte. |
+| scale | [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | *scaleX* altera a escala no eixo X.<br>*scaleY* altera a escala no eixo Y. |
 
-´´´json
+```json
 {
 	"crop": [ cropX, cropY, cropWidth, cropHeight ],
 	"scale": [ scaleX, scaleY ]
 }
-´´´
+```
 
 No exemplo a seguir, o [ImageRGB](https://github.com/devConcordia/pixel/blob/main/ImageRGB.mjs) é iniciado
 recortando (`crop`) um quadrado 100x100 pixels (deslocado 50 pixels da esquerda e do topo) é ampliado (`scale`) em 200%.
