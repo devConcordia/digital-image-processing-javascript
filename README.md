@@ -45,21 +45,25 @@ com o método `pixel.ImageRGB.FromImageData`.
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
 | input     | [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) | Imagem original |
-| options   | [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) | Opções para iniciar o (ImageRGB)[https://github.com/devConcordia/pixel/blob/main/ImageRGB.mjs] |
+| options   | [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) | Opções para iniciar o [ImageRGB](https://github.com/devConcordia/pixel/blob/main/ImageRGB.mjs) |
 
-**options**
+Em **options** podem ser especificado um recorte e reescalar da imagem original.
+
+```javascript
+
+let options = {
+	crop: [ cropX, cropY, cropWidth, cropHeight ],
+	scale: [ scaleX, scaleY ]
+};
+
+```
 
 | Opção | Tipo | Descrição |
 |-------|------|-----------|
 | crop  | [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | *cropX* ponto incial para o recorte no eixo X.<br>*cropY* ponto incial para o recorte no eixo Y.<br>*cropWidth* e *cropHeight* dimensões do recorte. |
 | scale | [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | *scaleX* altera a escala no eixo X.<br>*scaleY* altera a escala no eixo Y. |
 
-```json
-{
-	"crop": [ cropX, cropY, cropWidth, cropHeight ],
-	"scale": [ scaleX, scaleY ]
-}
-```
+
 
 No exemplo a seguir, o [ImageRGB](https://github.com/devConcordia/pixel/blob/main/ImageRGB.mjs) é iniciado
 recortando (`crop`) um quadrado 100x100 pixels (deslocado 50 pixels da esquerda e do topo) é ampliado (`scale`) em 200%.
