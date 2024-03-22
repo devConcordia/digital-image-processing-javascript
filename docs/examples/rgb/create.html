@@ -18,6 +18,8 @@
 				margin:10px; 
 				box-shadow:2px 3px 15px #777;
 				
+				min-width:300px;
+				
 				image-rendering: pixelated;
 			}
 			
@@ -28,44 +30,17 @@
 			
 			window.addEventListener('load', function(e) {
 				
-				pixel.Load('../src/NutsAndBolts.jpg', function( context, imagedata ) {
-					
-					/// load image
-					print("Original source");
-					document.body.appendChild( context.canvas );
-					
-					/// 
-					/// 
-					print("Example 1. ImageRGB is resized in 50%");
-					
-					let imagergb0 = pixel.ImageRGB.FromImageData( imagedata, { 
-						scale: [ .5, .5 ]
-					});
-					
-					createContext( imagergb0.toImageData() );
-					
-					/// 
-					/// 
-					print("Example 2. ImageRGB is cropped 100x100 with margin top and left 50px");
-					
-					let imagergb1 = pixel.ImageRGB.FromImageData( imagedata, { 
-						crop: [ 50, 50, 100, 100 ] 
-					});
-					
-					createContext( imagergb1.toImageData() );
-					
-					/// 
-					/// 
-					print("Example 3. ImageRGB is cropped and resized in 200%");
-					
-					let imagergb2 = pixel.ImageRGB.FromImageData( imagedata, { 
-						crop: [ 50, 50, 100, 100 ],
-						scale: [ 2, 2 ]
-					});
-					
-					createContext( imagergb2.toImageData() );
-					
-				});
+				/// 
+				/// 
+				print("Example 1. Iniciando o ImageRGB");
+				
+				let imagergb0 = new pixel.ImageRGB(3, 3, [
+					255,0,0,      255,255,255,  0,0,0,
+					255,255,255,  0,255,0,      255,255,255,
+					0,0,0,        255,255,255,  0,0,255
+				]);
+				
+				createContext( imagergb0.toImageData() );
 				
 			}, false);
 			
@@ -103,7 +78,7 @@
 			}
 			
 		</script>
-	</head>
+    </head>
     <body>
     </body>
 </html>
