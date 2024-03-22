@@ -13,14 +13,14 @@ Para mais exemplos veja o diretório [docs/examples](https://github.com/devConco
 
 ### pixel.Load
 
-Este método é um auxílio para iniciar imagens já em um (Canvas)[https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API].
+Este método é um auxílio para iniciar imagens já em um [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| path      | (String)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String] | caminho para a imagem |
-| handlerCallback | (Function)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function] | função chamada quando a imagem carregar |
+| path      | [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | caminho para a imagem |
+| handlerCallback | [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function) | função chamada quando a imagem carregar |
 
-O `handlerCallback` é chamado com dois argumentos: (CanvasRenderingContext2D)[https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D] e (Image)[https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image].
+O `handlerCallback` é chamado com dois argumentos: [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D) e [Image](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image).
 
 No exemplo a seguir, uma imagem é carragada e o canvas informado é adicionado ao body pad página.
 
@@ -44,8 +44,8 @@ com o método `pixel.ImageRGB.FromImageData`.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| input     | (ImageData)[https://developer.mozilla.org/en-US/docs/Web/API/ImageData] | Imagem original |
-| options   | (Object)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object] | Opções para iniciar o [ImageRGB](https://github.com/devConcordia/pixel/blob/main/ImageRGB.mjs) |
+| input     | [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) | Imagem original |
+| options   | [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) | Opções para iniciar o (ImageRGB)[https://github.com/devConcordia/pixel/blob/main/ImageRGB.mjs] |
 
 **options**
 
@@ -53,8 +53,8 @@ Deverá ser um
 
 | Opção | Tipo | Descrição |
 |-------|------|-----------|
-| crop  | (Array)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array] | *cropX* ponto incial para o recorte no eixo X\n*cropY* ponto incial para o recorte no eixo Y\n*cropWidth* e *cropHeight* dimensões do recorte. |
-| scale | (Array)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array] | *scaleX* altera a escala no eixo X\n *scaleY* altera a escala no eixo Y. |
+| crop  | [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | *cropX* ponto incial para o recorte no eixo X\n*cropY* ponto incial para o recorte no eixo Y\n*cropWidth* e *cropHeight* dimensões do recorte. |
+| scale | [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | *scaleX* altera a escala no eixo X\n *scaleY* altera a escala no eixo Y. |
 
 ´´´json
 {
