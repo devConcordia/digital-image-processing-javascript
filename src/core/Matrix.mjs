@@ -11,6 +11,7 @@ export default class Matrix extends Float32Array {
 	 *	
 	 *	@param {Number} w		columns
 	 *	@param {Number} h		rows
+	 *	@param {Array} data
 	 */
 	constructor( w, h, data ) {
 		

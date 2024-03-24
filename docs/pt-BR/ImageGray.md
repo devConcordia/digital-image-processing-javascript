@@ -1,10 +1,8 @@
 
 ## ImageGray
 
-A classe [ImageGray](https://github.com/devConcordia/pixel/blob/main/ImageGray.mjs) realiza 
-operações somente com um canal (tons de cinza).
-
-
+A classe [ImageGray](https://github.com/devConcordia/pixel/blob/main/src/ImageGray.mjs) realiza 
+operações somente com um canal em tons de cinza.
 
 ## clahe
 
@@ -15,9 +13,7 @@ Ela é uma extensão do método de equalização de histograma, que redistribui 
 
 let image = pixel.ImageGray.FromImageData( imagedata );
 
-let claheImageData = image.clahe();
-
-canvasContext2d.putImageData( claheImageData, 0, 0 );
+context.putImageData( image.clahe().getImageData(), 0, 0 );
 
 ```
 
@@ -27,12 +23,14 @@ canvasContext2d.putImageData( claheImageData, 0, 0 );
 | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe-histogram-original.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe-histogram-final.png" width="300" /> |
 
 
-
 ### Morfologia
 
 Em processamento de imagens, a morfologia é uma técnica utilizada para analisar e manipular a forma e a estrutura de objetos em uma imagem.
 
-Nos exemplos a seguir, realizamos o `close` e `open` com uma matriz 7x7.
+Nos exemplos a seguir, realizamos o `close` e `open` com uma [Matrix](https://github.com/devConcordia/pixel/blob/main/src/core/Matrix.mjs) 7x7.
+
+> A [Matrix](https://github.com/devConcordia/pixel/blob/main/src/core/Matrix.mjs) deverá ser um `Matrix.Ones` ou `Matrix.Radial`.
+> Onde os valores dessa matriz deverá ser 1 ou 0, sendo que os pixels que estiverem em 0 serão ignorados na operação.
 
 ```javascript
 
@@ -48,7 +46,9 @@ pixel.createContext( image.close( m77 ).toImageData(), document.body );
 
 ```
 
-<img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/rock.jpg" width="300" />
+| open  | close    |
+|:-:|:-:|
+| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/gray-morph-open-7x7.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/gray-morph-close-7x7.png" width="300" /> |
 
 ### ASCII Art
 
