@@ -42,16 +42,16 @@ Este método é um auxílio para criar um [CanvasRenderingContext2D](https://dev
 
 O retorno é um [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D).
 
-```
+```javascript
 
 let img = new Image();
-	img.onload = function() {
-		
-		/// CanvasRenderingContext2D
-		let context = pixel.createContext( img, document.body );
-		
-	};
-	
-	img.src = "pat/to/image";
+    img.onload = function() {
+    	
+       /// CanvasRenderingContext2D
+       let context = pixel.createContext( img, document.body );
+    	
+    };
+    
+    img.src = "pat/to/image";
 
 ```

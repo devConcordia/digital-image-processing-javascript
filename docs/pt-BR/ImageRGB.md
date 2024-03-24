@@ -107,5 +107,5 @@ canvasContext2d.putImageData( claheImageData, 0, 0 );
 | Antes  | Depois    |
 |:-:|:-:|
 | <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/rock.jpg" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe.png" width="300" /> |
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/rgb-clahe-histogram-original.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe-histogram-final.png" width="300" /> |
+| <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe-histogram-original.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe-histogram-final.png" width="300" /> |
 

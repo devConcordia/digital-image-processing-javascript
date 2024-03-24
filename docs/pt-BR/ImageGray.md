@@ -48,7 +48,7 @@ pixel.createContext( image.close( m77 ).toImageData(), document.body );
 
 | open  | close    |
 |:-:|:-:|
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/gray-morph-open-7x7.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/gray-morph-close-7x7.png" width="300" /> |
+| <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/gray-morph-open-7x7.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/gray-morph-close-7x7.png" width="300" /> |
 
 ### ASCII Art
 
@@ -57,7 +57,7 @@ um gradiente de tons de cinza.
 
 
 
-```
+```javascript
 
 let grayScale = "$%#kw0Xvr/1?+:~.";
 
