@@ -706,7 +706,7 @@ export default class ImageBinary extends Uint8Array {
 	 *	@ref https://theailearner.com/tag/thinning-opencv/
 	 *	
 	 */
-	thinning( radial, limiti = 100 ) {
+	thinning( matrix, limiti = 100 ) {
 		
 		let input = this.clone();
 		
@@ -715,9 +715,9 @@ export default class ImageBinary extends Uint8Array {
 		
 		while( limiti-- > 0 ) {
 			
-			let eroded = input.erode( radial );
+			let eroded = input.erode( matrix );
 			
-			let temp = eroded.dilate( radial );
+			let temp = eroded.dilate( matrix );
 				temp = input.xor( temp );
 			
 			output = output.or( temp );
