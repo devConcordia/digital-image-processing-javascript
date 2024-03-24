@@ -26,32 +26,35 @@
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			///
-			var source0 = new Image();
-			//	source0.src = "../src/NutsAndBolts.jpg";
-				source0.src = "../src/x-ray.jpg";
-			
 			window.addEventListener('load', function(e) {
 				
-				/// load image
-				print("Original");
-				let context = createContext( source0 );
-				
-				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
-				
-				let image_g = pixel.ImageGray.FromImageData( imagedata, { scale:[.25,.25] });//.conv( pixel.Matrix.Sobel(5) );
+				pixel.load("../src/octocat.png", function(context, imagedata) {
 					
-					image_g = image_g.clahe();
+					print("Original");
+					document.body.appendChild( context.canvas );
 					
-				/// @ref https://stackoverflow.com/questions/30097953/ascii-art-sorting-an-array-of-ascii-characters-by-brightness-levels-c-c
-			//	let pallet = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
-				let pallet = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'.";
-				
-				print( "1. ASCII Art" );
-				print( image_g.toString( pallet ) );
-				
+					let image_g = pixel.ImageGray.FromImageData( imagedata );
+						
+					
+					/// reduzimos o tamanho da imagem
+					image_g = image_g.resize( .15, .15 );
+					
+					///
+					let grayScale = "$%#kw0Xvr/1?+:~.";
+					
+					print( "2. ASCII Art ("+ image_g.width +"x"+ image_g.height +")" );
+					
+					let asciiArt = image_g.toString( grayScale );
+
+					console.log( asciiArt )
+
+					let pre = print( asciiArt );
+						pre.style.fontSize = "8px";
+				/**/	
+				});
 				
 			}, false);
 			
@@ -68,28 +71,9 @@
 				
 			}
 			
-			function createContext( source ) {
-				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
-				
-			}
-			
 		</script>
     </head>
     <body>
+
     </body>
 </html>

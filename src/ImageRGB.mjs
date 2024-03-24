@@ -6,6 +6,12 @@ import { clamp, clahe_cdf } from "./common.mjs";
  */
 export default class ImageRGB extends Uint8Array {
 	
+	/** 
+	 *	
+	 *	@param {Number} w			width
+	 *	@param {Number} h			height
+	 *	@param {TypedArray} data	
+	 */
 	constructor( w, h, data = null ) {
 		
 		if( data == null ) data = 3 * w * h;
@@ -19,14 +25,14 @@ export default class ImageRGB extends Uint8Array {
 	
 	/** FromImageData
 	 *	
-	 *	
-	 *	options.crop[0]				x to clip a frame. Default is 0
-	 *	options.crop[1]				y to clip a frame. Default is 0
-	 *	options.crop[2]				width to clip a frame. Default is input width
-	 *	options.crop[3]				height to clip a frame. Default is input height
-	 *	
-	 *	options.scale[0]			resize scale X. Default is 1
-	 *	options.scale[1]			resize scale Y. Default is sx
+	 *	options:
+	 *		cropX 			x to clip a frame. Default is 0
+	 *		cropY           y to clip a frame. Default is 0
+	 *		cropWidth       width to clip a frame. Default is input width
+	 *		cropHeight      height to clip a frame. Default is input height
+	 *		
+	 *		scaleX			resize scale X. Default is 1
+	 *		scaleY			resize scale Y. Default is 1
 	 *	
 	 *	@param {ImageData} input
 	 *	@param {Object} options		{ crop: [ cropX, cropY, cropWidth, cropHeight ], scale: [ scaleX, scaleY ] }
@@ -71,11 +77,11 @@ export default class ImageRGB extends Uint8Array {
 		
 	}
 	
-	/**	toImageData
+	/**	getImageData
 	 *	
 	 *	@return {ImageData}
 	 */
-	toImageData() {
+	getImageData() {
 		
 		let output = new ImageData( this.width, this.height );
 		let data = output.data;
@@ -294,6 +300,8 @@ export default class ImageRGB extends Uint8Array {
 	
 	/**	contrast
 	 *	
+	 *	@ref https://stackoverflow.com/questions/2976274/adjust-bitmap-image-brightness-contrast-using-c
+	 *
 	 *	@param {Number} c
 	 *	@return {ImageRGB} this
 	 */
@@ -536,6 +544,8 @@ export default class ImageRGB extends Uint8Array {
 	
 	/**	conv
 	 *	
+	 *	@ref https://en.wikipedia.org/wiki/Kernel_(image_processing)
+	 *	
 	 *	@param {Matrix} matrix
 	 *	@return {ImageRGB} new
 	 */
@@ -549,8 +559,6 @@ export default class ImageRGB extends Uint8Array {
 			h = height - 1;
 		
 		let gamma = matrix.reduce((a,b)=>a+b);
-		
-		console.log( matrix, gamma )
 		
 		if( gamma <= 0 ) gamma = 1;
 		

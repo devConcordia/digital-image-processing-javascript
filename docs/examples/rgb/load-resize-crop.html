@@ -24,13 +24,12 @@
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			window.addEventListener('load', function(e) {
 				
-				pixel.Load('../src/NutsAndBolts.jpg', function( context, imagedata ) {
+				pixel.load('../src/NutsAndBolts.jpg', function( context, imagedata ) {
 					
-					/// load image
 					print("Original source");
 					document.body.appendChild( context.canvas );
 					
@@ -42,7 +41,7 @@
 						scale: [ .5, .5 ]
 					});
 					
-					createContext( imagergb0.toImageData() );
+					pixel.createContext( imagergb0.getImageData(), document.body );
 					
 					/// 
 					/// 
@@ -52,7 +51,7 @@
 						crop: [ 50, 50, 100, 100 ] 
 					});
 					
-					createContext( imagergb1.toImageData() );
+					pixel.createContext( imagergb1.getImageData(), document.body );
 					
 					/// 
 					/// 
@@ -63,7 +62,7 @@
 						scale: [ 2, 2 ]
 					});
 					
-					createContext( imagergb2.toImageData() );
+					pixel.createContext( imagergb2.getImageData(), document.body );
 					
 				});
 				
@@ -79,26 +78,6 @@
 				document.body.appendChild( pre );
 				
 				return pre;
-				
-			}
-			
-			function createContext( source ) {
-				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
 				
 			}
 			

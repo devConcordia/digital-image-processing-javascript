@@ -26,51 +26,48 @@
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			///
-			var source0 = new Image();
-				source0.src = "../src/figure-4.png";
-			
 			window.addEventListener('load', function(e) {
 				
-				/// load image
-				print("Original");
-				let context = createContext( source0 );
+				pixel.load("../src/figure-4.png", function(context, imagedata) {
 				
-				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
+					/// load image
+					print("Original");
+					document.body.appendChild( context.canvas );
+					
+					/// 
+					/// 
+					let image_b = pixel.ImageBinary.FromImageData( imagedata );
+					
+					
+					///
+					let m3x3 = pixel.Matrix.Ones(3,3);
+					let m7x3 = pixel.Matrix.Ones(7,3);
+					let m3x7 = pixel.Matrix.Ones(3,7);
+					
+					print("Example 1. erode 3x3");
+					pixel.createContext( image_b.erode( m3x3 ).getImageData(), document.body );
+					
+					print("Example 2. dilate 3x3");
+					pixel.createContext( image_b.dilate( m3x3 ).getImageData(), document.body );
+					
+					
+					print("Example 3. erode 7x3");
+					pixel.createContext( image_b.erode( m7x3 ).getImageData(), document.body );
+					
+					print("Example 4. dilate 7x3");
+					pixel.createContext( image_b.dilate( m7x3 ).getImageData(), document.body );
+					
+					
+					print("Example 5. erode 3x7");
+					pixel.createContext( image_b.erode( m3x7 ).getImageData(), document.body );
+					
+					print("Example 6. dilate 3x7");
+					pixel.createContext( image_b.dilate( m3x7 ).getImageData(), document.body );
 				
-				/// 
-				/// 
-				let image_b = pixel.ImageBinary.FromImageData( imagedata );
-				
-				
-				///
-				let m3x3 = pixel.Matrix.Ones(3,3);
-				let m7x3 = pixel.Matrix.Ones(7,3);
-				let m3x7 = pixel.Matrix.Ones(3,7);
-				
-				print("Example 1. erode 3x3");
-				createContext( image_b.erode( m3x3 ).toImageData() );
-				
-				print("Example 2. dilate 3x3");
-				createContext( image_b.dilate( m3x3 ).toImageData() );
-				
-				
-				print("Example 3. erode 7x3");
-				createContext( image_b.erode( m7x3 ).toImageData() );
-				
-				print("Example 4. dilate 7x3");
-				createContext( image_b.dilate( m7x3 ).toImageData() );
-				
-				
-				print("Example 5. erode 3x7");
-				createContext( image_b.erode( m3x7 ).toImageData() );
-				
-				print("Example 6. dilate 3x7");
-				createContext( image_b.dilate( m3x7 ).toImageData() );
-				
-				
+				});
 				
 			}, false);
 			
@@ -84,26 +81,6 @@
 				document.body.appendChild( pre );
 				
 				return pre;
-				
-			}
-			
-			function createContext( source ) {
-				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
 				
 			}
 			

@@ -24,38 +24,36 @@
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			///
-			var source0 = new Image();
-				source0.src = "../src/NutsAndBolts.jpg";
-			
 			window.addEventListener('load', function(e) {
 				
-				/// load image
-				print("Original source");
-				let context = createContext( source0 );
+				pixel.load("../src/NutsAndBolts.jpg", function( context, imagedata ) {
 				
-				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
-				
-				/// 
-				let imagergb = pixel.ImageRGB.FromImageData( imagedata );
-				
-				/// 
-				/// 
-				print("Step 1. cropped 100x100 with margin top and left 50px");
-				
-				let cropped = imagergb.crop( 50, 50, 100, 100 );
-				
-				createContext( cropped.toImageData() );
-				
-				/// 
-				/// 
-				print("Step 2. then resized in 500%");
-				
-				let resized = cropped.resize( 5, 5 );
-				
-				createContext( resized.toImageData() );
+					print("Original source");
+					document.body.appendChild( context.canvas );
+					
+					/// 
+					let imagergb = pixel.ImageRGB.FromImageData( imagedata );
+					
+					/// 
+					/// 
+					print("Step 1. cropped 100x100 with margin top and left 50px");
+					
+					let cropped = imagergb.crop( 50, 50, 100, 100 );
+					
+					pixel.createContext( cropped.getImageData(), document.body );
+					
+					/// 
+					/// 
+					print("Step 2. then resized in 500%");
+					
+					let resized = cropped.resize( 5, 5 );
+					
+					pixel.createContext( resized.getImageData(), document.body );
+					
+				});
 				
 			}, false);
 			
@@ -71,27 +69,7 @@
 				return pre;
 				
 			}
-			
-			function createContext( source ) {
 				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
-				
-			}
-			
 		</script>
     </head>
     <body>

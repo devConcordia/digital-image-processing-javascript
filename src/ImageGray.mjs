@@ -90,7 +90,7 @@ export default class ImageGray extends Uint8Array {
 
 	}
 	
-	toImageData() {
+	getImageData() {
 		
 		let output = new ImageData( this.width, this.height );
 		let data = output.data;

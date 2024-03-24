@@ -26,39 +26,37 @@
 			
 			import Renderer2D from "/module/graph/Renderer2D/Renderer2D.mjs";
 			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			///
-			var source0 = new Image();
-				source0.src = "../src/hill.jpg";
-			//	source0.src = "../src/fire-breathing.jpg";
-			
 			window.addEventListener('load', function(e) {
 				
-				/// load image
-				print("Original source");
-				let context = createContext( source0 );
-				
-				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
-				
-				/// 
-				let image = pixel.ImageRGB.FromImageData( imagedata );
-				
-				///
-				print("Histogram original");
-				createHistogramChart( image );
-				
-				/// 
-				/// 
-				print("Clahe");
-				let image_clahe = image.clahe();
-				createContext( image.clahe().toImageData() );
-			//	createContext( image.clahe() );
-				
-				///
-				///
-				print("Histogram Clahe");
-				createHistogramChart( image_clahe );
+				pixel.load("../src/rock.jpg", function(context, imagedata) {
+					
+					print("Original source");
+					document.body.appendChild( context.canvas );
+					
+					/// 
+					let image = pixel.ImageRGB.FromImageData( imagedata );
+					
+					///
+					print("Histogram original");
+					createHistogramChart( image );
+					
+					/// 
+					/// 
+					print("Clahe");
+					
+					let image_clahe = image.clahe();
+					
+					pixel.createContext( image_clahe.getImageData(), document.body );
+					
+					///
+					///
+					print("Histogram Clahe");
+					createHistogramChart( image_clahe );
+					
+				});
 				
 			}, false);
 			
@@ -96,7 +94,6 @@
 				
 			}
 			
-			
 			function print() {
 				
 				let pre = document.createElement('pre');
@@ -107,26 +104,6 @@
 				document.body.appendChild( pre );
 				
 				return pre;
-				
-			}
-			
-			function createContext( source ) {
-				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
 				
 			}
 			

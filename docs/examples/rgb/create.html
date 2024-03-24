@@ -26,7 +26,7 @@
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			window.addEventListener('load', function(e) {
 				
@@ -40,7 +40,7 @@
 					0,0,0,        255,255,255,  0,0,255
 				]);
 				
-				createContext( imagergb0.toImageData() );
+				pixel.createContext( imagergb0.getImageData(), document.body );
 				
 			}, false);
 			
@@ -54,26 +54,6 @@
 				document.body.appendChild( pre );
 				
 				return pre;
-				
-			}
-			
-			function createContext( source ) {
-				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
 				
 			}
 			

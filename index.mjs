@@ -1,18 +1,22 @@
 
-import ImageBinary from './ImageBinary.mjs';
-import ImageGray from './ImageGray.mjs';
-import ImageRGB from './ImageRGB.mjs';
+import ImageBinary from './src/ImageBinary.mjs';
+import ImageGray from './src/ImageGray.mjs';
+import ImageRGB from './src/ImageRGB.mjs';
 
-import Matrix from './core/Matrix.mjs';
+import Matrix from './src/core/Matrix.mjs';
 
-
-function Load( path, handlerCallback ) {
+/** load
+ *	
+ *	@param {String} path
+ *	@param {Function} handlerCallback
+ */
+function load( path, handlerCallback ) {
 	
 	var source = new Image();
 	
 	source.onload = function() {
 		
-		let context = CreateContext2D( source );
+		let context = createContext( source );
 		
 		let imagedata = context.getImageData( 0, 0, source.width, source.height );
 		
@@ -25,28 +29,48 @@ function Load( path, handlerCallback ) {
 }
 
 
-function CreateContext2D( source ) {
+/** createContext
+ *	
+ *	@param {Image|HTMLCanvasElement|ImageData} source
+ *	@param {HTMLElement} parentNode
+ *	@return {CanvasRenderingContext2D}
+ */
+function createContext( source, parentNode = null ) {
 	
 	var canvas = document.createElement("canvas"),
 		context = canvas.getContext("2d");
 	
-	canvas.width = source.width;
-	canvas.height = source.height;
-	
-	if( source instanceof Image ) {
+	if( source ) {
 		
-		context.drawImage( source, 0, 0, source.width, source.height );
-	
-	} else if( source instanceof ImageData ) {
+		canvas.width = source.width;
+		canvas.height = source.height;
 		
-		context.putImageData( source, 0, 0 );
-	
+		if( source instanceof Image || source instanceof HTMLCanvasElement) {
+			
+			context.drawImage( source, 0, 0, source.width, source.height );
+		
+		} else if( source instanceof ImageData ) {
+			
+			context.putImageData( source, 0, 0 );
+		
+		}
+		
 	}
-
+	
+	///
+	if( parentNode instanceof HTMLElement )
+		parentNode.appendChild( canvas );
+	
+	///
 	return context;
 	
 }
 
-const pixel = { ImageBinary, ImageGray, ImageRGB, Matrix, Load, CreateContext2D };
 
-export default pixel;
+///
+export default { 
+	load, createContext,
+	ImageBinary, ImageGray, ImageRGB, 
+	Matrix 
+};
+

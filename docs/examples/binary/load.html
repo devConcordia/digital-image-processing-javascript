@@ -24,30 +24,27 @@
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			///
-			var source0 = new Image();
-				source0.src = "../src/NutsAndBolts.jpg";
-			
 			window.addEventListener('load', function(e) {
 				
-				/// load image
-				print("Original");
-				let context = createContext( source0 );
+				pixel.load("../src/nuts-and-bolts.jpg", function(context, imagedata) {
 				
-				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
-				
-				/// 
-				/// 
-				print("Example 1. ImageBinary");
-				
-				let image_g = pixel.ImageGray.FromImageData( imagedata ).conv( pixel.Matrix.Sobel(5) );
-				
-				let image_b = pixel.ImageBinary.FromImageGray( image_g, 127 );
-				
-				createContext( image_b.toImageData() );
-				
+					print("Original");
+					document.body.appendChild( context.canvas );
+					
+					/// 
+					/// 
+					print("Example 1. ImageBinary");
+					
+					let image_g = pixel.ImageGray.FromImageData( imagedata ).conv( pixel.Matrix.Sobel() );
+					
+					let image_b = pixel.ImageBinary.FromImageGray( image_g, 127 );
+					
+					pixel.createContext( image_b.getImageData(), document.body );
+					
+				});
 				
 			}, false);
 			
@@ -61,26 +58,6 @@
 				document.body.appendChild( pre );
 				
 				return pre;
-				
-			}
-			
-			function createContext( source ) {
-				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
 				
 			}
 			

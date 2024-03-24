@@ -26,33 +26,24 @@
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
-			
-			///
-			var source0 = new Image();
-			//	source0.src = "../src/NutsAndBolts.jpg";
-				source0.src = "../src/horse.png";
+			import pixel from "../../../index.mjs";
 			
 			window.addEventListener('load', function(e) {
 				
-				/// load image
-				print("Original");
-				let context = createContext( source0 );
-				
-				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
-				
-				let image_g = pixel.ImageGray.FromImageData( imagedata, { scale:[.25,.25] });//.conv( pixel.Matrix.Sobel(5) );
-				
-				let image_b = pixel.ImageBinary.FromImageGray( image_g, 127 );
-				
-				
-		//		let image_b = pixel.ImageBinary.FromImageData( imagedata, 127 );
-				
-			//	createContext( image_b.toImageData() );
-				
-				print( "1. ASCII Art" );
-				print( image_b.toString('.', '@') );
-				
+				pixel.load("../src/octocat.png", function(context, imagedata) {
+										/// load image
+					print("Original");
+					document.body.appendChild( context.canvas );
+					
+					let image_g = pixel.ImageGray.FromImageData( imagedata, { scale:[.15,.15] });
+					
+					let image_b = pixel.ImageBinary.FromImageGray( image_g, 127 );
+					
+					print( "1. ASCII Art" );
+					let asciiArt = print( image_b.toString('#', '.') );
+						asciiArt.style.fontSize = "8px";
+
+				});
 				
 			}, false);
 			
@@ -66,26 +57,6 @@
 				document.body.appendChild( pre );
 				
 				return pre;
-				
-			}
-			
-			function createContext( source ) {
-				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
 				
 			}
 			

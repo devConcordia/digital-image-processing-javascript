@@ -24,36 +24,32 @@
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			///
-			var source0 = new Image();
-				source0.src = "../src/NutsAndBolts.jpg";
-			
 			window.addEventListener('load', function(e) {
 				
-				/// load image
-				print("Original source");
-				let context = createContext( source0 );
-				
-				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
-				
-				/// 
-				/// 
-				let image = pixel.ImageGray.FromImageData( imagedata );
-				
-				///
-				print("Example 1. open 7x7");
-				createContext( image.open( pixel.Matrix.Ones(7,7) ).toImageData() );
-				
-				///
-				print("Example 2. close 7x7");
-				createContext( image.close( pixel.Matrix.Ones(7,7) ).toImageData() );
-				
-				///
-				print("Example 3. hitOrMiss 3x3");
-				createContext( image.hitOrMiss( pixel.Matrix.Ones(3,3) ).toImageData() );
-				
+				pixel.load("../src/nuts-and-bolts.jpg", function(context, imagedata) {
+					
+					/// load image
+					print("Original source");
+					document.body.appendChild( context.canvas );
+					
+					/// 
+					/// 
+					let image = pixel.ImageGray.FromImageData( imagedata );
+					
+					let m77 = pixel.Matrix.Ones(7,7);
+					
+					///
+					print("Example 1. open 7x7");
+					pixel.createContext( image.open( m77 ).getImageData(), document.body );
+					
+					///
+					print("Example 2. close 7x7");
+					pixel.createContext( image.close( m77 ).getImageData(), document.body );
+					
+				});
 				
 			}, false);
 			
@@ -67,26 +63,6 @@
 				document.body.appendChild( pre );
 				
 				return pre;
-				
-			}
-			
-			function createContext( source ) {
-				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
 				
 			}
 			

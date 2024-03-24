@@ -26,27 +26,25 @@
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			///
-			var source0 = new Image();
-				source0.src = "../src/figure-11.png";
-			
 			window.addEventListener('load', function(e) {
 				
-				/// load image
-				print("Original");
-				let context = createContext( source0 );
+				pixel.load("../src/figure-11.png", function(context, imagedata) {
 				
-				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
+					print("Original");
+					document.body.appendChild( context.canvas );
+					
+					/// 
+					let image_b = pixel.ImageBinary.FromImageData( imagedata );
+					
+					print("Example 1. hitOrMiss 3x3");
+					let out = image_b.hitOrMiss( pixel.Matrix.Ones(3,3) );
+					
+					pixel.createContext( out.getImageData(), document.body );
 				
-				/// 
-				/// 
-				let image_b = pixel.ImageBinary.FromImageData( imagedata );
-				
-				print("Example 1. hitOrMiss 3x3");
-				createContext( image_b.hitOrMiss( pixel.Matrix.Ones(3,3) ).toImageData() );
-				
+				});
 				
 			}, false);
 			
@@ -60,26 +58,6 @@
 				document.body.appendChild( pre );
 				
 				return pre;
-				
-			}
-			
-			function createContext( source ) {
-				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
 				
 			}
 			

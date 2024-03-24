@@ -24,32 +24,44 @@
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
-			
-			///
-			var source0 = new Image();
-				source0.src = "../src/NutsAndBolts.jpg";
+			import pixel from "../../../index.mjs";
 			
 			window.addEventListener('load', function(e) {
 				
-				/// load image
-				print("Original source");
-				let context = createContext( source0 );
-				
-				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
-				
-				/// 
-				/// 
-				let imagergb0 = pixel.ImageRGB.FromImageData( imagedata );
-				
-				print("Example 1. Brightness 50%");
-				createContext( imagergb0.clone().brightness( .5 ).toImageData() );
-				
-				print("Example 2. Brightness 125%");
-				createContext( imagergb0.clone().brightness( 1.25 ).toImageData() );
-				
-				print("Example 3. Negative");
-				createContext( imagergb0.clone().negative().toImageData() );
+				pixel.load("../src/NutsAndBolts.jpg", function(context, imagedata) {
+					
+					print("Original source");
+					document.body.appendChild( context.canvas );
+					
+					/// 
+					/// 
+					let imagergb0 = pixel.ImageRGB.FromImageData( imagedata );
+					
+					
+					///
+					print("Example 1. Brightness 50%");
+					
+					let bright50 = imagergb0.clone().brightness( .5 );
+					
+					pixel.createContext( bright50.getImageData(), document.body );
+					
+					
+					///
+					print("Example 2. Brightness 125%");
+					
+					let bright125 = imagergb0.clone().brightness( 1.25 );
+					
+					pixel.createContext( bright125.getImageData(), document.body );
+					
+					
+					///
+					print("Example 3. Negative");
+					
+					let negative = imagergb0.clone().negative();
+					
+					pixel.createContext( negative.getImageData(), document.body );
+					
+				});
 				
 			}, false);
 			
@@ -63,26 +75,6 @@
 				document.body.appendChild( pre );
 				
 				return pre;
-				
-			}
-			
-			function createContext( source ) {
-				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
 				
 			}
 			

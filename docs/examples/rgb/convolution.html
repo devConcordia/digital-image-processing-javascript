@@ -24,58 +24,63 @@
 		</style>
         <script type="module">
 			
-			import Renderer2D from "/module/graph/Renderer2D/Renderer2D.mjs";
-			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			///
-			var source0 = new Image();
-				source0.src = "../src/NutsAndBolts.jpg";
-			
 			window.addEventListener('load', function(e) {
 				
-				/// load image
-				print("Original source");
-				let context = createContext( source0 );
-				
-				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
-				
-				/// 
-				/// 
-				let image = pixel.ImageRGB.FromImageData( imagedata );
-				
-				///
-			//	print("Example 1. Prewitt");
-			//	createContext( image.conv( pixel.Matrix.Prewitt() ).toImageData() );
-				
-				///
-				print("Example 2. Sobel");
-				createContext( image.conv( pixel.Matrix.Sobel() ).toImageData() );
-				
-				///
-				print("Example 3. Laplace");
-				createContext( image.conv( pixel.Matrix.Laplace() ).toImageData() );
-			
-				///
-			//	print("Example 4. Scharr");
-			//	createContext( image.conv( pixel.Matrix.Scharr() ).toImageData() );
-				
-				///
-			//	print("Example 4. Feldman");
-			//	createContext( image.conv( pixel.Matrix.Feldman() ).toImageData() );
-				
-				///
-				print("Example 5. Sharpen");
-				createContext( image.conv( pixel.Matrix.Sharpen() ).toImageData() );
-				
-				///
-			//	print("Example 6. GaussianBlur");
-			//	createContext( image.conv( pixel.Matrix.GaussianBlur(7,10) ).toImageData() );
-			
-				///
-				print("Example 7. Emboss");
-				createContext( image.conv( pixel.Matrix.Emboss() ).toImageData() );
-				
+				pixel.load("../src/valve.png", function( context, imagedata ) {
+					
+					print("Original source");
+					document.body.appendChild( context.canvas );
+					
+					/// 
+					/// 
+					let image = pixel.ImageRGB.FromImageData( imagedata );
+					
+					///
+					print("Example 1. Prewitt");
+					
+					let image_prewitt = image.conv( pixel.Matrix.Prewitt() );
+					
+					pixel.createContext( image_prewitt.getImageData(), document.body );
+					
+					///
+					print("Example 2. Sobel");
+					
+					let image_sobel = image.conv( pixel.Matrix.Sobel() );
+					
+					pixel.createContext( image_sobel.getImageData(), document.body );
+					
+					///
+					print("Example 3. Laplace");
+					
+					let image_laplace = image.conv( pixel.Matrix.Laplace() );
+					
+					pixel.createContext( image_laplace.getImageData(), document.body );
+					
+					///
+					print("Example 4. Sharpen");
+					
+					let image_sharpen = image.conv( pixel.Matrix.Sharpen() );
+					
+					pixel.createContext( image_sharpen.getImageData(), document.body );
+					
+					///
+					print("Example 5. GaussianBlur");
+					
+					let image_blur = image.conv( pixel.Matrix.GaussianBlur() );
+					
+					pixel.createContext( image_blur.getImageData(), document.body );
+					
+					///
+					print("Example 6. Emboss");
+					
+					let image_emboss = image.conv( pixel.Matrix.Emboss() );
+					
+					pixel.createContext( image_emboss.getImageData(), document.body );
+					
+				});
 				
 			}, false);
 			
@@ -89,26 +94,6 @@
 				document.body.appendChild( pre );
 				
 				return pre;
-				
-			}
-			
-			function createContext( source ) {
-				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
 				
 			}
 			

@@ -18,37 +18,31 @@
 				margin:10px; 
 				box-shadow:2px 3px 15px #777;
 				
-			/*	width:100px; */
-				
 				image-rendering: pixelated;
 			}
 			
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			///
-			var source0 = new Image();
-				source0.src = "../src/horse.png";
-			
 			window.addEventListener('load', function(e) {
 				
-				/// load image
-				print("Original");
-				let context = createContext( source0 );
+				pixel.load("../src/horse.png", function(context, imagedata) {
 				
-				let imagedata = context.getImageData( 0, 0, source0.width, source0.height );
+					print("Original");
+					document.body.appendChild( context.canvas );
+					
+					/// 
+					let image_b = pixel.ImageBinary.FromImageData( imagedata );
+					
+					let matrix = pixel.Matrix.Radial(3);
+					
+					print("Example 1. thinning");
+					pixel.createContext( image_b.thinning( matrix ).getImageData(), document.body );
 				
-				/// 
-				/// 
-				let image_b = pixel.ImageBinary.FromImageData( imagedata );
-				
-				let matrix = pixel.Matrix.Radial(3);
-				
-				print("Example 1. thinning");
-				createContext( image_b.thinning( matrix ).toImageData() );
-				
+				});
 				
 			}, false);
 			

@@ -26,7 +26,7 @@
 		</style>
         <script type="module">
 			
-			import pixel from "/module/pixel/index.mjs";
+			import pixel from "../../../index.mjs";
 			
 			window.addEventListener('load', function(e) {
 				
@@ -59,29 +59,27 @@
 				let image_d = image_a.xor( image_b );
 				
 				
-				
-				
 				///
 				print("Image A");
-				createContext( image_a.toImageData() );
+				pixel.createContext( image_a.getImageData(), document.body );
 				
 				print("Image B");
-				createContext( image_b.toImageData() );
+				pixel.createContext( image_b.getImageData(), document.body );
 				
 				print("Image C");
-				createContext( image_c.toImageData() );
+				pixel.createContext( image_c.getImageData(), document.body );
 				
 				print("Image D = A xor B");
-				createContext( image_d.toImageData() );
+				pixel.createContext( image_d.getImageData(), document.body );
 				
-				print("Image -B (inverse)");
-				createContext( image_b.inverse().toImageData() );
+				print("-B (inverse)");
+				pixel.createContext( image_b.inverse().getImageData(), document.body );
 				
-				print("Image B or D");
-				createContext( image_b.or( image_d ).toImageData() );
+				print("B or D");
+				pixel.createContext( image_b.or( image_d ).getImageData(), document.body );
 				
-				print("Image B and C");
-				createContext( image_b.and( image_c ).toImageData() );
+				print("B and C");
+				pixel.createContext( image_b.and( image_c ).getImageData(), document.body );
 				
 			}, false);
 			
@@ -97,27 +95,7 @@
 				return pre;
 				
 			}
-			
-			function createContext( source ) {
 				
-				var canvas = document.createElement("canvas"),
-					context = canvas.getContext("2d");
-				
-				canvas.width = source.width;
-				canvas.height = source.height;
-				
-				if( source instanceof Image )
-					context.drawImage( source, 0, 0, source.width, source.height );
-				
-				if( source instanceof ImageData )
-					context.putImageData( source, 0, 0 );
-					
-				document.body.appendChild( canvas );
-				
-				return context;
-				
-			}
-			
 		</script>
     </head>
     <body>

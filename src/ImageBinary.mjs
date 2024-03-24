@@ -1,8 +1,6 @@
-
 /**	ImageBinary
  *	
- *	erosion: ➤⊖
- *	dilatation: ➤⊕
+ *	@ref Rafael C. Gonzalez; Richard E. Woods. **Digital Image Processing**. Fourth Edition. Pearson Education. 2018.
  *	
  */
 export default class ImageBinary extends Uint8Array {
@@ -95,7 +93,7 @@ export default class ImageBinary extends Uint8Array {
 		
 	}
 	
-	toImageData() {
+	getImageData() {
 		
 		let w = this.width;
 		let h = this.height;
@@ -386,6 +384,10 @@ export default class ImageBinary extends Uint8Array {
 	//// bitwise operators
 	////
 	
+	/** inverse
+	 *	
+	 *	@return {ImageBinary} new
+	 */
 	inverse() {
 		
 		let output = new ImageBinary( this.width, this.height );
@@ -397,6 +399,11 @@ export default class ImageBinary extends Uint8Array {
 		
 	}
 	
+	/** or
+	 *	
+	 *	@param {ImageBinary} binary
+	 *	@return {ImageBinary} new
+	 */
 	or( binary ) {
 		
 		let output = new ImageBinary( this.width, this.height );
@@ -408,6 +415,11 @@ export default class ImageBinary extends Uint8Array {
 		
 	}
 	
+	/** and
+	 *	
+	 *	@param {ImageBinary} binary
+	 *	@return {ImageBinary} new
+	 */
 	and( binary ) {
 		
 		let output = new ImageBinary( this.width, this.height );
@@ -419,6 +431,11 @@ export default class ImageBinary extends Uint8Array {
 		
 	}
 	
+	/** xor
+	 *	
+	 *	@param {ImageBinary} binary
+	 *	@return {ImageBinary} new
+	 */
 	xor( binary ) {
 		
 		let output = new ImageBinary( this.width, this.height );
@@ -676,8 +693,6 @@ export default class ImageBinary extends Uint8Array {
 	
 	/** hole | holesFill
 	 *	
-	 *	
-	 *	
 	 */
 	holeFill() {
 		
@@ -719,4 +734,3 @@ export default class ImageBinary extends Uint8Array {
 	}
 	
 }
-
