@@ -52,23 +52,19 @@ para realizar a operação. O resultado é um novo [ImageBinary](https://github.
 
 Esse método pode ser utilizado para remover ruidos de uma imagem.
 
-| Antes  | Depois |
-|:-:|:-:|
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/figure-11.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-hitormiss.png" width="300" /> |
-
 ```javascript
 
 let out = image_b.hitOrMiss( pixel.Matrix.Ones(3,3) );
 
 ```
 
+| Antes  | Depois |
+|:-:|:-:|
+| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/figure-11.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-hitormiss.png" width="300" /> |
+
 ## holeFill
 
 Esse método pode ser utilizado para preencher "buracos" em uma imagem.
-
-| Antes  | Depois |
-|:-:|:-:|
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/figure-63.jpg" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-holefilling.png" width="300" /> |
 
 ```javascript
 
@@ -76,13 +72,13 @@ let out = image_b.holeFill();
 
 ```
 
+| Antes  | Depois |
+|:-:|:-:|
+| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/figure-63.jpg" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-holefilling.png" width="300" /> |
+
 ## boundary 
 
 Esse método pode ser utilizado para delimitar as bordas.
-
-| Antes  | Depois |
-|:-:|:-:|
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/figure-16.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-boundary.png" width="300" /> |
 
 ```javascript
 
@@ -90,14 +86,14 @@ let out = image_b.boundary( pixel.Matrix.Ones(3,3) );
 
 ```
 
+| Antes  | Depois |
+|:-:|:-:|
+| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/figure-16.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-boundary.png" width="300" /> |
+
 ## thinning 
 
 Esse método pode ser utilizado no processamento de imagens para reduzir a largura dos objetos presentes na imagem, mantendo a forma e a topologia desses objetos.
 Pode ser usado em reconhecimento de padrões, análise de imagens e visão computacional para simplificar a representação de objetos
-
-| Antes  | Depois |
-|:-:|:-:|
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/horse.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-thinning.png" width="300" /> |
 
 ```javascript
 
@@ -105,3 +101,6 @@ let out = image_b.thinning( pixel.Matrix.Radial(3) );
 
 ```
 
+| Antes  | Depois |
+|:-:|:-:|
+| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/horse.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-thinning.png" width="300" /> |

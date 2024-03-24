@@ -4,7 +4,8 @@
 Este projeto é um compilado de alguns estudos que fiz ao longo dos ultimos anos.
 Não me preocupei com questões de desempenho, *então para aplicações de produção recomendo utilizar recuros mais apropriados como o [OpenCV](https://opencv.org/)*.
 
-Para mais informações, veja a documentação em [docs/pt-BR/pixel.md](https://github.com/devConcordia/pixel/blob/main/docs/docs/pt-BR/pixel.md).
+Esse projeto contempla metodos como [Clahe](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization), [Detecção de bordas](https://en.wikipedia.org/wiki/Edge_detection), operações com [Imagens binárias](https://en.wikipedia.org/wiki/Binary_image), entre outros.
+Para mais informações, veja a documentação em [docs/pt-BR/pixel.md](https://github.com/devConcordia/pixel/blob/main/docs/pt-BR/pixel.md).
 
 > [!IMPORTANT]
 > Infelizmente essa documentação está incompleta no momento.
