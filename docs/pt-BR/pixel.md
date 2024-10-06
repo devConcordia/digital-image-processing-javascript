@@ -38,7 +38,6 @@ Este método é um auxílio para criar um [CanvasRenderingContext2D](https://dev
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
 | source    | [Image](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image)<br>[HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement)<br>[ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) | (Opcional) Imagem para iniciar o [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D) ja carregado. |
-| parentNode | [HTMLElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement) | (Opcional) O [HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement) criado será adicionado ao elemento informado. |
 
 O retorno é um [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D).
 
@@ -47,9 +46,11 @@ O retorno é um [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/d
 let img = new Image();
     img.onload = function() {
     	
-       /// CanvasRenderingContext2D
-       let context = pixel.createContext( img, document.body );
-    	
+		/// CanvasRenderingContext2D
+		let context = pixel.createContext( img );
+		
+		document.body.appendChild( context.canvas );
+		
     };
     
     img.src = "pat/to/image";
