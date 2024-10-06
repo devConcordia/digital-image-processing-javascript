@@ -29,7 +29,7 @@
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/nuts-and-bolts.jpg", function(context, imagedata) {
+				pixel.load("../src/img/nuts-and-bolts.jpg", function(context, imagedata) {
 					
 					/// load image
 					print("Original source");
@@ -43,11 +43,15 @@
 					
 					///
 					print("Example 1. open 7x7");
-					pixel.createContext( image.open( m77 ).getImageData(), document.body );
+					let outCtx1 = pixel.createContext( image.open( m77 ).getImageData(), document.body );
+					
+					document.body.appendChild( outCtx1.canvas );
 					
 					///
 					print("Example 2. close 7x7");
-					pixel.createContext( image.close( m77 ).getImageData(), document.body );
+					let outCtx2 = pixel.createContext( image.close( m77 ).getImageData(), document.body );
+					
+					document.body.appendChild( outCtx2.canvas );
 					
 				});
 				

@@ -31,7 +31,7 @@
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/figure-11.png", function(context, imagedata) {
+				pixel.load("../src/img/figure-11.png", function(context, imagedata) {
 				
 					print("Original");
 					document.body.appendChild( context.canvas );
@@ -42,7 +42,9 @@
 					print("Example 1. hitOrMiss 3x3");
 					let out = image_b.hitOrMiss( pixel.Matrix.Ones(3,3) );
 					
-					pixel.createContext( out.getImageData(), document.body );
+					let outCtx1 = pixel.createContext( out.getImageData() );
+				
+					document.body.appendChild( outCtx1.canvas );
 				
 				});
 				

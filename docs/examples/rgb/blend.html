@@ -28,20 +28,22 @@
 			
 			///
 			var source0 = new Image();
-				source0.src = "../src/NutsAndBolts.jpg";
+				source0.src = "../src/img/nuts-and-bolts.jpg";
 			
 			var source1 = new Image();
-				source1.src = "../src/otter.jpg";
+				source1.src = "../src/img/otter.jpg";
 			
 			window.addEventListener('load', function(e) {
 				
 				print("Original sources");
 				
 				print("Source A");
-				let context0 = pixel.createContext( source0, document.body );
+				let context0 = pixel.createContext( source0 );
+				document.body.appendChild( context0.canvas );
 				
 				print("Source B");
-				let context1 = pixel.createContext( source1, document.body );
+				let context1 = pixel.createContext( source1 );
+				document.body.appendChild( context1.canvas );
 				
 				///
 				let imagedata0 = context0.getImageData( 0, 0, source0.width, source0.height );
@@ -57,7 +59,9 @@
 				
 				let blended = imageA.blend( imageB );
 				
-				pixel.createContext( blended.getImageData(), document.body );
+				let outCtx1 = pixel.createContext( blended.getImageData() );
+				
+				document.body.appendChild( outCtx1.canvas );
 				
 				/// 
 				/// 
@@ -65,7 +69,9 @@
 				
 				let blended_min = imageA.blendMin( imageB );
 				
-				pixel.createContext( blended_min.getImageData(), document.body );
+				let outCtx2 = pixel.createContext( blended_min.getImageData() );
+				
+				document.body.appendChild( outCtx2.canvas );
 				
 				/// 
 				/// 
@@ -73,7 +79,9 @@
 				
 				let blended_max = imageA.blendMax( imageB );
 				
-				pixel.createContext( blended_max.getImageData(), document.body );
+				let outCtx3 = pixel.createContext( blended_max.getImageData() );
+				
+				document.body.appendChild( outCtx3.canvas );
 				
 			}, false);
 			

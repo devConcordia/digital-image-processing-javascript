@@ -29,7 +29,7 @@
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/NutsAndBolts.jpg", function( context, imagedata ) {
+				pixel.load("../src/img/nuts-and-bolts.jpg", function( context, imagedata ) {
 				
 					print("Original source");
 					document.body.appendChild( context.canvas );
@@ -43,7 +43,9 @@
 					
 					let cropped = imagergb.crop( 50, 50, 100, 100 );
 					
-					pixel.createContext( cropped.getImageData(), document.body );
+					let outCtx1 = pixel.createContext( cropped.getImageData() );
+					
+					document.body.appendChild( outCtx1.canvas );
 					
 					/// 
 					/// 
@@ -51,7 +53,9 @@
 					
 					let resized = cropped.resize( 5, 5 );
 					
-					pixel.createContext( resized.getImageData(), document.body );
+					let outCtx2 = pixel.createContext( resized.getImageData() );
+					
+					document.body.appendChild( outCtx2.canvas );
 					
 				});
 				

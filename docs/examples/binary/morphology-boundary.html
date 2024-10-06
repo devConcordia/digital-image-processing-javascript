@@ -18,8 +18,6 @@
 				margin:10px; 
 				box-shadow:2px 3px 15px #777;
 				
-			/*	width:100px; */
-				
 				image-rendering: pixelated;
 			}
 			
@@ -31,7 +29,7 @@
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/figure-16.png", function(context, imagedata) {
+				pixel.load("../src/img/figure-16.png", function(context, imagedata) {
 					
 					print("Original");
 					document.body.appendChild( context.canvas );
@@ -44,8 +42,10 @@
 					
 					let boundary = image_b.boundary( pixel.Matrix.Ones(3,3) );
 					
-					pixel.createContext( boundary.getImageData(), document.body );
+					let outCtx1 = pixel.createContext( boundary.getImageData() );
 					
+					document.body.appendChild( outCtx1.canvas );
+				
 				});
 				
 			}, false);

@@ -16,9 +16,10 @@ function load( path, handlerCallback ) {
 	
 	source.onload = function() {
 		
-		let context = createContext( source );
+		const context = createContext( source );
+		const imagedata = context.getImageData(0,0,source.width, source.height);
 		
-		handlerCallback( context );
+		handlerCallback( context, imagedata );
 		
 	};
 	

@@ -28,7 +28,7 @@
 			
 			window.addEventListener('load', function(e) {
 			
-				pixel.load("../src/nuts-and-bolts.jpg", function(context, imagedata) {
+				pixel.load("../src/img/nuts-and-bolts.jpg", function(context, imagedata) {
 				
 					/// load image
 					print("Original source");
@@ -43,11 +43,15 @@
 					
 					///
 					print("Example 1. dilate 7x7");
-					pixel.createContext( image.dilate( kernel ).getImageData(), document.body );
+					let outCtx1 = pixel.createContext( image.dilate( kernel ).getImageData() );
+					
+					document.body.appendChild( outCtx1.canvas );
 					
 					///
 					print("Example 2. erode 7x7");
-					pixel.createContext( image.erode( kernel ).getImageData(), document.body );
+					let outCtx2 = pixel.createContext( image.erode( kernel ).getImageData() );
+					
+					document.body.appendChild( outCtx2.canvas );
 					
 				});
 			

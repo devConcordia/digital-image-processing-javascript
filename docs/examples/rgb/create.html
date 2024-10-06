@@ -40,7 +40,9 @@
 					0,0,0,        255,255,255,  0,0,255
 				]);
 				
-				pixel.createContext( imagergb0.getImageData(), document.body );
+				let outCtx = pixel.createContext( imagergb0.getImageData() );
+				
+				document.body.appendChild( outCtx.canvas );
 				
 			}, false);
 			

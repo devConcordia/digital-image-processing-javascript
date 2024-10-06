@@ -24,14 +24,14 @@
 		</style>
         <script type="module">
 			
-			import Renderer2D from "/module/graph/Renderer2D/Renderer2D.mjs";
 			
 			import pixel from "../../../index.mjs";
+			import Renderer2D from "../src/js/Renderer2D.mjs";
 			
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/rock.jpg", function(context, imagedata) {
+				pixel.load("../src/img/rock.jpg", function(context,imagedata) {
 					
 					print("Original source");
 					document.body.appendChild( context.canvas );

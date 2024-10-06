@@ -24,14 +24,13 @@
 		</style>
         <script type="module">
 			
-			import Renderer2D from "/module/graph/Renderer2D/Renderer2D.mjs";
-			
 			import pixel from "../../../index.mjs";
+			import Renderer2D from "../src/js/Renderer2D.mjs";
 			
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/nuts-and-bolts.jpg", function( context, imagedata ) {
+				pixel.load("../src/img/nuts-and-bolts.jpg", function( context, imagedata ) {
 				
 					print("Original source");
 					document.body.appendChild( context.canvas );
@@ -44,7 +43,9 @@
 					
 					let contrasted = imagergb0.clone().contrast( 70 );
 					
-					pixel.createContext( contrasted.getImageData(), document.body );
+					let outputCtx = pixel.createContext( contrasted.getImageData() );
+					
+					document.body.appendChild( outputCtx.canvas );
 					
 					///
 					print("Histogram original");

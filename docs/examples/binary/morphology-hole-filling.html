@@ -29,7 +29,7 @@
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/figure-63.jpg", function(context, imagedata) {
+				pixel.load("../src/img/figure-63.jpg", function(context, imagedata) {
 				
 					print("Original");
 					document.body.appendChild( context.canvas );
@@ -38,7 +38,9 @@
 					let image_b = pixel.ImageBinary.FromImageData( imagedata );
 					
 					print("Example 1. hole filling");
-					pixel.createContext( image_b.holeFill().getImageData(), document.body );
+					let outCtx1 = pixel.createContext( image_b.holeFill().getImageData() );
+				
+					document.body.appendChild( outCtx1.canvas );
 				
 				});
 				

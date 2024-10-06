@@ -31,7 +31,7 @@
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/figure-4.png", function(context, imagedata) {
+				pixel.load("../src/img/figure-4.png", function(context, imagedata) {
 				
 					/// load image
 					print("Original");
@@ -48,24 +48,35 @@
 					let m3x7 = pixel.Matrix.Ones(3,7);
 					
 					print("Example 1. erode 3x3");
-					pixel.createContext( image_b.erode( m3x3 ).getImageData(), document.body );
+					let outCtx1 = pixel.createContext( image_b.erode( m3x3 ).getImageData() );
 					
+					document.body.appendChild( outCtx1.canvas );
+				
 					print("Example 2. dilate 3x3");
-					pixel.createContext( image_b.dilate( m3x3 ).getImageData(), document.body );
+					let outCtx2 = pixel.createContext( image_b.dilate( m3x3 ).getImageData() );
 					
-					
+					document.body.appendChild( outCtx2.canvas );
+				
 					print("Example 3. erode 7x3");
-					pixel.createContext( image_b.erode( m7x3 ).getImageData(), document.body );
+					let outCtx3 = pixel.createContext( image_b.erode( m7x3 ).getImageData() );
 					
+					document.body.appendChild( outCtx3.canvas );
+				
 					print("Example 4. dilate 7x3");
-					pixel.createContext( image_b.dilate( m7x3 ).getImageData(), document.body );
+					let outCtx4 = pixel.createContext( image_b.dilate( m7x3 ).getImageData() );
 					
+					document.body.appendChild( outCtx4.canvas );
+				
 					
 					print("Example 5. erode 3x7");
-					pixel.createContext( image_b.erode( m3x7 ).getImageData(), document.body );
+					let outCtx5 = pixel.createContext( image_b.erode( m3x7 ).getImageData() );
 					
+					document.body.appendChild( outCtx5.canvas );
+				
 					print("Example 6. dilate 3x7");
-					pixel.createContext( image_b.dilate( m3x7 ).getImageData(), document.body );
+					let outCtx6 = pixel.createContext( image_b.dilate( m3x7 ).getImageData() );
+				
+					document.body.appendChild( outCtx6.canvas );
 				
 				});
 				

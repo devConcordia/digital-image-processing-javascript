@@ -61,25 +61,39 @@
 				
 				///
 				print("Image A");
-				pixel.createContext( image_a.getImageData(), document.body );
+				let outCtx1 = pixel.createContext( image_a.getImageData() );
+				
+				document.body.appendChild( outCtx1.canvas );
 				
 				print("Image B");
-				pixel.createContext( image_b.getImageData(), document.body );
+				let outCtx2 = pixel.createContext( image_b.getImageData() );
+				
+				document.body.appendChild( outCtx2.canvas );
 				
 				print("Image C");
-				pixel.createContext( image_c.getImageData(), document.body );
+				let outCtx3 = pixel.createContext( image_c.getImageData() );
+				
+				document.body.appendChild( outCtx3.canvas );
 				
 				print("Image D = A xor B");
-				pixel.createContext( image_d.getImageData(), document.body );
+				let outCtx4 = pixel.createContext( image_d.getImageData() );
+				
+				document.body.appendChild( outCtx4.canvas );
 				
 				print("-B (inverse)");
-				pixel.createContext( image_b.inverse().getImageData(), document.body );
+				let outCtx5 = pixel.createContext( image_b.inverse().getImageData() );
+				
+				document.body.appendChild( outCtx5.canvas );
 				
 				print("B or D");
-				pixel.createContext( image_b.or( image_d ).getImageData(), document.body );
+				let outCtx6 = pixel.createContext( image_b.or( image_d ).getImageData() );
+				
+				document.body.appendChild( outCtx6.canvas );
 				
 				print("B and C");
-				pixel.createContext( image_b.and( image_c ).getImageData(), document.body );
+				let outCtx7 = pixel.createContext( image_b.and( image_c ).getImageData() );
+				
+				document.body.appendChild( outCtx7.canvas );
 				
 			}, false);
 			

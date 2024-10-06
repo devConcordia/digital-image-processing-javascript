@@ -31,7 +31,7 @@
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/figure-10.png", function(context, imagedata) {
+				pixel.load("../src/img/figure-10.png", function(context, imagedata) {
 				
 					print("Original");
 					document.body.appendChild( context.canvas );
@@ -47,18 +47,26 @@
 					
 					///
 					print("Example 1. open 3x3");
-					pixel.createContext( image_b.open( m3x3 ).getImageData(), document.body );
+					let outCtx1 = pixel.createContext( image_b.open( m3x3 ).getImageData() );
+					
+					document.body.appendChild( outCtx1.canvas );
 					
 					print("Example 2. close 3x3");
-					pixel.createContext( image_b.close( m3x3 ).getImageData(), document.body );
+					let outCtx2 = pixel.createContext( image_b.close( m3x3 ).getImageData() );
+					
+					document.body.appendChild( outCtx2.canvas );
 					
 					print( "Matrix Radial 3x3: ", mr3.toString() );
 					
 					print("Example 3. open radial 3x3");
-					pixel.createContext( image_b.open( mr3 ).getImageData(), document.body );
+					let outCtx3 = pixel.createContext( image_b.open( mr3 ).getImageData() );
+					
+					document.body.appendChild( outCtx3.canvas );
 					
 					print("Example 4. close radial 3x3");
-					pixel.createContext( image_b.close( mr3 ).getImageData(), document.body );
+					let outCtx4 = pixel.createContext( image_b.close( mr3 ).getImageData() );
+					
+					document.body.appendChild( outCtx4.canvas );
 				
 				});
 				

@@ -18,8 +18,6 @@
 				margin:10px; 
 				box-shadow:2px 3px 15px #777;
 				
-			/*	width:100px; */
-				
 				image-rendering: pixelated;
 			}
 			
@@ -31,7 +29,7 @@
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/octocat.png", function(context, imagedata) {
+				pixel.load("../src/img/octocat.png", function(context, imagedata) {
 					
 					print("Original");
 					document.body.appendChild( context.canvas );
@@ -49,11 +47,11 @@
 					
 					let asciiArt = image_g.toString( grayScale );
 
-					console.log( asciiArt )
+				//	console.log( asciiArt )
 
 					let pre = print( asciiArt );
 						pre.style.fontSize = "8px";
-				/**/	
+				
 				});
 				
 			}, false);

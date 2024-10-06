@@ -29,7 +29,8 @@
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/nuts-and-bolts.jpg", function(context, imagedata) {
+			//	pixel.load("../src/img/nuts-and-bolts.jpg", function(context, imagedata) {
+				pixel.load("../src/img/valve.png", function(context, imagedata) {
 				
 					print("Original");
 					document.body.appendChild( context.canvas );
@@ -40,10 +41,12 @@
 					
 					let image_g = pixel.ImageGray.FromImageData( imagedata ).conv( pixel.Matrix.Sobel() );
 					
-					let image_b = pixel.ImageBinary.FromImageGray( image_g, 127 );
+					let image_b = pixel.ImageBinary.FromImageGray( image_g, 80 );
 					
-					pixel.createContext( image_b.getImageData(), document.body );
+					let outCtx = pixel.createContext( image_b.getImageData() );
 					
+					document.body.appendChild( outCtx.canvas );
+				
 				});
 				
 			}, false);

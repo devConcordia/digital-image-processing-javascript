@@ -29,7 +29,7 @@
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/horse.png", function(context, imagedata) {
+				pixel.load("../src/img/horse.png", function(context, imagedata) {
 				
 					print("Original");
 					document.body.appendChild( context.canvas );
@@ -40,8 +40,10 @@
 					let matrix = pixel.Matrix.Radial(3);
 					
 					print("Example 1. thinning");
-					pixel.createContext( image_b.thinning( matrix ).getImageData(), document.body );
-				
+					let outCtx1 = pixel.createContext( image_b.thinning( matrix ).getImageData() );
+					
+					document.body.appendChild( outCtx1.canvas );
+					
 				});
 				
 			}, false);

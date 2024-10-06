@@ -24,14 +24,13 @@
 		</style>
         <script type="module">
 			
-			import Renderer2D from "/module/graph/Renderer2D/Renderer2D.mjs";
-			
 			import pixel from "../../../index.mjs";
+			import Renderer2D from "../src/js/Renderer2D.mjs";
 			
 			///
 			window.addEventListener('load', function(e) {
 				
-				pixel.load("../src/x-ray.jpg", function(context, imagedata) {
+				pixel.load("../src/img/x-ray.jpg", function(context,imagedata) {
 					
 					print("Original");
 					document.body.appendChild( context.canvas );
@@ -44,7 +43,9 @@
 					
 					let image_clahe = image.clahe();
 					
-					pixel.createContext( image_clahe.getImageData(), document.body );
+					let outCtx = pixel.createContext( image_clahe.getImageData() );
+					
+					document.body.appendChild( outCtx.canvas );
 					
 					///
 					print("Histogram original");
