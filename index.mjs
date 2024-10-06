@@ -18,9 +18,7 @@ function load( path, handlerCallback ) {
 		
 		let context = createContext( source );
 		
-		let imagedata = context.getImageData( 0, 0, source.width, source.height );
-		
-		handlerCallback( context, imagedata );
+		handlerCallback( context );
 		
 	};
 	
@@ -28,14 +26,13 @@ function load( path, handlerCallback ) {
 		
 }
 
-
 /** createContext
  *	
  *	@param {Image|HTMLCanvasElement|ImageData} source
  *	@param {HTMLElement} parentNode
  *	@return {CanvasRenderingContext2D}
  */
-function createContext( source, parentNode = null ) {
+function createContext( source ) {
 	
 	var canvas = document.createElement("canvas"),
 		context = canvas.getContext("2d");
@@ -58,14 +55,9 @@ function createContext( source, parentNode = null ) {
 	}
 	
 	///
-	if( parentNode instanceof HTMLElement )
-		parentNode.appendChild( canvas );
-	
-	///
 	return context;
 	
 }
-
 
 ///
 export default { 
