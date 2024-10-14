@@ -1,7 +1,6 @@
 
 /** Matrix
  *	
- *	Outhers:
  *	@ref https://en.wikipedia.org/wiki/Roberts_cross
  *	
  */

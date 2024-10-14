@@ -1,9 +1,15 @@
 
+//import * as io from './src/io/index.mjs';
+
+import Matrix from './src/core/Matrix.mjs';
+
 import ImageBinary from './src/ImageBinary.mjs';
 import ImageGray from './src/ImageGray.mjs';
 import ImageRGB from './src/ImageRGB.mjs';
 
-import Matrix from './src/core/Matrix.mjs';
+//import ImageObjects from './src/ImageObjects/ImageObjects.mjs';
+
+
 
 /** load
  *	
@@ -61,9 +67,11 @@ function createContext( source ) {
 }
 
 ///
-export default { 
-	load, createContext,
+export default {
+//	io,
+	Matrix,
 	ImageBinary, ImageGray, ImageRGB, 
-	Matrix 
+//	ImageObjects,
+	load, createContext,
 };
 
