@@ -7,7 +7,37 @@ Não me preocupei com questões de desempenho, ou seja, *para aplicações de pr
 Esse projeto contempla metodos como [Clahe](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization), [Detecção de bordas](https://en.wikipedia.org/wiki/Edge_detection), operações com [Imagens binárias](https://en.wikipedia.org/wiki/Binary_image), entre outros.
 Para mais informações, veja a documentação em [docs/pt-BR/pixel.md](https://github.com/devConcordia/pixel/blob/main/docs/pt-BR/pixel.md).
 
+<!--
 ![](https://github.com/devConcordia/pixel/blob/main/docs/images/folder.png)
+-->
+
+## Exemplos
+
+Alguns dos exemplos desse projeto.
+
+### Segmentação
+
+O [RLESegmentation](https://github.com/devConcordia/pixel/blob/main/docs/pt-BR/RLE.md) (Run-Length-Encoding Segmentation) é um metodo de [segmentação de imagem](https://en.wikipedia.org/wiki/Image_segmentation) basedo no projeto [FastImageEx](https://sourceforge.net/projects/fastimageex/).
+Veja o exemplo em [/docs/examples/rle-segmentation/](https://github.com/devConcordia/pixel/blob/main/docs/examples/rle-segmentation/).
+
+![](https://github.com/devConcordia/pixel/blob/main/docs/images/rle-sample.png)
+
+### Clahe 
+
+O [Clahe](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization) está disponivel nas classes [RGBAImageData]() e [GrayImageData]().
+Veja o exemplo em [/docs/examples/clahe/](https://github.com/devConcordia/pixel/blob/main/docs/examples/clahe/).
+
+| RGBA      | Input | Output |
+|-----------|-------|--------|
+| Source    | ![](https://github.com/devConcordia/pixel/blob/main/docs/examples/src/img/rock.png) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe.png) |
+| Histogram | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe-histogram-input.png) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe-histogram-output.png) |
+
+
+| Gray      | Input | Output |
+|-----------|-------|--------|
+| Source      | ![](https://github.com/devConcordia/pixel/blob/main/docs/examples/src/img/x-ray.jpg) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe.png) |
+| Histogram | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe-histogram-input.png) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe-histogram-output.png) |
+
 
 ## Instruções
 

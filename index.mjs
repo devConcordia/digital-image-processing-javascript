@@ -1,15 +1,18 @@
 
-//import * as io from './src/io/index.mjs';
+import Rect from './source/common/Rect.mjs';
+import Point from './source/common/Point.mjs';
+import Color from './source/common/Color.mjs';
+import Matrix from './source/common/Matrix.mjs';
 
-import Matrix from './src/core/Matrix.mjs';
+import RGBAImageData from './source/RGBAImageData.mjs';
+import GrayImageData from './source/GrayImageData.mjs';
+import BinaryImageData from './source/BinaryImageData.mjs';
 
-import ImageBinary from './src/ImageBinary.mjs';
-import ImageGray from './src/ImageGray.mjs';
-import ImageRGB from './src/ImageRGB.mjs';
+import RLESegmentation from './source/RLE/RLESegmentation.mjs';
 
-//import ImageObjects from './src/ImageObjects/ImageObjects.mjs';
-
-
+///
+///
+///
 
 /** load
  *	
@@ -25,7 +28,11 @@ function load( path, handlerCallback ) {
 		const context = createContext( source );
 		const imagedata = context.getImageData(0,0,source.width, source.height);
 		
-		handlerCallback( context, imagedata );
+		/// extends to RGBAImageData
+		RGBAImageData.Extends( imagedata );
+		
+		///
+		handlerCallback( imagedata, context );
 		
 	};
 	
@@ -39,7 +46,7 @@ function load( path, handlerCallback ) {
  *	@param {HTMLElement} parentNode
  *	@return {CanvasRenderingContext2D}
  */
-function createContext( source ) {
+function createContext( source, parentNode = null ) {
 	
 	var canvas = document.createElement("canvas"),
 		context = canvas.getContext("2d");
@@ -61,6 +68,9 @@ function createContext( source ) {
 		
 	}
 	
+	if( parentNode instanceof HTMLElement )
+		parentNode.appendChild( canvas );
+	
 	///
 	return context;
 	
@@ -68,10 +78,20 @@ function createContext( source ) {
 
 ///
 export default {
-//	io,
+	
+	load,
+	createContext,
+	
+	Rect,
+	Point,
+	Color,
 	Matrix,
-	ImageBinary, ImageGray, ImageRGB, 
-//	ImageObjects,
-	load, createContext,
-};
+	
+	RGBAImageData,
+	GrayImageData,
+	BinaryImageData,
+
+	RLESegmentation
+	
+}
 
