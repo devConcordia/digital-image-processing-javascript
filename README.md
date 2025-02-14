@@ -22,20 +22,22 @@ Veja o exemplo em [/docs/examples/rle-segmentation/](https://github.com/devConco
 
 ![](https://github.com/devConcordia/pixel/blob/main/docs/images/rle-sample.png)
 
+> Obs. A imagem a cima é uma ilustração abreviada das etapas necessarias para realizar a segmentação, veja o exemplo para mais informações.
+
 ### Clahe 
 
 O [Clahe](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization) está disponivel nas classes [RGBAImageData]() e [GrayImageData]().
 Veja o exemplo em [/docs/examples/clahe/](https://github.com/devConcordia/pixel/blob/main/docs/examples/clahe/).
 
-| RGBA      | Input | Output |
+| **RGBA**  | Input | Output |
 |-----------|-------|--------|
-| Source    | ![](https://github.com/devConcordia/pixel/blob/main/docs/examples/src/img/rock.png) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe.png) |
+| Source    | ![](https://github.com/devConcordia/pixel/blob/main/docs/examples/src/img/rock.jpg) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe.png) |
 | Histogram | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe-histogram-input.png) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe-histogram-output.png) |
 
 
-| Gray      | Input | Output |
+| **Gray**  | Input | Output |
 |-----------|-------|--------|
-| Source      | ![](https://github.com/devConcordia/pixel/blob/main/docs/examples/src/img/x-ray.jpg) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe.png) |
+| Source    | ![](https://github.com/devConcordia/pixel/blob/main/docs/examples/src/img/x-ray.jpg) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe.png) |
 | Histogram | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe-histogram-input.png) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe-histogram-output.png) |
 
 
