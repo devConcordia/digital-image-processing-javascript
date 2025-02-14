@@ -22,7 +22,7 @@ Veja o exemplo em [/docs/examples/rle-segmentation/](https://github.com/devConco
 
 ![](https://github.com/devConcordia/pixel/blob/main/docs/images/rle-sample.png)
 
-> Obs. A imagem a cima é uma ilustração abreviada das etapas necessarias para realizar a segmentação, veja o exemplo para mais informações.
+> Obs. A imagem acima é uma ilustração abreviada das etapas necessarias para realizar a segmentação, veja o exemplo para mais informações.
 
 ### Clahe 
 
