@@ -579,7 +579,7 @@ export default class BinaryImageData extends Uint8Array {
 		
 	}
 	
-	/** flood | floodFill
+	/** flood
 	 *	
 	 *	@ref https://codereview.stackexchange.com/questions/8946/garbage-collection-loop-in-game-of-life/8947#8947
 	 *	
@@ -692,10 +692,10 @@ export default class BinaryImageData extends Uint8Array {
 		
 	}
 	
-	/** hole | holesFill
+	/** fillHoles | filler
 	 *	
 	 */
-	holeFill() {
+	filler() {
 		
 		return this.flood().inverse().or( this );
 		

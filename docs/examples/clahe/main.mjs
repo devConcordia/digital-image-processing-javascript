@@ -53,7 +53,7 @@ window.addEventListener('load', function(e) {
 	 *	@param {RGBAImageData} source
 	 *	@return {HTMLCanvasElement}
 	 */
-	function createHistogramChart( source ) {
+	function createRGBHistogramChart( source ) {
 		
 		let [ red, green, blue ] = source.getHistogram();
 		
@@ -78,6 +78,35 @@ window.addEventListener('load', function(e) {
 		
 	}
 	
+	/** createGrayHistogramChart
+	 *	
+	 *	@param {GrayImageData} source
+	 *	@return {HTMLCanvasElement}
+	 */
+	function createGrayHistogramChart( source ) {
+		
+		let hist = source.getHistogram();
+		
+		hist = fixHistogramData( hist );
+		
+		console.log( hist )
+		
+		///
+		let renderer = new Renderer2D( 815, 300 );
+		let chart = renderer.createChart( 25, 25, 255 * 3, 255 );
+		
+		chart.clear('#fff');
+		chart.save({ strokeStyle: "#ddd", setLineDash:[5,5] });
+		chart.grid( 16, 16 );
+		
+		chart.bars( hist, "#222" );
+		
+	//	document.body.appendChild( renderer.canvas );
+		
+		return renderer.canvas;
+		
+	}
+	
 	
 	
 	/// pixel.load() load a image as RGBAImageData
@@ -86,7 +115,7 @@ window.addEventListener('load', function(e) {
 		/// 1. show input
 		addStep( '1. Input', source );
 		
-		let histInputCanvas = createHistogramChart( source );
+		let histInputCanvas = createRGBHistogramChart( source );
 		
 		addStep( '1.2. Input Histogram', histInputCanvas );
 		
@@ -95,9 +124,34 @@ window.addEventListener('load', function(e) {
 		
 		addStep( '2. Output', source );
 		
-		let histOutputCanvas = createHistogramChart( source );
+		let histOutputCanvas = createRGBHistogramChart( source );
 		
 		addStep( '2.2. Output Histogram', histOutputCanvas );
+		
+	});
+	
+	
+	/// pixel.load() load a image as RGBAImageData
+	pixel.load('../src/img/x-ray.jpg', function( source, ctx ) {
+		
+		///
+		let graySource = pixel.GrayImageData.Create( source );
+		
+		/// 3. show input
+		addStep( '3. Input', graySource.getImageData() );
+		
+		let histInputCanvas = createGrayHistogramChart( graySource );
+		
+		addStep( '3.2. Input Histogram', histInputCanvas );
+		
+		/// 
+		graySource.clahe();
+		
+		addStep( '4. Output', graySource.getImageData() );
+		
+		let histOutputCanvas = createGrayHistogramChart( graySource );
+		
+		addStep( '4.2. Output Histogram', histOutputCanvas );
 		
 	});
 	

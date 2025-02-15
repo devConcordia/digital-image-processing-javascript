@@ -740,7 +740,7 @@ export default class GrayImageData extends Uint8Array {
 		//let output = new GrayImageData( this.width, this.height );
 		
 		///
-		let histogram = this.histogram();
+		let histogram = this.getHistogram();
 		
 		/// Calculating the CDF
 		let cdf = calcCdf( histogram );
@@ -754,7 +754,7 @@ export default class GrayImageData extends Uint8Array {
 	
 	}
 	
-	histogram( wx, wy, ww, wh ) {
+	getHistogram( wx, wy, ww, wh ) {
 		
 		let width = this.width;
 		

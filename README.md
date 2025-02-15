@@ -40,6 +40,17 @@ Veja o exemplo em [/docs/examples/clahe/](https://github.com/devConcordia/pixel/
 | Source    | ![](https://github.com/devConcordia/pixel/blob/main/docs/examples/src/img/x-ray.jpg) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe.png) |
 | Histogram | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe-histogram-input.png) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/gray-clahe-histogram-output.png) |
 
+### Binary 
+
+Veja o exemplo em [/docs/examples/binary/](https://github.com/devConcordia/pixel/blob/main/docs/examples/binary/).
+
+| **Operation**    | Input | Output |
+|------------------|-------|--------|
+| Remove noise     | ![](https://github.com/devConcordia/pixel/blob/main/docs/examples/src/img/figure-11.png) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/binary-hitormiss.png) |
+| Extract Boundary | ![](https://github.com/devConcordia/pixel/blob/main/docs/examples/src/img/figure-16.png) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/binary-boundary.png) |
+| Fill Holes       | ![](https://github.com/devConcordia/pixel/blob/main/docs/examples/src/img/figure-63.jpg) | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/binary-holefilling.png) |
+| Thinning         | ![](https://github.com/devConcordia/pixel/blob/main/docs/examples/src/img/horse.png)     | ![](https://github.com/devConcordia/pixel/blob/main/docs/images/binary-thinning.png) |
+
 
 ## Instruções
 
