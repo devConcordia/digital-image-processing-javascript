@@ -35,11 +35,11 @@ O metodo `conv` realiza a [convolução](https://en.wikipedia.org/wiki/Kernel_\(
 
 ### Exemplos
 
-| <img src="docs/images/rgb-conv-prewitt.png" width="200" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-conv-sobel.png" width="200" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-conv-laplace.png" width="200" /> |
+| <img src="../images/rgb-conv-prewitt.png" width="200" /> | <img src="../images/rgb-conv-sobel.png" width="200" /> | <img src="../images/rgb-conv-laplace.png" width="200" /> |
 |:-:|:-:|:-:|
 | Prewitt | Sobel | Laplace |
 
-| <img src="docs/images/rgb-conv-emboss.png" width="200" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-conv-sharpen.png" width="200" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-conv-gaussian-blur.png" width="200" /> |
+| <img src="../images/rgb-conv-emboss.png" width="200" /> | <img src="../images/rgb-conv-sharpen.png" width="200" /> | <img src="../images/rgb-conv-gaussian-blur.png" width="200" /> |
 |:-:|:-:|:-:|
 | Emboss | Sharpen | GaussianBlur |
 
@@ -74,6 +74,6 @@ canvasContext2d.putImageData( claheImageData, 0, 0 );
 
 | Antes  | Depois    |
 |:-:|:-:|
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/rock.jpg" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe.png" width="300" /> |
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe-histogram-original.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/rgb-clahe-histogram-final.png" width="300" /> |
+| <img src="../examples/src/img/rock.jpg" width="300" /> | <img src="../docs/images/rgb-clahe.png" width="300" /> |
+| <img src="../images/rgb-clahe-histogram-input.png" width="300" /> | <img src="../images/rgb-clahe-histogram-final.png" width="300" /> |
 
