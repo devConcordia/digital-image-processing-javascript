@@ -74,6 +74,6 @@ canvasContext2d.putImageData( claheImageData, 0, 0 );
 
 | Antes  | Depois    |
 |:-:|:-:|
-| <img src="../examples/src/img/rock.jpg" width="300" /> | <img src="../docs/images/rgb-clahe.png" width="300" /> |
-| <img src="../images/rgb-clahe-histogram-input.png" width="300" /> | <img src="../images/rgb-clahe-histogram-final.png" width="300" /> |
+| <img src="../examples/src/img/rock.jpg" width="300" /> | <img src="../images/rgb-clahe.png" width="300" /> |
+| <img src="../images/rgb-clahe-histogram-input.png" width="300" /> | <img src="../images/rgb-clahe-histogram-output.png" width="300" /> |
 
