@@ -31,7 +31,6 @@ window.addEventListener('load', function(e) {
 	}
 	
 	
-	
 	/// pixel.load() load a image as RGBAImageData
 	pixel.load('../src/img/figure-11.png', function( source, ctx ) {
 		
@@ -40,7 +39,7 @@ window.addEventListener('load', function(e) {
 		
 		document.body.appendChild( p );
 		
-		
+		///
 		let binarySource = pixel.BinaryImageData.FromImageData( source );
 		
 		/// 1. show input
@@ -56,6 +55,7 @@ window.addEventListener('load', function(e) {
 		addStep( '2. Output', output.getImageData() );
 		
 	});
+	
 	
 	/// pixel.load() load a image as RGBAImageData
 	pixel.load('../src/img/figure-16.png', function( source, ctx ) {
@@ -83,6 +83,8 @@ window.addEventListener('load', function(e) {
 		
 	});
 	
+	
+	
 	/// pixel.load() load a image as RGBAImageData
 	pixel.load('../src/img/figure-63.jpg', function( source, ctx ) {
 		
@@ -104,6 +106,9 @@ window.addEventListener('load', function(e) {
 		addStep( '2. Output', output.getImageData() );
 		
 	});
+	
+	/**/
+	
 	
 	/// pixel.load() load a image as RGBAImageData
 	pixel.load('../src/img/horse.png', function( source, ctx ) {
@@ -130,5 +135,6 @@ window.addEventListener('load', function(e) {
 		
 	});
 	
+	/**/
 	
 }, false);

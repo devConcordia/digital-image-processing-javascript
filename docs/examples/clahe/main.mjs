@@ -113,7 +113,7 @@ window.addEventListener('load', function(e) {
 	pixel.load('../src/img/rock.jpg', function( source, ctx ) {
 		
 		/// 1. show input
-		addStep( '1. Input', source );
+		addStep( '1.1. Input', source );
 		
 		let histInputCanvas = createRGBHistogramChart( source );
 		
@@ -122,7 +122,7 @@ window.addEventListener('load', function(e) {
 		/// 
 		source.clahe();
 		
-		addStep( '2. Output', source );
+		addStep( '2.1. Output', source );
 		
 		let histOutputCanvas = createRGBHistogramChart( source );
 		
@@ -138,7 +138,7 @@ window.addEventListener('load', function(e) {
 		let graySource = pixel.GrayImageData.Create( source );
 		
 		/// 3. show input
-		addStep( '3. Input', graySource.getImageData() );
+		addStep( '3.1. Input', graySource.getImageData() );
 		
 		let histInputCanvas = createGrayHistogramChart( graySource );
 		
@@ -147,7 +147,7 @@ window.addEventListener('load', function(e) {
 		/// 
 		graySource.clahe();
 		
-		addStep( '4. Output', graySource.getImageData() );
+		addStep( '4.1. Output', graySource.getImageData() );
 		
 		let histOutputCanvas = createGrayHistogramChart( graySource );
 		

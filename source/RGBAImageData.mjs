@@ -23,6 +23,10 @@ export default class RGBAImageData extends ImageData {
 		
 	}
 	
+	/** clone
+	 *	
+	 *	@return {RGBAImageData}
+	 */
 	clone() {
 		
 		let output = new RGBAImageData( this.width, this.height );
@@ -513,25 +517,31 @@ export default class RGBAImageData extends ImageData {
 	 *	
 	 *	Operação de convolução utilizando os 3 canais de uma imagem.
 	 *	
-	 *	@param {TypedArray} matrix		a square matrix
+	 *	@param {Matrix} matrix		a square matrix
 	 *	@return {ImageData}
 	 */
 	conv( matrix ) {
-	
+		
+	//	console.log( matrix.toString() )
+		
 		let { width, height, data } = this;
 		
 		let source = new Uint8ClampedArray( data );
 		
 		///
-		let size = Math.sqrt( matrix.length );
-		let half = Math.floor( size / 2 );
+		let mw = matrix.width,
+			mh = matrix.height;
 		
+		let mwh = Math.floor( mw / 2 ),
+			mhh = Math.floor( mh / 2 );
+		
+		///
 		let w = width - 1, 
 			h = height - 1;
 		
 		/// a matriz de entrada pode exceder o range [0,255] nas operações
 		/// para normalizar o resultado, dividimos pela escala
-		let s = matrix.reduce(function( a, b ) { return a + b }) || 1;
+		let s = Math.abs(matrix.reduce(function( a, b ) { return a + b })) || 1;
 		
 		///
 		for( let y = 0; y < height; y++ ) {
@@ -540,19 +550,20 @@ export default class RGBAImageData extends ImageData {
 				let rx = 0, ry = 0,
 					gx = 0, gy = 0,
 					bx = 0, by = 0;
-
-				for( let i = -half; i <= half; i++ ) {
-					for( let j = -half; j <= half; j++ ) {
+				
+				for( let i = 0; i < mh; i++ ) {
+					for( let j = 0; j < mw; j++ ) {
 						
-						let ih = i+half,
-							jh = j+half;
+						let mx = matrix[ j*mw + i ],
+							my = matrix[ i*mw + j ];
 						
-						let mx = matrix[ ih*size + jh ],
-							my = matrix[ jh*size + ih ];
+						let io = i - mhh,
+							jo = j - mwh;
 						
-						let xj = clamp( x+j, 0, w ), 
-							yi = clamp( y+i, 0, h );
-					
+						let xj = clamp( x + jo, 0, w ), 
+							yi = clamp( y + io, 0, h );
+						
+						///
 						let n = 4 * (yi * width + xj);
 						
 						let r = source[ n++ ],
@@ -571,6 +582,7 @@ export default class RGBAImageData extends ImageData {
 					}
 				}
 				
+				///
 				let offset = 4 * (y * width + x);
 				
 				data[ offset++ ] = clamp( Math.hypot( rx, ry )/s );
@@ -590,7 +602,7 @@ export default class RGBAImageData extends ImageData {
 	
 	/** dilate
 	 *	
-	 *	@param {Number} size
+	 *	@param {Matrix} matrix
 	 */
 	dilate( matrix ) {
 			
@@ -636,11 +648,13 @@ export default class RGBAImageData extends ImageData {
 
 		}
 		
+		return this;
+		
 	}
 
 	/** erode
 	 *	
-	 *	@param {Number} size
+	 *	@param {Matrix} matrix
 	 */
 	erode( matrix ) {
 		
@@ -686,27 +700,27 @@ export default class RGBAImageData extends ImageData {
 
 		}
 		
+		return this;
+		
 	}
 		
 	/** open
 	 *	
-	 *	@param {Number} size
+	 *	@param {Matrix} matrix
 	 */
 	open( size ) {
 		
-		this.erode( size );
-		this.dilate( size );
+		return this.erode( size ).dilate( size );
 		
 	}
 
 	/** close
 	 *	
-	 *	@param {Number} size
+	 *	@param {Matrix} matrix
 	 */
 	close( size ) {
 		
-		this.dilate( size );
-		this.erode( size );
+		return this.dilate( size ).erode( size );
 		
 	}
 

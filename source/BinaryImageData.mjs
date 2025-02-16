@@ -58,7 +58,7 @@ export default class BinaryImageData extends Uint8Array {
 		
 	}
 	
-	static FromImageGray( data, thresholds = 127 ) {
+	static FromGrayImageData( data, thresholds = 127 ) {
 		
 		///
 		let w = data.width;
@@ -220,6 +220,11 @@ export default class BinaryImageData extends Uint8Array {
 	/// morphology
 	///
 	
+	/** erode
+	 *	
+	 *	@param {Matrix} matrix			pixel.Matrix.Ones(3,3), pixel.Matrix.Radial(5), ...
+	 *	@return {BinaryImageData}
+	 */
 	erode( matrix ) {
 		
 		let w = this.width;
@@ -293,6 +298,11 @@ export default class BinaryImageData extends Uint8Array {
 		
 	}
 	
+	/** dilate
+	 *	
+	 *	@param {Matrix} matrix			pixel.Matrix.Ones(3,3), pixel.Matrix.Radial(5), ...
+	 *	@return {BinaryImageData}
+	 */
 	dilate( matrix ) {
 		
 		let w = this.width;
@@ -365,20 +375,37 @@ export default class BinaryImageData extends Uint8Array {
 		
 	}
 	
-	open( m, n, matrix ) {
+	/** open
+	 *	
+	 *	@param {Matrix} matrix			pixel.Matrix.Ones(3,3), pixel.Matrix.Radial(5), ...
+	 *	@return {BinaryImageData}
+	 */
+	open( matrix ) {
 		
-		if( !matrix ) matrix = new Uint8Array(m*n).fill(1);
-		
-		return this.erode( m, n, matrix ).dilate( m, n, matrix );
+		return this.erode( matrix ).dilate( matrix );
 	
 	}
 	
-	close( m, n, matrix ) {
+	/** close
+	 *	
+	 *	@param {Matrix} matrix			pixel.Matrix.Ones(3,3), pixel.Matrix.Radial(5), ...
+	 *	@return {BinaryImageData}
+	 */
+	close( matrix ) {
 		
-		if( !matrix ) matrix = new Uint8Array(m*n).fill(1);
-		
-		return this.dilate( m, n, matrix ).erode( m, n, matrix );
+		return this.dilate( matrix ).erode( matrix );
 	
+	}
+	
+	/** hitOrMiss
+	 *	
+	 *	@param {Matrix} matrix			pixel.Matrix.Ones(3,3), pixel.Matrix.Radial(5), ...
+	 *	@return {BinaryImageData}
+	 */
+	hitOrMiss( matrix ) {
+		
+		return this.open( matrix ).close( matrix );
+		
 	}
 	
 	///
@@ -452,17 +479,26 @@ export default class BinaryImageData extends Uint8Array {
 	/// 
 	///
 	
-	equals( b ) {
+	/** equals
+	 *	
+	 *	@param {BinaryImageData} binary
+	 *	@return {Boolean}
+	 */
+	equals( binary ) {
 		
-		if( this.length != b.length ) return false;
+		if( this.length != binary.length ) return false;
 		
 		for( let i = 0; i < this.length; i++ )
-			if( this[i] != b[i] ) return false;
+			if( this[i] != binary[i] ) return false;
 		
 		return true;
 		
 	}
 	
+	/** countNonZero
+	 *	
+	 *	@return {Number}
+	 */
 	countNonZero() {
 		
 		let output = 0;
@@ -565,12 +601,11 @@ export default class BinaryImageData extends Uint8Array {
 	
 	/* */
 	
-	hitOrMiss( matrix ) {
-		
-		return this.open( matrix ).close( matrix );
-		
-	}
-	
+	/** boundary
+	 *	
+	 *	@param {Matrix} matrix			pixel.Matrix.Ones(3,3), pixel.Matrix.Radial(5), ...
+	 *	@return {BinaryImageData}
+	 */
 	boundary( matrix ) {
 		
 		let erosion = this.erode( matrix );
@@ -585,6 +620,9 @@ export default class BinaryImageData extends Uint8Array {
 	 *	
 	 *	preenchimento (com 1) de uma area apartir da posição informada
 	 *	
+	 *	@param {Number} x0
+	 *	@param {Number} y0
+	 *	@return {BinaryImageData}
 	 */
 	flood( x0 = 0, y0 = 0 ) {
 		
@@ -701,7 +739,7 @@ export default class BinaryImageData extends Uint8Array {
 		
 	}
 	
-	/** thinning | skeleton
+	/** thinning
 	 *	
 	 *	@ref https://stackoverflow.com/questions/33095476/is-there-a-build-in-function-to-do-skeletonization
 	 *	@ref https://theailearner.com/tag/thinning-opencv/
