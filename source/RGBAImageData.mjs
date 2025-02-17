@@ -100,7 +100,51 @@ export default class RGBAImageData extends ImageData {
 	 *	@param {Number} by
 	 *	@param {Number} bytes		32 bits
 	 */
-	setLine( ax, ay, bx, by, bytes ) {
+	setLine( ax, ay, bx, by, line ) {
+		
+		const { width, height } = this;
+		const data = new Uint32Array( this.data.buffer );
+		
+		let dx = bx - ax,
+			dy = by - ay;
+		
+		let length = Math.round( Math.hypot( dx, dy ) );
+		
+		let stepx = dx/length,
+			stepy = dy/length;
+		
+		///
+		if( !Number.isFinite( stepx ) ) stepx = 0;
+		if( !Number.isFinite( stepy ) ) stepy = 0;
+		
+		console.log( length,  line.length )
+		
+		///
+	//	for( let k = 0; k < length; k++ ) {
+		for( let k = 0; k < line.length; k++ ) {
+			
+			let x = Math.round( ax + k * stepx ),
+				y = Math.round( ay + k * stepy );
+			
+			if( outRange( x, 0, width ) || outRange( y, 0, height ) ) continue;
+			
+			let i = y * width + x;
+			
+			data[ i ] = line[ k ];
+			
+		}
+		
+	}
+
+	/** drawLine 
+	 *	
+	 *	@param {Number} ax
+	 *	@param {Number} ay
+	 *	@param {Number} bx
+	 *	@param {Number} by
+	 *	@param {Number} bytes		32 bits
+	 */
+	drawLine( ax, ay, bx, by, bytes ) {
 		
 		const { width, height } = this;
 		const data = new Uint32Array( this.data.buffer );
@@ -290,13 +334,13 @@ export default class RGBAImageData extends ImageData {
 	 *	
 	 *	@ref https://stackoverflow.com/questions/2976274/adjust-bitmap-image-brightness-contrast-using-c
 	 *
-	 *	@param {Number} c
+	 *	@param {Number} value
 	 */
-	contrast( c ) {
+	contrast( value ) {
 		
 		let data = this.data;
 		
-		let f = (259 * (c + 255)) / (255 * (259 - c));
+		let f = (259 * (value + 255)) / (255 * (259 - value));
 		
 		for( let i = 0; i < data.length; i += 4 ) {
 			

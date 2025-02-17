@@ -26,7 +26,7 @@ Veja o exemplo em [/docs/examples/rle-segmentation/](docs/examples/rle-segmentat
 
 ### Clahe 
 
-O [Clahe](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization) está disponivel nas classes [RGBAImageData]() e [GrayImageData]().
+O [Clahe](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization) está disponivel nas classes [RGBAImageData](docs/pt-BR/RGBAImageData.md) e [GrayImageData](docs/pt-BR/GrayImageData.md).
 
 Veja o exemplo em [/docs/examples/clahe/](docs/examples/clahe/).
 
@@ -56,6 +56,18 @@ Veja o exemplo em [/docs/examples/binary/](docs/examples/binary/).
 | Extract Boundary | ![](docs/examples/src/img/figure-16.png) | ![](docs/images/binary-boundary.png) |
 | Fill Holes       | ![](docs/examples/src/img/figure-63.jpg) | ![](docs/images/binary-holefilling.png) |
 | Thinning         | ![](docs/examples/src/img/horse.png)     | ![](docs/images/binary-thinning.png) |
+
+### Open Circle
+
+Embora não seja um metodo implementado, realizei um teste de "abrir um circulo" no exeplo [/docs/examples/open-circle/](docs/examples/open-circle/).
+
+
+![](docs/examples/src/img/iris.png) 
+
+
+![](docs/images/open-circle.png) 
+
+
 
 ## Instruções
 
