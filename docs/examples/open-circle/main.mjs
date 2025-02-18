@@ -32,7 +32,8 @@ window.addEventListener('load', function(e) {
 	}
 	
 	/// pixel.load() load a image as RGBAImageData
-	pixel.load('../src/img/iris.png', function( source, ctx ) {
+//	pixel.load('../src/img/iris.png', function( source, ctx ) {
+	pixel.load('../src/img/circles.jpg', function( source, ctx ) {
 		
 		let input = source.clone();
 		
@@ -55,18 +56,16 @@ window.addEventListener('load', function(e) {
 		/// 2.5. init Run Length Encoding Segmentation (RLESegmentation)
 		let objects = pixel.RLESegmentation.Create( source );
 		
-		/// remove objects with area smaller than 200 pixels
-		objects.remove(function(object) { return object.pixels < 100 });
+		objects.close();
 		
-	//	objects.close();
+		/// remove objects with area smaller than 200 pixels
+		objects.remove(function(object) { return object.pixels < 1500 });
 		
 		/// clear source
-	//	source.fill( BLACK );
+		source.fill( BLACK );
 		/// plot objects of RLE on source
-	//	objects.fill( source );
-	//	addStep( '2.5. Init RLESegmentation', source );
-		
-		
+		objects.fill( source );
+		addStep( 'Debug', source );
 		
 		for( let object of objects ) {
 			

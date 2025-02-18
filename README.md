@@ -61,11 +61,19 @@ Veja o exemplo em [/docs/examples/binary/](docs/examples/binary/).
 
 Embora não seja um metodo implementado, realizei um teste de "abrir um circulo" no exeplo [/docs/examples/open-circle/](docs/examples/open-circle/).
 
+| <img src="docs/examples/src/img/iris.png" width="300" /> |
+|:-:|
+| <img src="docs/images/open-circle.png" width="300" /> |
 
-![](docs/examples/src/img/iris.png) 
 
-
-![](docs/images/open-circle.png) 
+| <img src="docs/examples/src/img/circles.jpg" width="300" /> |
+|:-:|
+| <img src="docs/images/circle-open-a.png" width="300" /> |
+| <img src="docs/images/circle-open-b.png" width="300" /> |
+| <img src="docs/images/circle-open-c.png" width="300" /> |
+| <img src="docs/images/circle-open-d.png" width="300" /> |
+| <img src="docs/images/circle-open-e.png" width="300" /> |
+| <img src="docs/images/circle-open-f.png" width="300" /> |
 
 
 
