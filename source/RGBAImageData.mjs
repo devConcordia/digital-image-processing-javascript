@@ -23,6 +23,10 @@ export default class RGBAImageData extends ImageData {
 		
 	}
 	
+	///
+	/// 
+	///
+	
 	/** clone
 	 *	
 	 *	@return {RGBAImageData}
@@ -40,10 +44,13 @@ export default class RGBAImageData extends ImageData {
 	/** fill
 	 *	
 	 *	@param {Number} bytes			32 bits
+	 *	@return {RGBAImageData}
 	 */
 	fill( bytes = 0x00000000 ) {
 		
 		(new Uint32Array( this.data.buffer )).fill( bytes );
+		
+		return this;
 		
 	}
 
@@ -98,7 +105,8 @@ export default class RGBAImageData extends ImageData {
 	 *	@param {Number} ay
 	 *	@param {Number} bx
 	 *	@param {Number} by
-	 *	@param {Number} bytes		32 bits
+	 *	@param {Uint32Array} line
+	 *	@return {RGBAImageData}
 	 */
 	setLine( ax, ay, bx, by, line ) {
 		
@@ -117,8 +125,6 @@ export default class RGBAImageData extends ImageData {
 		if( !Number.isFinite( stepx ) ) stepx = 0;
 		if( !Number.isFinite( stepy ) ) stepy = 0;
 		
-		console.log( length,  line.length )
-		
 		///
 	//	for( let k = 0; k < length; k++ ) {
 		for( let k = 0; k < line.length; k++ ) {
@@ -134,6 +140,8 @@ export default class RGBAImageData extends ImageData {
 			
 		}
 		
+		return this;
+		
 	}
 
 	/** drawLine 
@@ -143,6 +151,7 @@ export default class RGBAImageData extends ImageData {
 	 *	@param {Number} bx
 	 *	@param {Number} by
 	 *	@param {Number} bytes		32 bits
+	 *	@return {RGBAImageData}
 	 */
 	drawLine( ax, ay, bx, by, bytes ) {
 		
@@ -175,6 +184,8 @@ export default class RGBAImageData extends ImageData {
 			
 		}
 		
+		return this;
+		
 	}
 
 	/** crop
@@ -183,6 +194,7 @@ export default class RGBAImageData extends ImageData {
 	 *	@param {Number} ry				rect y
 	 *	@param {Number} rw				rect width
 	 *	@param {Number} rh				rect height
+	 *	@return {RGBAImageData}
 	 */
 	crop( rx, ry, rw, rh ) {
 		
@@ -216,7 +228,7 @@ export default class RGBAImageData extends ImageData {
 	 *	
 	 *	@param {Number} sx
 	 *	@param {Number} sy
-	 *	@return {ImageData}
+	 *	@return {RGBAImageData}
 	 */
 	resize( sx = 1, sy = 1 ) {
 		
@@ -255,10 +267,13 @@ export default class RGBAImageData extends ImageData {
 		
 	}
 	
-	
+	///
+	/// Basic Operations
+	///
 	
 	/** grayScale
 	 *	
+	 *	@return {RGBAImageData}
 	 */
 	grayScale() {
 		
@@ -273,7 +288,9 @@ export default class RGBAImageData extends ImageData {
 			data[ i+2 ] = v;
 
 		}
-
+		
+		return this;
+		
 	}
 
 	/**	brightness
@@ -281,6 +298,7 @@ export default class RGBAImageData extends ImageData {
 	 *	@param {Number} sr		red brightness scale
 	 *	@param {Number} sg		green brightness scale
 	 *	@param {Number} sb		blue brightness scale
+	 *	@return {RGBAImageData}
 	 */
 	brightness( sr = 1, sg = sr, sb = sg ) {
 		
@@ -294,10 +312,13 @@ export default class RGBAImageData extends ImageData {
 			
 		}
 		
+		return this;
+		
 	}
 
 	/**	negative
 	 *	
+	 *	@return {RGBAImageData}
 	 */
 	negative() {
 		
@@ -310,7 +331,9 @@ export default class RGBAImageData extends ImageData {
 			data[i+2] = 255 - data[i+2];
 			
 		}
-		
+	
+		return this;
+			
 	}
 
 	/**	contrast
@@ -335,6 +358,7 @@ export default class RGBAImageData extends ImageData {
 	 *	@ref https://stackoverflow.com/questions/2976274/adjust-bitmap-image-brightness-contrast-using-c
 	 *
 	 *	@param {Number} value
+	 *	@return {RGBAImageData}
 	 */
 	contrast( value ) {
 		
@@ -350,10 +374,17 @@ export default class RGBAImageData extends ImageData {
 			
 		}
 		
+		return this;
+		
 	}
 
 	/** threshold
 	 *	
+	 *	
+	 *	@param {Number} value
+	 *	@param {Number} min
+	 *	@param {Number} max
+	 *	@return {RGBAImageData}
 	 */
 	threshold( value, min = 0, max = 255 ) {
 		
@@ -368,12 +399,18 @@ export default class RGBAImageData extends ImageData {
 			
 		}
 
+		return this;
+		
 	}
 
 	/** thresholdMean
 	 *	
+	 *	@param {Number} stepper
+	 *	@param {Number} min
+	 *	@param {Number} max
+	 *	@return {RGBAImageData}
 	 */
-	thresholdMean( min = 0, max = 255, stepper = 5 ) {
+	thresholdMean( stepper = 5, min = 0, max = 255 ) {
 		
 		let data = this.data;
 		
@@ -408,9 +445,13 @@ export default class RGBAImageData extends ImageData {
 
 		}
 		
+		return this;
+		
 	}
 	
-	
+	///
+	/// Blend
+	///
 	
 	/** blend
 	 *	
@@ -556,13 +597,16 @@ export default class RGBAImageData extends ImageData {
 		
 	}
 	
+	///
+	/// Concolution
+	///
 	
 	/** conv
 	 *	
 	 *	Operação de convolução utilizando os 3 canais de uma imagem.
 	 *	
 	 *	@param {Matrix} matrix		a square matrix
-	 *	@return {ImageData}
+	 *	@return {RGBAImageData}
 	 */
 	conv( matrix ) {
 		
@@ -637,16 +681,18 @@ export default class RGBAImageData extends ImageData {
 			}
 		}
 		
+		return this;
+		
 	}
 
-	
-	
-	
-	
+	///
+	/// Morphology
+	///
 	
 	/** dilate
 	 *	
 	 *	@param {Matrix} matrix
+	 *	@return {RGBAImageData}
 	 */
 	dilate( matrix ) {
 			
@@ -699,6 +745,7 @@ export default class RGBAImageData extends ImageData {
 	/** erode
 	 *	
 	 *	@param {Matrix} matrix
+	 *	@return {RGBAImageData}
 	 */
 	erode( matrix ) {
 		
@@ -751,27 +798,28 @@ export default class RGBAImageData extends ImageData {
 	/** open
 	 *	
 	 *	@param {Matrix} matrix
+	 *	@return {RGBAImageData}
 	 */
-	open( size ) {
+	open( matrix ) {
 		
-		return this.erode( size ).dilate( size );
+		return this.erode( matrix ).dilate( matrix );
 		
 	}
 
 	/** close
 	 *	
 	 *	@param {Matrix} matrix
+	 *	@return {RGBAImageData}
 	 */
-	close( size ) {
+	close( matrix ) {
 		
-		return this.dilate( size ).erode( size );
+		return this.dilate( matrix ).erode( matrix );
 		
 	}
 
-	
-	
-	
-	
+	///
+	/// CLAHE
+	///
 	
 	/** getHistogram
 	 *	
@@ -823,7 +871,8 @@ export default class RGBAImageData extends ImageData {
 	}
 
 	/** clahe
-	 *		
+	 *	
+	 *	@return {RGBAImageData}
 	 */
 	clahe() {
 		
@@ -844,6 +893,8 @@ export default class RGBAImageData extends ImageData {
 			data[ i+2 ] = channelB[ data[ i+2 ] ];
 			
 		}
+		
+		return this;
 		
 	}
 

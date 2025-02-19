@@ -1,5 +1,27 @@
 
+import { clamp } from './utils.mjs';
 import Device from './Device.mjs';
+
+/** hue
+ *
+ *	@param {Number} t
+ *	@param {Number} p
+ *	@param {Number} q
+ *	@return {Number}
+ */
+function hue( t, p, q ) {
+
+	if( t < 0 ) t += 1;
+	if( t > 1 ) t -= 1;
+
+	if( t < 1/6 ) return p + (q - p) * 6 * t;
+	if( t < 1/2 ) return q;
+	if( t < 2/3 ) return p + (q - p) * (2/3 - t) * 6;
+
+	return p;
+
+};
+
 
 /** Color [ R, G, B, A ]
  *	
@@ -17,17 +39,23 @@ export default class Color extends Uint8Array {
 	get b() { return this[2] }
 	get a() { return this[3] }
 	
-	set r( v ) { this[0] = Math.min(255,Math.max(0, v)) }
-	set g( v ) { this[1] = Math.min(255,Math.max(0, v)) }
-	set b( v ) { this[2] = Math.min(255,Math.max(0, v)) }
-	set a( v ) { this[3] = Math.min(255,Math.max(0, v)) }
-	
+	set r( v ) { this[0] = clamp(v) }
+	set g( v ) { this[1] = clamp(v) }
+	set b( v ) { this[2] = clamp(v) }
+	set a( v ) { this[3] = clamp(v) }
+
 	get hex() {
 		
 		let [ r, g, b ] = this;
 		
 		return ((r << 16) | (g << 8) | b) >>> 0;
 		
+	}
+	
+	toString() { 
+		
+		return '#'+ this.hex.toString(16).toUpperCase().padStart(6,'0')
+	
 	}
 	
 	/* */
@@ -90,6 +118,191 @@ export default class Color extends Uint8Array {
 	
 	/* */
 	
+	getCMYK() {
+
+		let [ r, g, b ] = this;
+		
+		let c = 0, 
+			m = 0, 
+			y = 0,
+			k = 1 - Math.max( r, g, b );
+
+		if( k != 1 ) {
+			
+			c = ( 1-r-k )/( 1-k );
+			m = ( 1-g-k )/( 1-k );
+			y = ( 1-b-k )/( 1-k );
+
+		}
+
+		return [ c, m, y, k ];
+
+	}
+
+	setCMYK( c, m, y, k ) {
+		
+		c = 1 - c;
+		m = 1 - m;
+		y = 1 - y;
+		k = 1 - k;
+		
+		this[0] = clamp( c * k * 256 );
+		this[1] = clamp( m * k * 256 );
+		this[2] = clamp( y * k * 256 );
+		
+		return this;
+		
+	}
+
+	getHSL() {
+		
+		let [ r, g, b ] = this;
+		
+		let max = Math.max( r, g, b ),
+			min = Math.min( r, g, b );
+
+		let h = 0,
+			s = 0,
+			l = ( max + min )/2;
+
+		if( max !== min ) {
+
+			let d = max - min;
+
+			s = ( l > 0.5 )? d/(2 - max - min) : d/( max+min );
+
+			switch( max ) {
+
+				case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+				case g: h = (b - r) / d + 2; break;
+				case b: h = (r - g) / d + 4; break;
+
+			}
+
+			h /= 6;
+		}
+
+		return [ h, s, l ];
+
+	}
+
+	setHSL( h, s, l ) {
+
+		if( s == 0 ) {
+			
+			let grayScale = clamp( l * 256 );
+			
+			this[0] = grayScale;
+			this[1] = grayScale;
+			this[2] = grayScale;
+			
+		} else {
+			
+			let q = ( l < 0.5 )? (l * ( 1 + s )) : (l + s - l * s),
+				p = 2 * l - q;
+			
+			h = h/360;
+			
+			let r = hue( h + 1/3, p, q ), 
+				g = hue( h, p, q ),
+				b = hue( h - 1/3, p, q );
+			
+			this[0] = clamp( r * 256 );
+			this[1] = clamp( g * 256 );
+			this[2] = clamp( b * 256 );
+			
+		}
+		
+		return this;
+		
+	}
+	
+	getHSV() {
+		
+		let [ r, g, b ] = this;
+		
+		let min = Math.min( r, g, b ),
+			max = Math.max( r, g, b ),
+			delta = max - min;
+
+		if( delta == 0 ) return [ 0, 0, 0 ];
+
+		let h;
+
+		switch( max ) {
+			
+			case r: h = ( g - b )/delta; break;
+			case g: h = 2 + ( b - r )/delta; break;
+			case b: h = 4 + ( r - g )/delta; break;
+			
+		}
+
+		h /= 6;
+
+		if( h < 0 ) h += 1;
+
+		return [ h, delta / max, max ];
+
+	}
+
+	setHSV( h, s, v ) {
+
+		let h60 = h/60;
+		
+		let f = h60 - Math.floor( h60 ),
+			r, g, b;
+
+		switch( Math.floor( h60 )%6 ) {
+
+			case 0:
+					r = v;
+					g = v * (1 - (1 - f) * s);
+					b = v * (1 - s);
+				break;
+
+			case 1:
+					r = v * (1 - f * s);
+					g = v;
+					b = v * (1 - s);
+				break;
+
+			case 2:
+					r = v * (1 - s);
+					g = v;
+					b = v * (1 - (1 - f) * s);
+				break;
+
+			case 3:
+					r = v * (1 - s);
+					g = v * (1 - f * s);
+					b = v;
+				break;
+
+			case 4:
+					r = v * (1 - (1 - f) * s);
+					g = v * (1 - s);
+					b = v;
+				break;
+
+			case 5:
+					r = v;
+					g = v * (1 - s);
+					b = v * (1 - f * s);
+				break;
+
+		}
+
+		this[0] = clamp( r * 256 );
+		this[1] = clamp( g * 256 );
+		this[2] = clamp( b * 256 );
+		
+		return this;
+		
+	}
+
+	
+	/* */
+	
 	getBytesLE() {
 		
 		let [ r, g, b, a ] = this;
@@ -135,14 +348,6 @@ export default class Color extends Uint8Array {
 	}
 	
 //	static FromByte() {}
-	
-	/* */
-	
-	toString() { 
-		
-		return '#'+ this.hex.toString(16).toUpperCase().padStart(6,'0')
-	
-	}
 	
 }
 
