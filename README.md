@@ -57,6 +57,8 @@ Veja o exemplo em [/docs/examples/binary/](docs/examples/binary/).
 | Fill Holes       | ![](docs/examples/src/img/figure-63.jpg) | ![](docs/images/binary-holefilling.png) |
 | Thinning         | ![](docs/examples/src/img/horse.png)     | ![](docs/images/binary-thinning.png) |
 
+<!-- -- >
+
 ### Open Circle
 
 Embora não seja um metodo implementado, realizei um teste de "abrir um circulo" no exeplo [/docs/examples/open-circle/](docs/examples/open-circle/).
@@ -74,7 +76,7 @@ Embora não seja um metodo implementado, realizei um teste de "abrir um circulo"
 |:-:|
 | ![](docs/images/open-circle.png) |
 
-
+<!-- -->
 
 ## Instruções
 
