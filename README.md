@@ -1,11 +1,8 @@
 
 # pixel
 
-Este projeto é um compilado de alguns estudos que fiz ao longo dos ultimos anos, principalmente com base no livro Digital Image Processing 4e (Rafael C. Gonzalez, Richard E. Woods).
-Não me preocupei com questões de desempenho, ou seja, *para aplicações de produção recomendo utilizar recuros mais apropriados como o [OpenCV](https://opencv.org/)*.
-
-Esse projeto contempla metodos como [Clahe](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization), [Detecção de bordas](https://en.wikipedia.org/wiki/Edge_detection), , entre outros.
-Para mais informações, veja a documentação em [docs/pt-BR/pixel.md](docs/pt-BR/pixel.md).
+Este projeto é um compilado de alguns estudos que fiz alguns anos atrás.
+Entre as referências que utilizei o livro Digital Image Processing 4e (Rafael C. Gonzalez, Richard E. Woods) e o projeto [FastImageEx](https://sourceforge.net/projects/fastimageex/).
 
 <!--
 ![](docs/images/folder.png)
