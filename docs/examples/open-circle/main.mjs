@@ -64,7 +64,7 @@ window.addEventListener('load', function(e) {
 		/// clear source
 		source.fill( BLACK );
 		/// plot objects of RLE on source
-		objects.fill( source );
+		objects.stamp( source );
 		addStep( 'Debug', source );
 		
 		for( let object of objects ) {
@@ -107,8 +107,8 @@ window.addEventListener('load', function(e) {
 			let oh = lines.length,
 				ow = lines[0].length;
 			
-		//	let output = new pixel.RGBAImageData( ow, oh );
-			let output = new pixel.RGBAImageData( oh, ow );
+		//	let output = new pixel.ColorImageData( ow, oh );
+			let output = new pixel.ColorImageData( oh, ow );
 			let buffer = new Uint32Array( output.data.buffer );
 			
 			for( let y = 0; y < oh; y++ ) {

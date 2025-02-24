@@ -20,7 +20,7 @@ export default class RLESegmentation {
 	
 	/** Create
 	 *	
-	 *	@param  {ImageData | GrayImageData} input
+	 *	@param  {ImageData | ColorImageData | GrayImageData} input
 	 *	@return  {RLESegmentation}
 	 */
 	static Create( input ) {
@@ -28,13 +28,13 @@ export default class RLESegmentation {
 		/// {Array[][]} lines		[[ {RLETrace}, ... ], ...]
 		let lines;
 		
-		if( input instanceof ImageData ) {
-			
-			lines = getLinesFromImageData( input );
-			
-		} else if( input instanceof GrayImageData ) {
+		if( input instanceof GrayImageData ) {
 			
 			lines = getLinesFromGrayImageData( input );
+			
+		} else {
+			
+			lines = getLinesFromImageData( input );
 			
 		}
 		
@@ -119,7 +119,12 @@ export default class RLESegmentation {
 		
 	}
 	
-	fill( imagedata ) {
+	
+	/** stamp
+	 *	
+	 *	@param {ImageData} imagedata
+	 */
+	stamp( imagedata ) {
 		
 		let width = imagedata.width;
 		let buffer = new Uint32Array( imagedata.data.buffer );

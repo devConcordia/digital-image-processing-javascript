@@ -1,7 +1,7 @@
 
-# RGBAImageData
+# ColorImageData
 
-A classe [RGBAImageData](../../source/RGBAImageData.mjs) realiza operações com os três canais de cores (Red, Green, Blue).
+A classe [ColorImageData](../../source/ColorImageData.mjs) realiza operações com os três canais de cores (Red, Green, Blue).
 
 > [!WARNING]
 > Essa classe é uma extenção de [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData).
@@ -13,7 +13,6 @@ A classe [RGBAImageData](../../source/RGBAImageData.mjs) realiza operações com
 - [crop](#crop)
 - [resize](#resize)
 - [fill](#fill)
-- [drawLine](#drawLine)
 - [getLine](#getLine)
 - [setLine](#setLine)
 
@@ -47,10 +46,10 @@ A classe [RGBAImageData](../../source/RGBAImageData.mjs) realiza operações com
 
 ### (static) Extends
 
-Altera o [prototype](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Object/proto) de um [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) como [RGBAImageData](../../source/RGBAImageData.mjs).
+Altera o [prototype](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Object/proto) de um [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) como [ColorImageData](../../source/ColorImageData.mjs).
 
 > [!Note]
-> Por padrão, ao utilizar o método `pixel.load()`, o [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) resultante já terá sido realizado o `RGBAImageData.Extends()`.
+> Por padrão, ao utilizar o método `pixel.load()`, o [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) resultante já terá sido realizado o `ColorImageData.Extends()`.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
@@ -60,27 +59,27 @@ Altera o [prototype](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Ref
 
 ```javascript
 
-pixel.RGBAImageData.Extends( imagedata );
+pixel.ColorImageData.Extends( imagedata );
 
 ```
 
 ### blend
 
-Realiza a mesclagem de dois [RGBAImageData]().
+Realiza a mesclagem de dois [ColorImageData]().
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| input     | [RGBAImageData]() | Segunda Imagem para a mesclagem |
-| as        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Brilho da primeira imagem (instancia referenciada). Valor entre `0.0 < x 1.0`. |
+| input     | [ColorImageData]() | Segunda Imagem para a mesclagem |
+| as        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Brilho da primeira imagem (instância referenciada). Valor entre `0.0 < x 1.0`. |
 | bs        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Brilho da segunda imagem (parametro `input`). Valor entre `0.0 < x 1.0`. |
 
 #### Retorno
 
-Uma nova [RGBAImageData]() com a menor dimensão entre as duas imagens informadas.
+Uma nova [ColorImageData]() com a menor dimensão entre as duas imagens informadas.
 
 #### Exemplo
 
-Seja, `imageA` e `imageB` instancias de [RGBAImageData](). É gerado uma nova imagem (`imageC`) da mesclagem entre `imageA` e `imageB`.
+Seja, `imageA` e `imageB` instâncias de [ColorImageData](). É gerado uma nova imagem (`imageC`) da mesclagem entre `imageA` e `imageB`.
 
 ```javascript
 
@@ -92,27 +91,27 @@ pixel.createContext( imageC, document.body );
 
 ### blendMin
 
-Realiza a mesclagem dos menores valores entre dois [RGBAImageData]().
+Realiza a mesclagem dos menores valores entre dois [ColorImageData]().
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| input     | [RGBAImageData]() | Segunda Imagem para a mesclagem |
+| input     | [ColorImageData]() | Segunda Imagem para a mesclagem |
 
 #### Retorno
 
-Uma nova [RGBAImageData]() com a menor dimensão entre as duas imagens informadas.
+Uma nova [ColorImageData]() com a menor dimensão entre as duas imagens informadas.
 
 ### blendMax
 
-Realiza a mesclagem dos maiores valores entre dois [RGBAImageData]().
+Realiza a mesclagem dos maiores valores entre dois [ColorImageData]().
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| input     | [RGBAImageData]() | Segunda Imagem para a mesclagem |
+| input     | [ColorImageData]() | Segunda Imagem para a mesclagem |
 
 #### Retorno
 
-Uma nova [RGBAImageData]() com a menor dimensão entre as duas imagens informadas.
+Uma nova [ColorImageData]() com a menor dimensão entre as duas imagens informadas.
 
 ### brightness
 
@@ -126,7 +125,7 @@ Ajuste global da intensidade dos pixels, é realizado multiplicando os valores d
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
 ### clahe
@@ -179,12 +178,12 @@ Pode ser utilizada para preencher pequenos buracos e conectar regiões próximas
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
 ### contrast
 
-Realiza o contraste da [RGBAImageData]().
+Realiza o contraste da [ColorImageData]().
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
@@ -192,7 +191,7 @@ Realiza o contraste da [RGBAImageData]().
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
 ### conv
@@ -205,7 +204,7 @@ O metodo `conv` realiza a [convolução](https://en.wikipedia.org/wiki/Kernel_\(
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
 #### Exemplos
@@ -232,7 +231,7 @@ pixel.load( "path/to/image", function( imagedata ) {
 
 ### crop
 
-Realiza o recorte da [RGBAImageData]().
+Realiza o recorte da [ColorImageData]().
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
@@ -243,11 +242,11 @@ Realiza o recorte da [RGBAImageData]().
 
 #### Retorno
 
-O retorno é uma nova instâcia de ([RGBAImageData]()) com as dimensões `rw`x`rh`.
+O retorno é uma nova instâcia de ([ColorImageData]()) com as dimensões `rw`x`rh`.
 
 #### Exemplo
 
-Seja `imageA` uma instancia de [RGBAImageData]().
+Seja `imageA` uma instância de [ColorImageData]().
 
 ```javascript
 
@@ -267,24 +266,7 @@ A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma oper
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
-Desse modo é possivel realizar o encadeamento de métodos.
-
-### drawLine
-
-Desenha uma linha do ponto `ax,ay` ao `bx,by`.
-
-| Argumento | Tipo | Descrição |
-|-----------|------|-----------|
-| ax        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `X` do inicio da linha |
-| ay        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `Y` do inicio da linha |
-| bx        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `X` do final da linha |
-| by        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `Y` do final da linha |
-| bytes     | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Cor em hexadecimal da linha a ser desenha (32 bits). **Recomendação:** Utilizar o meoto `getBytes()` de uma instância de [Color](Color.md#getBytes). |
-
-#### Retorno
-
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
 ### erode
@@ -297,7 +279,7 @@ A [erosão](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma operaçã
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
 ### fill
@@ -310,8 +292,18 @@ Preenche toda a imgem com uma única cor.
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+#### Exemplo
+
+Seja `source` uma instância de [ColorImageData](), a imagem será preenchida por vermelho.
+
+```javascript
+
+source.fill( pixel.Color.Hex( 0xff0000 ) );
+
+```
 
 ### getHistogram
 
@@ -332,9 +324,10 @@ Cada item é um [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
 #### Exemplo
 
-Seja `source` uma instancia de [RGBAImageData]().
+Seja `source` uma instância de [ColorImageData]().
 
-```
+```javascript
+
 let histogramData = source.getHistogram();
 
 let redChannel = histogramData[0];
@@ -364,7 +357,7 @@ Altera a imagem para tons de cinza. Note que a imagem ainda possui os 4 canais (
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
 ### negative
@@ -373,7 +366,7 @@ Inverte os valores de RGB.
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
 ### open
@@ -388,12 +381,12 @@ Pode ser utilizada usada para remover ruídos e suavizar contornos sem afetar si
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
 ### resize
 
-Redimensiona a [RGBAImageData]().
+Redimensiona a [ColorImageData]().
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
@@ -402,11 +395,13 @@ Redimensiona a [RGBAImageData]().
 
 #### Retorno
 
-O retorno é uma nova instâcia de ([RGBAImageData]()) com as dimensões multiplicadas (`sx*width, sy*height`).
+O retorno é uma nova instâcia de ([ColorImageData]()) com as dimensões multiplicadas (`sx*width, sy*height`).
 
 ### setLine
 
-Define o valor dos pixeis do ponto `ax,ay` ao `bx,by`.
+Define o valor dos pixeis do ponto `ax,ay` ao `bx,by`. Note que o parâmetro `bytes` pode ser 
+- [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number): A linha toda será preenchida com o mesmo valor; ou
+- [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array): A linha será preenchida com os valores da sequência informada.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
@@ -414,13 +409,12 @@ Define o valor dos pixeis do ponto `ax,ay` ao `bx,by`.
 | ay        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `Y` do inicio da linha |
 | bx        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `X` do final da linha |
 | by        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `Y` do final da linha |
-| line      | [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array) | Valores de cada pixel que será posto na linha. **Recomendação:** Utilizar o meoto `getBytes()` de uma instância de [Color](Color.md#getBytes). |
+| bytes     | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array) | Valores em que cada pixel que será preenchido na linha. **Recomendação:** Utilizar o meoto `getBytes()` de uma instância de [Color](Color.md#getBytes). |
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
-
 
 ### threshold
 
@@ -434,7 +428,7 @@ Torna a imagem em preto e branco. Note que a imagem ainda possui os 4 canais (RG
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
 ### thresholdMean
@@ -449,6 +443,6 @@ Torna a imagem em preto e branco, em que o `threshold` é o valor medio das inte
 
 #### Retorno
 
-O retorno é a propria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
+O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 

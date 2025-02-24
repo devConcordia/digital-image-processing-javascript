@@ -2,15 +2,14 @@
 import { clamp, calcCdf, outRange } from './common/utils.mjs';
 
 
-/** RGBAImageData
- *	
+/** ColorImageData
  *	
  */
-export default class RGBAImageData extends ImageData {
+export default class ColorImageData extends ImageData {
 	
 	/** Extends
 	 *	
-	 *	Change prototype of a ImageData to has RGBAImageData prototype
+	 *	Change prototype of a ImageData to has ColorImageData prototype
 	 *	
 	 *	@param {ImageData} target
 	 */
@@ -19,7 +18,7 @@ export default class RGBAImageData extends ImageData {
 		if( !(target instanceof ImageData) )
 				throw new Error('@param target is\'t a ImageData');
 		
-		Object.setPrototypeOf( target, RGBAImageData.prototype );
+		Object.setPrototypeOf( target, ColorImageData.prototype );
 		
 	}
 	
@@ -27,13 +26,23 @@ export default class RGBAImageData extends ImageData {
 	/// 
 	///
 	
+	///  "Array Buffer Sharing" ou "View Aliasing"
+	get data32() {
+		
+		if( this.bufferSharing )
+			return this.bufferSharing;
+		
+		return this.bufferSharing = new Uint32Array( this.data.buffer );
+		
+	}
+	
 	/** clone
 	 *	
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	clone() {
 		
-		let output = new RGBAImageData( this.width, this.height );
+		let output = new ColorImageData( this.width, this.height );
 		
 		output.data.set( this.data, 0 );
 		
@@ -44,11 +53,11 @@ export default class RGBAImageData extends ImageData {
 	/** fill
 	 *	
 	 *	@param {Number} bytes			32 bits
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	fill( bytes = 0x00000000 ) {
 		
-		(new Uint32Array( this.data.buffer )).fill( bytes );
+		this.data32.fill( bytes );
 		
 		return this;
 		
@@ -65,7 +74,7 @@ export default class RGBAImageData extends ImageData {
 	getLine( ax, ay, bx, by ) {
 		
 		const { width, height } = this;
-		const data = new Uint32Array( this.data.buffer );
+		const data = this.data32;
 		
 		let dx = bx - ax,
 			dy = by - ay;
@@ -105,13 +114,13 @@ export default class RGBAImageData extends ImageData {
 	 *	@param {Number} ay
 	 *	@param {Number} bx
 	 *	@param {Number} by
-	 *	@param {Uint32Array} line
-	 *	@return {RGBAImageData}
+	 *	@param {Number} or {Uint32Array} bytes
+	 *	@return {ColorImageData}
 	 */
-	setLine( ax, ay, bx, by, line ) {
+	setLine( ax, ay, bx, by, bytes ) {
 		
 		const { width, height } = this;
-		const data = new Uint32Array( this.data.buffer );
+		const data = this.data32;
 		
 		let dx = bx - ax,
 			dy = by - ay;
@@ -125,63 +134,41 @@ export default class RGBAImageData extends ImageData {
 		if( !Number.isFinite( stepx ) ) stepx = 0;
 		if( !Number.isFinite( stepy ) ) stepy = 0;
 		
-		///
-	//	for( let k = 0; k < length; k++ ) {
-		for( let k = 0; k < line.length; k++ ) {
+		/// check if `bytes` is iterable, like a Array or TypedArray
+		if( typeof bytes[Symbol.iterator] == 'function' ) {
 			
-			let x = Math.round( ax + k * stepx ),
-				y = Math.round( ay + k * stepy );
+			let stepi = bytes.length/length;
 			
-			if( outRange( x, 0, width ) || outRange( y, 0, height ) ) continue;
+			///
+			for( let k = 0; k < length; k++ ) {
+				
+				let x = Math.round( ax + k * stepx ),
+					y = Math.round( ay + k * stepy );
+				
+				if( outRange( x, 0, width ) || outRange( y, 0, height ) ) continue;
+				
+				let i = y * width + x;
+				
+				data[ i ] = bytes[ Math.floor( k * stepi ) ];
+				
+			}
 			
-			let i = y * width + x;
+		} else {
 			
-			data[ i ] = line[ k ];
-			
-		}
-		
-		return this;
-		
-	}
+			///
+			for( let k = 0; k < length; k++ ) {
+				
+				let x = Math.round( ax + k * stepx ),
+					y = Math.round( ay + k * stepy );
+				
+				if( outRange( x, 0, width ) || outRange( y, 0, height ) ) continue;
+				
+				let i = y * width + x;
+				
+				data[ i ] = bytes;
+				
+			}
 
-	/** drawLine 
-	 *	
-	 *	@param {Number} ax
-	 *	@param {Number} ay
-	 *	@param {Number} bx
-	 *	@param {Number} by
-	 *	@param {Number} bytes		32 bits
-	 *	@return {RGBAImageData}
-	 */
-	drawLine( ax, ay, bx, by, bytes ) {
-		
-		const { width, height } = this;
-		const data = new Uint32Array( this.data.buffer );
-		
-		let dx = bx - ax,
-			dy = by - ay;
-		
-		let length = Math.round( Math.hypot( dx, dy ) );
-		
-		let stepx = dx/length,
-			stepy = dy/length;
-		
-		///
-		if( !Number.isFinite( stepx ) ) stepx = 0;
-		if( !Number.isFinite( stepy ) ) stepy = 0;
-		
-		///
-		for( let k = 0; k < length; k++ ) {
-			
-			let x = Math.round( ax + k * stepx ),
-				y = Math.round( ay + k * stepy );
-			
-			if( outRange( x, 0, width ) || outRange( y, 0, height ) ) continue;
-			
-			let i = y * width + x;
-			
-			data[ i ] = bytes;
-			
 		}
 		
 		return this;
@@ -194,15 +181,15 @@ export default class RGBAImageData extends ImageData {
 	 *	@param {Number} ry				rect y
 	 *	@param {Number} rw				rect width
 	 *	@param {Number} rh				rect height
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	crop( rx, ry, rw, rh ) {
 		
 		let width = this.width;
-		let inBuffer = new Uint32Array( this.data.buffer );
+		let inBuffer = this.data32
 		
-		let output = new RGBAImageData( rw, rh );
-		let outBuffer = new Uint32Array( output.data.buffer );
+		let output = new ColorImageData( rw, rh );
+		let outBuffer = output.data32;
 		
 		for( let y = 0; y < rh; y++ ) {
 			
@@ -228,7 +215,7 @@ export default class RGBAImageData extends ImageData {
 	 *	
 	 *	@param {Number} sx
 	 *	@param {Number} sy
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	resize( sx = 1, sy = 1 ) {
 		
@@ -239,10 +226,10 @@ export default class RGBAImageData extends ImageData {
 		let w = Math.floor( width * sx ),
 			h = Math.floor( height * sy );
 			
-		let inBuffer = new Uint32Array( this.data.buffer );
+		let inBuffer = this.data32;
 
-		let output = new RGBAImageData( w, h );
-		let outBuffer = new Uint32Array( output.data.buffer );
+		let output = new ColorImageData( w, h );
+		let outBuffer = output.data32;
 		
 		for( let y = 0; y < h; y++ ) {
 			
@@ -273,7 +260,7 @@ export default class RGBAImageData extends ImageData {
 	
 	/** grayScale
 	 *	
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	grayScale() {
 		
@@ -298,7 +285,7 @@ export default class RGBAImageData extends ImageData {
 	 *	@param {Number} sr		red brightness scale
 	 *	@param {Number} sg		green brightness scale
 	 *	@param {Number} sb		blue brightness scale
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	brightness( sr = 1, sg = sr, sb = sg ) {
 		
@@ -318,7 +305,7 @@ export default class RGBAImageData extends ImageData {
 
 	/**	negative
 	 *	
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	negative() {
 		
@@ -358,7 +345,7 @@ export default class RGBAImageData extends ImageData {
 	 *	@ref https://stackoverflow.com/questions/2976274/adjust-bitmap-image-brightness-contrast-using-c
 	 *
 	 *	@param {Number} value
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	contrast( value ) {
 		
@@ -384,7 +371,7 @@ export default class RGBAImageData extends ImageData {
 	 *	@param {Number} value
 	 *	@param {Number} min
 	 *	@param {Number} max
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	threshold( value, min = 0, max = 255 ) {
 		
@@ -408,7 +395,7 @@ export default class RGBAImageData extends ImageData {
 	 *	@param {Number} stepper
 	 *	@param {Number} min
 	 *	@param {Number} max
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	thresholdMean( stepper = 5, min = 0, max = 255 ) {
 		
@@ -455,10 +442,10 @@ export default class RGBAImageData extends ImageData {
 	
 	/** blend
 	 *	
-	 *	@param {RGBAImageData} input
+	 *	@param {ColorImageData} input
 	 *	@param {Number} as			brightness for A image (this)
 	 *	@param {Number} bs			brightness for B image (input)
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	blend( input, as = .5, bs = .5 ) {
 		
@@ -498,14 +485,14 @@ export default class RGBAImageData extends ImageData {
 			}
 		}
 		
-		return new RGBAImageData( output, minw, minh );
+		return new ColorImageData( output, minw, minh );
 		
 	}
 
 	/** blendMin
 	 *	
-	 *	@param {RGBAImageData} input
-	 *	@return {RGBAImageData}
+	 *	@param {ColorImageData} input
+	 *	@return {ColorImageData}
 	 */
 	blendMin( input ) {
 		
@@ -546,14 +533,14 @@ export default class RGBAImageData extends ImageData {
 			}
 		}
 		
-		return new RGBAImageData( output, minw, minh );
+		return new ColorImageData( output, minw, minh );
 		
 	}
 
 	/** blendMax
 	 *	
-	 *	@param {RGBAImageData} input
-	 *	@return {RGBAImageData}
+	 *	@param {ColorImageData} input
+	 *	@return {ColorImageData}
 	 */
 	blendMax( input ) {
 		
@@ -593,7 +580,7 @@ export default class RGBAImageData extends ImageData {
 			}
 		}
 		
-		return new RGBAImageData( output, minw, minh );
+		return new ColorImageData( output, minw, minh );
 		
 	}
 	
@@ -606,7 +593,7 @@ export default class RGBAImageData extends ImageData {
 	 *	Operação de convolução utilizando os 3 canais de uma imagem.
 	 *	
 	 *	@param {Matrix} matrix		a square matrix
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	conv( matrix ) {
 		
@@ -692,7 +679,7 @@ export default class RGBAImageData extends ImageData {
 	/** dilate
 	 *	
 	 *	@param {Matrix} matrix
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	dilate( matrix ) {
 			
@@ -745,7 +732,7 @@ export default class RGBAImageData extends ImageData {
 	/** erode
 	 *	
 	 *	@param {Matrix} matrix
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	erode( matrix ) {
 		
@@ -798,7 +785,7 @@ export default class RGBAImageData extends ImageData {
 	/** open
 	 *	
 	 *	@param {Matrix} matrix
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	open( matrix ) {
 		
@@ -809,7 +796,7 @@ export default class RGBAImageData extends ImageData {
 	/** close
 	 *	
 	 *	@param {Matrix} matrix
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	close( matrix ) {
 		
@@ -872,7 +859,7 @@ export default class RGBAImageData extends ImageData {
 
 	/** clahe
 	 *	
-	 *	@return {RGBAImageData}
+	 *	@return {ColorImageData}
 	 */
 	clahe() {
 		

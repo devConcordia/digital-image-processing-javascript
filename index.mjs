@@ -4,7 +4,8 @@ import Point from './source/common/Point.mjs';
 import Color from './source/common/Color.mjs';
 import Matrix from './source/common/Matrix.mjs';
 
-import RGBAImageData from './source/RGBAImageData.mjs';
+//import RGBAImageData from './source/RGBAImageData.mjs';
+import ColorImageData from './source/ColorImageData.mjs';
 import GrayImageData from './source/GrayImageData.mjs';
 import BinaryImageData from './source/BinaryImageData.mjs';
 
@@ -29,7 +30,7 @@ function load( path, handlerCallback ) {
 		const imagedata = context.getImageData(0,0,source.width, source.height);
 		
 		/// extends to RGBAImageData
-		RGBAImageData.Extends( imagedata );
+		ColorImageData.Extends( imagedata );
 		
 		///
 		handlerCallback( imagedata, context );
@@ -87,7 +88,8 @@ export default {
 	Color,
 	Matrix,
 	
-	RGBAImageData,
+//	RGBAImageData,
+	ColorImageData,
 	GrayImageData,
 	BinaryImageData,
 

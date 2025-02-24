@@ -4,7 +4,7 @@ import { clamp, calcCdf } from './common/utils.mjs';
 /** GrayImageData
  *	
  */
-export default class GrayImageData extends Uint8Array {
+export default class GrayImageData extends Uint8ClampedArray {
 	
 	constructor( w, h, data = null ) {
 		
