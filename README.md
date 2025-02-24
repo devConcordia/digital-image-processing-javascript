@@ -26,7 +26,7 @@ Veja o exemplo em [/docs/examples/rle-segmentation/](docs/examples/rle-segmentat
 
 ### Clahe 
 
-O [Clahe](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization) está disponivel nas classes [RGBAImageData](docs/pt-BR/RGBAImageData.md) e [GrayImageData](docs/pt-BR/GrayImageData.md).
+O [Clahe](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization) está disponivel nas classes [ColorImageData](docs/pt-BR/ColorImageData.md) e [GrayImageData](docs/pt-BR/GrayImageData.md).
 
 Veja o exemplo em [/docs/examples/clahe/](docs/examples/clahe/).
 
