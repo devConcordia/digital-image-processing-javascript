@@ -168,13 +168,13 @@ pixel.load( "path/to/image", function( imagedata ) {
 
 ### close
 
-O [Fechamento](https://en.wikipedia.org/wiki/Closing_(morphology)) é uma peração de morfologia, da qual realiza a [dilatação](#dilate) seguida de [erosão](#erode).
+O [Fechamento](https://en.wikipedia.org/wiki/Closing_(morphology)) é uma operação de morfologia, da qual realiza a [dilatação](#dilate) seguida de [erosão](#erode).
 
 Pode ser utilizada para preencher pequenos buracos e conectar regiões próximas, **fechando** espaços dentro de objetos e suavizando contornos.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 
@@ -258,11 +258,11 @@ pixel.createContext( imageB, document.body );
 
 ### dilate
 
-A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma operação em morfologia, da qual expande regiões claras, tornando os objetos maiores.
+A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma ooperação em morfologia, da qual expande regiões claras, tornando os objetos maiores.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 
@@ -271,11 +271,11 @@ Desse modo é possivel realizar o encadeamento de métodos.
 
 ### erode
 
-A [erosão](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma operação em morfologia, da qual reduz as regiões claras, tornando os objetos menores.
+A [erosão](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma ooperação em morfologia, da qual reduz as regiões claras, tornando os objetos menores.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 
@@ -371,13 +371,13 @@ Desse modo é possivel realizar o encadeamento de métodos.
 
 ### open
 
-A [abertura](https://en.wikipedia.org/wiki/Opening_(morphology)) é uma peração de morfologia, da qual realiza a [erosão](#erode) seguida de [dilatação](#dilate).
+A [abertura](https://en.wikipedia.org/wiki/Opening_(morphology)) é uma operação de morfologia, da qual realiza a [erosão](#erode) seguida de [dilatação](#dilate).
 
 Pode ser utilizada usada para remover ruídos e suavizar contornos sem afetar significativamente o tamanho dos objetos principais.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 

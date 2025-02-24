@@ -701,17 +701,6 @@ export default class GrayImageData extends Uint8ClampedArray {
 		
 	}
 	
-	/**	hitOrMiss
-	 *	
-	 *	@param {Matrix} matrix
-	 *	@return {GrayImageData} new
-	 */
-	hitOrMiss( matrix ) {
-		
-		return this.open( matrix ).close( matrix );
-		
-	}
-	
 	///
 	///
 	///

@@ -590,7 +590,7 @@ export default class ColorImageData extends ImageData {
 	
 	/** conv
 	 *	
-	 *	Operação de convolução utilizando os 3 canais de uma imagem.
+	 *	Ooperação de convolução utilizando os 3 canais de uma imagem.
 	 *	
 	 *	@param {Matrix} matrix		a square matrix
 	 *	@return {ColorImageData}
