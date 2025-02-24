@@ -1,5 +1,5 @@
 
-import { clamp, calcCdf } from './common/utils.mjs';
+import { clamp, calcCdf, outRange } from './common/utils.mjs';
 
 /** GrayImageData
  *	
@@ -119,30 +119,6 @@ export default class GrayImageData extends Uint8ClampedArray {
 	////
 	////
 	
-	/** get
-	 *	
-	 *	@param {Number} x
-	 *	@param {Number} y
-	 *	@return {Number}		0 < value < 255
-	 */
-	get( x, y ) {
-		
-		return this[ y * this.width + x ]
-		
-	}
-	
-	/** set
-	 *	
-	 *	@param {Number} x
-	 *	@param {Number} y
-	 *	@param {Number} value		0 < value < 255
-	 */
-	set( x, y, v ) {
-		
-		this[ y * this.width + x ] = v;
-		
-	}
-	
 	/** getLine
 	 *	
 	 *	@param {Number} xa
@@ -181,42 +157,68 @@ export default class GrayImageData extends Uint8ClampedArray {
 
 	}
 	
-	/** setLine
+	/** setLine 
 	 *	
-	 *	@param {Number} xa
-	 *	@param {Number} ya
-	 *	@param {Number} xb
-	 *	@param {Number} yb
-	 *	@param {Number} value		0 < value < 255
+	 *	@param {Number} ax
+	 *	@param {Number} ay
+	 *	@param {Number} bx
+	 *	@param {Number} by
+	 *	@param {Number} or {Uint32Array} bytes
+	 *	@return {ColorImageData}
 	 */
-	setLine( xa, ya, xb, yb, value ) {
+	setLine( ax, ay, bx, by, bytes ) {
 		
-		var width = this.width;
+		const { width, height } = this;
 		
-		var dx = xb - xa,
-			dy = yb - ya;
+		let dx = bx - ax,
+			dy = by - ay;
 		
-		var length = Math.round( Math.hypot( dx, dy ) );
+		let length = Math.round( Math.hypot( dx, dy ) );
 		
-		var stepx = dx / length,
-			stepy = dy / length;
+		let stepx = dx/length,
+			stepy = dy/length;
+		
+		///
+		if( !Number.isFinite( stepx ) ) stepx = 0;
+		if( !Number.isFinite( stepy ) ) stepy = 0;
+		
+		/// check if `bytes` is iterable, like a Array or TypedArray
+		if( typeof bytes[Symbol.iterator] == 'function' ) {
 			
-		if( stepx == Infinity || stepx == -Infinity ) stepx = 0;
-		if( stepy == Infinity || stepy == -Infinity ) stepy = 0;
-		
-		for( var n = 0; n < length; n++ ) {
+			let stepi = bytes.length/length;
 			
-			var x = Math.round( xa + n * stepx ),
-				y = Math.round( ya + n * stepy );
+			///
+			for( let k = 0; k < length; k++ ) {
+				
+				let x = Math.round( ax + k * stepx ),
+					y = Math.round( ay + k * stepy );
+				
+				if( outRange( x, 0, width ) || outRange( y, 0, height ) ) continue;
+				
+				this[ y * width + x ] = bytes[ Math.floor( k * stepi ) ];
+				
+			}
 			
-			this[ y * width + x ] = value;
+		} else {
 			
+			///
+			for( let k = 0; k < length; k++ ) {
+				
+				let x = Math.round( ax + k * stepx ),
+					y = Math.round( ay + k * stepy );
+				
+				if( outRange( x, 0, width ) || outRange( y, 0, height ) ) continue;
+				
+				this[ y * width + x ] = bytes;
+				
+			}
+
 		}
-
+		
 		return this;
-
+		
 	}
-	
+
 	///
 	///
 	///
@@ -714,30 +716,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 	///
 	///
 	
-/*	clahe() {
-		
-		/// equalized_image
-		let output = new GrayImageData( this.width, this.height );
-		
-		///
-		let histogram = this.histogram();
-		
-		/// Calculating the CDF
-		let cdf = calcCdf( histogram );
-		
-		///
-		for( let i = 0; i < this.length; i++ )
-			output[ i ] = cdf[ this[ i ] ];
-		
-		return output;
-		
-	
-	} /* */
-	
 	clahe() {
-		
-		/// equalized_image
-		//let output = new GrayImageData( this.width, this.height );
 		
 		///
 		let histogram = this.getHistogram();
