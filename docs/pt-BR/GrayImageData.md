@@ -311,16 +311,6 @@ Como [GrayImageData]() possui somente um canal, é necessário converter em [Ima
 
 O retorno é um [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData).
 
-### grayScale
-
-Altera a imagem para tons de cinza. Note que a imagem ainda possui os 4 canais (RGBA), porém os canais RGB possuem o mesmo valor.
-
-#### Retorno
-
-O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
-Desse modo é possivel realizar o encadeamento de métodos.
-
-
 ### negative
 
 Inverte os valores de RGB.
