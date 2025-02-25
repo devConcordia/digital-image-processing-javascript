@@ -109,7 +109,7 @@ window.addEventListener('load', function(e) {
 	
 	
 	
-	/// pixel.load() load a image as RGBAImageData
+	/// pixel.load() load a image as ColorImageData
 	pixel.load('../src/img/rock.jpg', function( source, ctx ) {
 		
 		/// 1. show input
@@ -131,11 +131,11 @@ window.addEventListener('load', function(e) {
 	});
 	
 	
-	/// pixel.load() load a image as RGBAImageData
+	/// pixel.load() load a image as ColorImageData
 	pixel.load('../src/img/x-ray.jpg', function( source, ctx ) {
 		
 		///
-		let graySource = pixel.GrayImageData.Create( source );
+		let graySource = pixel.GrayImageData.From( source );
 		
 		/// 3. show input
 		addStep( '3.1. Input', graySource.getImageData() );

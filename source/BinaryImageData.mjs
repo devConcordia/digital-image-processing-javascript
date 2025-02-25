@@ -1,35 +1,77 @@
 
+import Color from './common/Color.mjs'
+
 /**	BinaryImageData
  *	
  *	@ref Rafael C. Gonzalez; Richard E. Woods. **Digital Image Processing**. Fourth Edition. Pearson Education. 2018.
  *	
  */
-export default class BinaryImageData extends Uint8Array {
+export default class BinaryImageData {
 	
-	constructor( w, h, data ) {
+	/** 
+	 *	
+	 *	@param {Number} width
+	 *	@param {Number} height
+	 *	or
+	 *	@param {TypedArray} dataArray
+	 *	@param {Number} width
+	 *	or
+	 *	@param {TypedArray} dataArray
+	 *	@param {Number} width
+	 *	@param {Number} height
+	 */
+	constructor() {
 		
-		if( !data ) data = ( Math.ceil(w / 8) * h );
+		let dataArray, width, height;
 		
-		super( data );
+		if( arguments.length == 3 ) {
+			
+			dataArray = arguments[0];
+			width = arguments[1];
+			height = arguments[2];
+			
+		} else {
+			
+			if( typeof arguments[0] == 'number' ) {
+				
+				width = arguments[0];
+				height = arguments[1];
+				
+				dataArray = Math.ceil(width / 8) * height;
+				
+			} else {
+				
+				dataArray = arguments[0];
+				width = arguments[1];
+				height = dataArray.length / width;
+				
+			}
+			
+		}
 		
-		this.width = w;
-		this.height = h;
+		this.data = new Uint8Array( dataArray );
+		this.width = width;
+		this.height = height;
 		
 	}
 	
-	/*	FromImageData
+	/*	From
 	 *	
 	 */
-	static FromImageData( imagedata, thresholds = 127 ) {
+	static From( input, thresholds = 127 ) {
 		
 		///
-		let w = imagedata.width;
-		let h = imagedata.height;
+		let w = input.width;
+		let h = input.height;
 		
-		let data = imagedata.data;
+		let indata = input.data;
+		
+		let setp = (input instanceof ImageData)? 4 : 1;
 		
 		let output = new BinaryImageData(w, h);
+		let outdata = output.data;
 		
+		///
 		for( let y = 0; y < h; y++ ) {
 			
 			let offset = y * w;
@@ -40,7 +82,7 @@ export default class BinaryImageData extends Uint8Array {
 				
 				for( let xi = 0; xi < 8; xi++ ) {
 					
-					let v = (data[ (offset + x + xi) * 4 ] > thresholds)? 1 : 0;
+					let v = (indata[ (offset + x + xi) * setp ] > thresholds)? 1 : 0;
 					
 					b = b | (v << (7 - xi));
 					
@@ -48,7 +90,7 @@ export default class BinaryImageData extends Uint8Array {
 				
 				let i = y * Math.ceil( w/8 ) + Math.floor( x/8 );
 				
-				output[ i ] = b;
+				outdata[ i ] = b;
 				
 			}
 			
@@ -58,50 +100,20 @@ export default class BinaryImageData extends Uint8Array {
 		
 	}
 	
-	static FromGrayImageData( data, thresholds = 127 ) {
-		
-		///
-		let w = data.width;
-		let h = data.height;
-		
-		let output = new BinaryImageData( w, h );
-		
-		for( let y = 0; y < h; y++ ) {
-			
-			let offset = y * w;
-			
-			for( let x = 0; x < w; x += 8 ) {
-				
-				let b = 0;
-				
-				for( let xi = 0; xi < 8; xi++ ) {
-					
-					let v = (data[ (offset + x + xi) ] > thresholds)? 1 : 0;
-					
-					b = b | (v << (7 - xi));
-					
-				}
-				
-				let i = y * Math.ceil( w/8 ) + Math.floor( x/8 );
-				
-				output[ i ] = b;
-				
-			}
-			
-		}
-		
-		return output;
-		
-	}
 	
 	getImageData() {
 		
 		let w = this.width;
 		let h = this.height;
 		
+		let indata = this.data;
+		
 		let data = new Uint32Array( w * h );
 		
 		let byteStep = Math.ceil( w/8 );
+		
+		let black = Color.Hex( 0x000000 ).getBytes();
+		let white = Color.Hex( 0xffffff ).getBytes();
 		
 		for( let i = 0; i < h; i++ ) {
 			
@@ -110,7 +122,7 @@ export default class BinaryImageData extends Uint8Array {
 			
 			for( let j = 0; j < byteStep; j++ ) {
 				
-				let b = this[ i * byteStep + j ];
+				let b = indata[ i * byteStep + j ];
 				
 				/// distancia em bits (x)
 				let wj = j * 8;
@@ -122,7 +134,7 @@ export default class BinaryImageData extends Uint8Array {
 					
 					if( wi > w ) break;
 					
-					data[ offset + wi ] = ((b >> (7-n)) & 1) > 0? 0xffffffff : 0xff000000;
+					data[ offset + wi ] = ((b >> (7-n)) & 1) > 0? white : black;
 					
 				}
 				
@@ -139,6 +151,8 @@ export default class BinaryImageData extends Uint8Array {
 		
 		let w = this.width;
 		let h = this.height;
+		let data = this.data;
+		
 		let byteStep = Math.ceil( w/8 );
 		
 		for( let i = 0; i < h; i++ ) {
@@ -146,7 +160,7 @@ export default class BinaryImageData extends Uint8Array {
 			let raw = "";
 			
 			for( let j = 0; j < byteStep; j++ )
-				raw += this[ (i * byteStep + j) ].toString(2).padStart(8,'0');
+				raw += data[ (i * byteStep + j) ].toString(2).padStart(8,'0');
 			
 			output += raw.slice(0,w) +"\n";
 			
@@ -165,42 +179,7 @@ export default class BinaryImageData extends Uint8Array {
 	
 	clone() {
 		
-		return new BinaryImageData( this.width, this.height, this ); 
-		
-	}
-	
-	get( x, y ) {
-		
-		let w = this.width;
-		
-		/// byte index
-		let i = y * Math.ceil( w/8 ) + Math.floor( x/8 );
-		
-		return (this[ i ] >> ( 7 - x % 8 )) & 1;
-		
-	}
-	
-	set( x, y, v ) {
-		
-		let w = this.width;
-		
-		/// byte index
-		let i = y * Math.ceil( w/8 ) + Math.floor( x/8 );
-		
-		/// bit index
-		let k = 7 - x % 8;
-		
-		let b = this[ i ];
-		
-		if( v == 1 ) {
-			
-			this[ i ] = b | (v << k);
-		
-		} else {
-			
-			this[ i ] = b & (~(1 << k) & 0xff);
-		
-		}
+		return new BinaryImageData( this.data, this.width, this.height ); 
 		
 	}
 	
@@ -213,6 +192,168 @@ export default class BinaryImageData extends Uint8Array {
 		
 		/// byteoffset, bitoffset
 		return [ i, 7 - x % 8 ];
+		
+	}
+	
+	get( x, y ) {
+		
+		let w = this.width;
+		
+		/// byte index
+		let i = y * Math.ceil( w/8 ) + Math.floor( x/8 );
+		
+		return (this.data[ i ] >> ( 7 - x % 8 )) & 1;
+		
+	}
+	
+	set( x, y, v ) {
+		
+		let w = this.width;
+		let data = this.data;
+		
+		/// byte index
+		let i = y * Math.ceil( w/8 ) + Math.floor( x/8 );
+		
+		/// bit index
+		let k = 7 - x % 8;
+		
+		let b = data[ i ];
+		
+		if( v == 1 ) {
+			
+			data[ i ] = b | (v << k);
+		
+		} else {
+			
+			data[ i ] = b & (~(1 << k) & 0xff);
+		
+		}
+		
+	}
+	
+	/** equals
+	 *	
+	 *	@param {BinaryImageData} input
+	 *	@return {Boolean}
+	 */
+	equals( input ) {
+		
+		let adata = this.data;
+		let bdata = input.data;
+		
+		if( adata.length == bdata.length )
+			for( let i = 0; i < adata.length; i++ )
+				if( adata[i] != bdata[i] ) return false;
+		
+		return true;
+		
+	}
+	
+	/** countNonZero
+	 *	
+	 *	@return {Number}
+	 */
+	countNonZero() {
+		
+		let data = this.data;
+		
+		let output = 0;
+		
+		for( let i = 0; i < data.length; i++ ) {
+			
+			let v = data[i];
+			
+			if( v > 0 ) {
+				
+				for( let k = 0; k < 8; k++ )
+					if( (v >> k)&1 == 1 ) output++;
+				
+			}
+		}
+		
+		return output;
+		
+	}
+	
+	///
+	/// bitwise operators
+	///
+	
+	/** and
+	 *	
+	 *	@param {BinaryImageData} input
+	 *	@return {BinaryImageData}
+	 */
+	and( input ) {
+		
+		let adata = this.data;
+		let bdata = input.data;
+		
+		let output = new BinaryImageData( this.width, this.height );
+		let outdata = output.data;
+		
+		for( let i = 0; i < data.length; i++ )
+			outdata[i] = data[i] & bdata[i];
+		
+		return outdata;
+		
+	}
+	
+	/** or
+	 *	
+	 *	@param {BinaryImageData} input
+	 *	@return {BinaryImageData}
+	 */
+	or( input ) {
+		
+		let adata = this.data;
+		let bdata = input.data;
+		
+		let output = new BinaryImageData( this.width, this.height );
+		let outdata = output.data;
+		
+		for( let i = 0; i < adata.length; i++ )
+			outdata[i] = adata[i] | bdata[i];
+		
+		return output;
+		
+	}
+	
+	/** xor
+	 *	
+	 *	@param {BinaryImageData} input
+	 *	@return {BinaryImageData}
+	 */
+	xor( input ) {
+		
+		let adata = this.data;
+		let bdata = input.data;
+		
+		let output = new BinaryImageData( this.width, this.height );
+		let outdata = output.data;
+		
+		for( let i = 0; i < adata.length; i++ )
+			outdata[i] = adata[i] ^ bdata[i];
+		
+		return output;
+		
+	}
+	
+	/** not
+	 *	
+	 *	@return {BinaryImageData}
+	 */
+	not() {
+		
+		let adata = this.data;
+		
+		let output = new BinaryImageData( this.width, this.height );
+		let outdata = output.data;
+		
+		for( let i = 0; i < adata.length; i++ )
+			outdata[i] = (~adata[i] >>> 0) & 0xff;
+		
+		return output;
 		
 	}
 	
@@ -229,8 +370,10 @@ export default class BinaryImageData extends Uint8Array {
 		
 		let w = this.width;
 		let h = this.height;
+		let data = this.data;
 		
-		const output = new BinaryImageData( w, h );
+		let output = new BinaryImageData( w, h );
+		let outdata = output.data;
 		
 		///
 		let mw = matrix.width;
@@ -263,7 +406,7 @@ export default class BinaryImageData extends Uint8Array {
 						if( wx < 0 || wx > w ) continue;
 						
 							
-						let b0 = (this[ offset + Math.floor( wx/8 ) ] >> ( 7 - wx % 8 )) & 1;
+						let b0 = (data[ offset + Math.floor( wx/8 ) ] >> ( 7 - wx % 8 )) & 1;
 						
 						if( b0 != matrix[ i * mw + j ] ) {
 							
@@ -286,7 +429,7 @@ export default class BinaryImageData extends Uint8Array {
 					/// bit index
 					let k = 7 - x % 8;
 					
-					output[ t ] |= (1 << k);
+					outdata[ t ] |= (1 << k);
 				
 				}
 				
@@ -307,8 +450,10 @@ export default class BinaryImageData extends Uint8Array {
 		
 		let w = this.width;
 		let h = this.height;
+		let data = this.data;
 		
-		const output = new BinaryImageData( w, h );
+		let output = new BinaryImageData( w, h );
+		let outdata = output.data;
 		
 		///
 		let mw = matrix.width;
@@ -341,7 +486,7 @@ export default class BinaryImageData extends Uint8Array {
 						if( wx < 0 || wx > w ) continue;
 						
 							
-						let b0 = (this[ offset + Math.floor( wx/8 ) ] >> ( 7 - wx % 8 )) & 1;
+						let b0 = (data[ offset + Math.floor( wx/8 ) ] >> ( 7 - wx % 8 )) & 1;
 						
 						if( b0 == matrix[ i * mw + j ] ) {
 							
@@ -364,7 +509,7 @@ export default class BinaryImageData extends Uint8Array {
 					/// bit index
 					let k = 7 - x % 8;
 					
-					output[ t ] |= (1 << k);
+					outdata[ t ] |= (1 << k);
 				
 				}
 				
@@ -408,199 +553,6 @@ export default class BinaryImageData extends Uint8Array {
 		
 	}
 	
-	///
-	/// bitwise operators
-	///
-	
-	/** inverse
-	 *	
-	 *	@return {BinaryImageData} new
-	 */
-	inverse() {
-		
-		let output = new BinaryImageData( this.width, this.height );
-		
-		for( let i = 0; i < this.length; i++ )
-			output[i] = (~this[i] >>> 0) & 0xff;
-		
-		return output;
-		
-	}
-	
-	/** or
-	 *	
-	 *	@param {BinaryImageData} binary
-	 *	@return {BinaryImageData} new
-	 */
-	or( binary ) {
-		
-		let output = new BinaryImageData( this.width, this.height );
-		
-		for( let i = 0; i < this.length; i++ )
-			output[i] = this[i] | binary[i];
-		
-		return output;
-		
-	}
-	
-	/** and
-	 *	
-	 *	@param {BinaryImageData} binary
-	 *	@return {BinaryImageData} new
-	 */
-	and( binary ) {
-		
-		let output = new BinaryImageData( this.width, this.height );
-		
-		for( let i = 0; i < this.length; i++ )
-			output[i] = this[i] & binary[i];
-		
-		return output;
-		
-	}
-	
-	/** xor
-	 *	
-	 *	@param {BinaryImageData} binary
-	 *	@return {BinaryImageData} new
-	 */
-	xor( binary ) {
-		
-		let output = new BinaryImageData( this.width, this.height );
-		
-		for( let i = 0; i < this.length; i++ )
-			output[i] = this[i] ^ binary[i];
-		
-		return output;
-		
-	}
-	
-	///
-	/// 
-	///
-	
-	/** equals
-	 *	
-	 *	@param {BinaryImageData} binary
-	 *	@return {Boolean}
-	 */
-	equals( binary ) {
-		
-		if( this.length != binary.length ) return false;
-		
-		for( let i = 0; i < this.length; i++ )
-			if( this[i] != binary[i] ) return false;
-		
-		return true;
-		
-	}
-	
-	/** countNonZero
-	 *	
-	 *	@return {Number}
-	 */
-	countNonZero() {
-		
-		let output = 0;
-		
-		for( let i = 0; i < this.length; i++ ) {
-			
-			let v = this[i];
-			
-			if( v > 0 ) {
-				
-				for( let k = 0; k < 8; k++ )
-					if( (v >> k)&1 == 1 ) output++;
-				
-			}
-		}
-		
-		return output;
-		
-	}
-	
-	/* * /
-	
-	remove( matrix ) {
-		
-		if( !matrix ) return this;
-		
-	//	let output = new BinaryImageData( this.width, this.height );
-		
-		let w = this.width;
-		let h = this.height;
-		
-		let mh = Math.floor( m/2 ),
-			nh = Math.floor( n/2 );
-		
-		const W8 = Math.ceil(w / 8);
-		
-		
-		let count = 0;
-		
-		for( let y = 0; y < h; y++ ) {
-			for( let x = 0; x < w; x++ ) {
-				
-				let isEqual = true;
-				
-				for( let i = 0; i < m; i++ ) {
-					
-					let wy = y + i - mh;
-					
-					if( wy < 0 || wy > h ) continue;
-					
-					let offset = wy * W8;
-					
-					for( let j = 0; j < n; j++ ) {
-						
-					//	if( matrix[ i * n + j ] == 0 ) continue;
-						
-						let wx = x + j - nh;
-						
-						if( wx < 0 || wx > w ) continue;
-						
-							
-						let b0 = (this[ offset + Math.floor( wx/8 ) ] >> ( 7 - wx % 8 )) & 1;
-						
-						if( b0 != matrix[ i * n + j ] ) {
-							
-							isEqual = false;
-							break;
-							
-						}
-						
-					}
-					
-					if( !isEqual ) break;
-					
-				}
-				
-				if( isEqual ) {
-								
-					/// byte index
-					let t = y * W8 + Math.floor( x/8 );
-					
-					/// bit index
-					let k = 7 - x % 8;
-					
-					this[ t ] = this[ t ] & (~(1 << k) & 0xff);
-					
-					count++
-					
-				}
-				
-			}
-		}
-		
-	//	console.log( count, "de", this.width * this.height );
-		
-		return this;
-		
-		
-	}
-	
-	/* */
-	
 	/** boundary
 	 *	
 	 *	@param {Matrix} matrix			pixel.Matrix.Ones(3,3), pixel.Matrix.Radial(5), ...
@@ -627,6 +579,7 @@ export default class BinaryImageData extends Uint8Array {
 	flood( x0 = 0, y0 = 0 ) {
 		
 		let output = this.clone();
+		let outdata = output.data;
 		
 		let w = this.width,
 			h = this.height;
@@ -636,9 +589,9 @@ export default class BinaryImageData extends Uint8Array {
 		let cache = [];
 		
 		let visited = new BinaryImageData( w, h );
+		let vdata = visited.data;
 		
-		
-		visited[ (y0 * W8 + Math.floor( x0/8 )) ] = 1 << (7 - x0 % 8);
+		vdata[ (y0 * W8 + Math.floor( x0/8 )) ] = 1 << (7 - x0 % 8);
 		cache.push([ x0, y0 ]);
 		
 		while( cache.length > 0 ) {
@@ -654,7 +607,7 @@ export default class BinaryImageData extends Uint8Array {
 			/// bit index
 			let k0 = 7 - x % 8;
 			
-			output[ n0 ] |= 1 << k0;
+			outdata[ n0 ] |= 1 << k0;
 			
 			let x1 = x - 1;
 			if( x1 >= 0 && x1 < w ) {
@@ -663,10 +616,10 @@ export default class BinaryImageData extends Uint8Array {
 				let n1 = i0 + j1;
 				let k1 = 7 - (x1 % 8);
 				
-				if( ((output[n1] >> k1) & 1) == 0 ) {
+				if( ((outdata[n1] >> k1) & 1) == 0 ) {
 					
-					if( (visited[ n1 ] >> k1 & 1) == 0 ) {
-						visited[ n1 ] |= 1 << k1;
+					if( (vdata[ n1 ] >> k1 & 1) == 0 ) {
+						vdata[ n1 ] |= 1 << k1;
 						cache.push([ x1, y ]);
 					}
 					
@@ -681,10 +634,10 @@ export default class BinaryImageData extends Uint8Array {
 				let n2 = i0 + j2;
 				let k2 = 7 - x2 % 8;
 			
-				if( ((output[n2] >> k2) & 1) == 0 ) {
+				if( ((outdata[n2] >> k2) & 1) == 0 ) {
 					
-					if( (visited[ n2 ] >> k2 & 1) == 0 ) {
-						visited[ n2 ] |= 1 << k2;
+					if( (vdata[ n2 ] >> k2 & 1) == 0 ) {
+						vdata[ n2 ] |= 1 << k2;
 						cache.push([ x2, y ]);
 					}
 					
@@ -697,10 +650,10 @@ export default class BinaryImageData extends Uint8Array {
 				
 				let n3 = y1 * W8 + j0;
 				
-				if( ((output[n3] >> k0) & 1) == 0 ) {
+				if( ((outdata[n3] >> k0) & 1) == 0 ) {
 					
-					if( (visited[ n3 ] >> k0 & 1) == 0 ) {
-						visited[ n3 ] |= 1 << k0;
+					if( (vdata[ n3 ] >> k0 & 1) == 0 ) {
+						vdata[ n3 ] |= 1 << k0;
 						cache.push([ x, y1 ]);
 					}
 					
@@ -713,10 +666,10 @@ export default class BinaryImageData extends Uint8Array {
 				
 				let n4 = y2 * W8 + j0;
 				
-				if( ((output[n4] >> k0) & 1) == 0 ) {
+				if( ((outdata[n4] >> k0) & 1) == 0 ) {
 					
-					if( (visited[ n4 ] >> k0 & 1) == 0 ) {
-						visited[ n4 ] |= 1 << k0;
+					if( (vdata[ n4 ] >> k0 & 1) == 0 ) {
+						vdata[ n4 ] |= 1 << k0;
 						cache.push([ x, y2 ]);
 					}
 					
@@ -730,12 +683,16 @@ export default class BinaryImageData extends Uint8Array {
 		
 	}
 	
-	/** fillHoles | filler
+	/** Hole Filling | filler
 	 *	
 	 */
 	filler() {
 		
-		return this.flood().inverse().or( this );
+	//	return this.flood().not().or( this );
+		
+		let copy = this.clone();
+		
+		return this.flood().not().or( copy );
 		
 	}
 	

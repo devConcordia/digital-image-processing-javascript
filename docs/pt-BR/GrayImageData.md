@@ -4,15 +4,15 @@
 A classe [GrayImageData](../../source/GrayImageData.mjs) realiza operações somente com um canal em tons de cinza.
 
 > [!WARNING]
-> Essa classe é uma extenção de [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array).
+> Essa classe é uma extenção de [Uint8ClampedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray).
 
 ## Índice
 
 **Métodos básicos**
 - [clone](#clone)
+- [fill](#fill)
 - [crop](#crop)
 - [resize](#resize)
-- [fill](#fill)
 - [getLine](#getLine)
 - [setLine](#setLine)
 - [getImageData](#getImageData)
@@ -44,8 +44,6 @@ A classe [GrayImageData](../../source/GrayImageData.mjs) realiza operações som
 - [close](#close)
 
 ## Métodos
-
-
 
 ### blend
 
@@ -134,7 +132,11 @@ pixel.load( "path/to/image", function( imagedata ) {
 
 ### clone
 
-Cria uma nova instacia com os mesmos valores.
+Cria uma nova instâcia de [GrayImageData]() com as mesmas dimensões e valores.
+
+#### Retorno
+
+Uma nova [GrayImageData]().
 
 #### Exemplo
 
@@ -142,7 +144,7 @@ Cria uma nova instacia com os mesmos valores.
 
 pixel.load( "path/to/image", function( imagedata ) {
 	
-	let original = imagedata.clone();
+	let copied = imagedata.clone();
 	
 });
 
@@ -156,7 +158,7 @@ Pode ser utilizada para preencher pequenos buracos e conectar regiões próximas
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 
@@ -218,11 +220,11 @@ pixel.createContext( imageB, document.body );
 
 ### dilate
 
-A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma ooperação em morfologia, da qual expande regiões claras, tornando os objetos maiores.
+A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma operação em morfologia, da qual expande regiões claras, tornando os objetos maiores.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 
@@ -231,11 +233,11 @@ Desse modo é possivel realizar o encadeamento de métodos.
 
 ### erode
 
-A [erosão](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma ooperação em morfologia, da qual reduz as regiões claras, tornando os objetos menores.
+A [erosão](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma operação em morfologia, da qual reduz as regiões claras, tornando os objetos menores.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 
@@ -244,26 +246,16 @@ Desse modo é possivel realizar o encadeamento de métodos.
 
 ### fill
 
-Preenche toda a imgem com uma única cor.
+Preenche todos os pixeis da imgem com o mesmo valor.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| bytes     | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Cor em hexadecimal da linha a ser desenha (32 bits). **Recomendação:** Utilizar o método `getBytes()` de uma instância de [Color](Color.md#getBytes). |
+| bytes     | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Valor da intencidade do pixel (8 bits). |
 
 #### Retorno
 
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
-
-#### Exemplo
-
-Seja `source` uma instância de [GrayImageData](), a imagem será preenchida por vermelho.
-
-```javascript
-
-source.fill( pixel.Color.Hex( 0xff0000 ) );
-
-```
 
 ### getHistogram
 
@@ -313,7 +305,7 @@ O retorno é um [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaS
 
 ### getImageData
 
-Como [GrayImageData]() possui somente um canal, é necessário converter em [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) para ser renerizado.
+Como [GrayImageData]() possui somente um canal, é necessário converter em [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) para ser renderizado.
 
 #### Retorno
 
@@ -346,7 +338,7 @@ Pode ser utilizada usada para remover ruídos e suavizar contornos sem afetar si
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 
@@ -419,6 +411,10 @@ Desse modo é possivel realizar o encadeamento de métodos.
 ### toString
 
 É possivel transformar a imagem em texto, de forma que os caracteres imitem um gradiente de tons de cinza.
+
+#### Retorno
+
+O retorno é uma [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
 
 #### Example
 

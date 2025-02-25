@@ -31,7 +31,7 @@ window.addEventListener('load', function(e) {
 		
 	}
 	
-	/// pixel.load() load a image as RGBAImageData
+	/// pixel.load() load a image as ColorImageData
 //	pixel.load('../src/img/iris.png', function( source, ctx ) {
 	pixel.load('../src/img/circles.jpg', function( source, ctx ) {
 		

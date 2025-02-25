@@ -30,17 +30,17 @@ window.addEventListener('load', function(e) {
 		
 	}
 	
-	/// pixel.load() load a image as RGBAImageData
+	/// pixel.load() load a image as ColorImageData
 	pixel.load('../src/img/valve.png', function( source, ctx ) {
 		
-		const graySource = pixel.GrayImageData.Create( source );
+		/// copy a grayScale image
+		const graySource = pixel.GrayImageData.From( source );
 		
 		
-		
-		/// 1. show input
-		addStep( '1. Input (RGBA)', source );
 		
 		/// 
+		addStep( '1. Input (RGBA)', source );
+		
 		source.conv( pixel.Matrix.Sobel() );
 	//	source.conv( pixel.Matrix.Feldman() );
 	//	source.conv( pixel.Matrix.Prewitt() );
@@ -51,10 +51,10 @@ window.addEventListener('load', function(e) {
 		addStep( '2. Output (RGBA)', source );
 		
 		///
+		/// grayscale
+		/// 
 		
-		
-		/// 3. show input
-		addStep( '1. Input (Gray)', graySource.getImageData() );
+		addStep( '3. Input (Gray)', graySource.getImageData() );
 		
 		/// 
 		graySource.conv( pixel.Matrix.Sobel() );

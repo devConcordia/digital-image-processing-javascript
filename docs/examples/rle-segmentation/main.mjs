@@ -29,7 +29,7 @@ window.addEventListener('load', function(e) {
 	}
 	
 	
-	/// pixel.load() load a image as RGBAImageData
+	/// pixel.load() load a image as ColorImageData
 	pixel.load('../src/img/nuts-and-bolts.jpg', function( source, ctx ) {
 		
 	//	const source = pixel.ColorImageData.FromImageData( imagedata );

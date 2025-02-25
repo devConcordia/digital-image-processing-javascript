@@ -358,20 +358,20 @@ export default class Color extends Uint8Array {
 /// Se for manipular diretamente em buffer, utilize os metodos
 /// Color.FromByte( <integer> ) e <Color>.getByte para interpretar
 /// os canais de cada cor corretamente.
-switch( Device.GetByteOrder() ) {
+switch( Device.GetEndianness() ) {
 	
-	case Device.BYTE_ORDER_BE:
+	case Device.BIG_ENDIAN:
 		Color.FromByte = Color.FromByteBE;
 		Color.prototype.getBytes = Color.prototype.getBytesBE;
 		break;
 	
-	case Device.BYTE_ORDER_ME:
+	case Device.MIXED_ENDIAN:
 		Color.FromByte = Color.FromByteME;
 		Color.prototype.getBytes = Color.prototype.getBytesME;
 		break;
 	
 	default:
-	case Device.BYTE_ORDER_LE:
+	case Device.LITTLE_ENDIAN:
 		Color.FromByte = Color.FromByteLE;
 		Color.prototype.getBytes = Color.prototype.getBytesLE;
 		break;

@@ -15,6 +15,8 @@ window.addEventListener('load', function(e) {
 	 */
 	function addStep( title, source ) {
 		
+	//	console.log( source )
+		
 		///
 		let div = document.createElement('div');
 		
@@ -31,7 +33,7 @@ window.addEventListener('load', function(e) {
 	}
 	
 	
-	/// pixel.load() load a image as RGBAImageData
+	/// pixel.load() load a image as ColorImageData
 	pixel.load('../src/img/figure-11.png', function( source, ctx ) {
 		
 		let p = document.createElement('p');
@@ -40,7 +42,9 @@ window.addEventListener('load', function(e) {
 		document.body.appendChild( p );
 		
 		///
-		let binarySource = pixel.BinaryImageData.FromImageData( source );
+		let binarySource = pixel.BinaryImageData.From( source );
+		
+	//	console.log( binarySource )
 		
 		/// 1. show input
 		addStep( '1. Input', binarySource.getImageData() );
@@ -57,7 +61,7 @@ window.addEventListener('load', function(e) {
 	});
 	
 	
-	/// pixel.load() load a image as RGBAImageData
+	/// pixel.load() load a image as ColorImageData
 	pixel.load('../src/img/figure-16.png', function( source, ctx ) {
 		
 		let p = document.createElement('p');
@@ -67,7 +71,7 @@ window.addEventListener('load', function(e) {
 		
 		
 		
-		let binarySource = pixel.BinaryImageData.FromImageData( source );
+		let binarySource = pixel.BinaryImageData.From( source );
 		
 		/// 1. show input
 		addStep( '1. Input', binarySource.getImageData() );
@@ -85,7 +89,7 @@ window.addEventListener('load', function(e) {
 	
 	
 	
-	/// pixel.load() load a image as RGBAImageData
+	/// pixel.load() load a image as ColorImageData
 	pixel.load('../src/img/figure-63.jpg', function( source, ctx ) {
 		
 		let p = document.createElement('p');
@@ -95,7 +99,7 @@ window.addEventListener('load', function(e) {
 		
 		
 		
-		let binarySource = pixel.BinaryImageData.FromImageData( source );
+		let binarySource = pixel.BinaryImageData.From( source );
 		
 		/// 1. show input
 		addStep( '1. Input', binarySource.getImageData() );
@@ -107,10 +111,8 @@ window.addEventListener('load', function(e) {
 		
 	});
 	
-	/**/
 	
-	
-	/// pixel.load() load a image as RGBAImageData
+	/// pixel.load() load a image as ColorImageData
 	pixel.load('../src/img/horse.png', function( source, ctx ) {
 		
 		let p = document.createElement('p');
@@ -120,7 +122,7 @@ window.addEventListener('load', function(e) {
 		
 		
 		
-		let binarySource = pixel.BinaryImageData.FromImageData( source );
+		let binarySource = pixel.BinaryImageData.From( source );
 		
 		/// 1. show input
 		addStep( '1. Input', binarySource.getImageData() );

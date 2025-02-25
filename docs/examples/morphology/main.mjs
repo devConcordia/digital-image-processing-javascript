@@ -5,9 +5,6 @@ import Renderer2D from "../src/js/Renderer2D.mjs";
 ///
 window.addEventListener('load', function(e) {
 	
-	///
-	const BLACK = pixel.Color.Hex(0x000000).getBytes();
-	
 	/** addStep
 	 *	
 	 *	@param {String} title
@@ -31,12 +28,10 @@ window.addEventListener('load', function(e) {
 	}
 
 
-	/// pixel.load() load a image as RGBAImageData
+	/// pixel.load() load a image as ColorImageData
 	pixel.load('../src/img/valve.png', function( source, ctx ) {
 		
-		const graySource = pixel.GrayImageData.Create( source );
-		
-	//	const binarySource = pixel.BinaryImageData.FromGrayImageData( graySource.clone().conv( pixel.Matrix.Sobel() ) );
+		const graySource = pixel.GrayImageData.From( source );
 		
 		let m7 = pixel.Matrix.Ones(7,7);
 		
@@ -47,21 +42,21 @@ window.addEventListener('load', function(e) {
 		
 	});
 	
-	/// pixel.load() load a image as RGBAImageData
+	/// pixel.load() load a image as ColorImageData
 	pixel.load('../src/img/nuts-and-bolts.jpg', function( source, ctx ) {
 		
-		const graySource = pixel.GrayImageData.Create( source );
+		const graySource = pixel.GrayImageData.From( source );
 		
 		graySource.conv( pixel.Matrix.Sobel() );
 		
-		const binarySource = pixel.BinaryImageData.FromGrayImageData( graySource );
+		const binarySource = pixel.BinaryImageData.From( graySource );
 		
 		let m3 = pixel.Matrix.Ones(3,3);
 		
 		/// Binary
 		addStep( '4. Input (Binary)', binarySource.getImageData() );
-		addStep( '5. Output Open (Binary)', binarySource.clone().open( m3 ).getImageData() );
-		addStep( '6. Output Close (Binary)', binarySource.clone().close( m3 ).getImageData() );
+		addStep( '5. Output Open (Binary)', binarySource.open( m3 ).getImageData() );
+		addStep( '6. Output Close (Binary)', binarySource.close( m3 ).getImageData() );
 			
 		
 	});

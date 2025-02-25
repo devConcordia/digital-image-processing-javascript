@@ -1,8 +1,11 @@
 
 # pixel
 
-Este projeto é um compilado de alguns estudos que fiz alguns anos atrás.
-Entre as referências que utilizei o livro Digital Image Processing 4e (Rafael C. Gonzalez, Richard E. Woods) e o projeto [FastImageEx](https://sourceforge.net/projects/fastimageex/).
+Este projeto é um estudos que realizei alguns anos atrás.
+Entre as referências que utilizei está o livro Digital Image Processing 4e (Rafael C. Gonzalez, Richard E. Woods) e o projeto [FastImageEx](https://sourceforge.net/projects/fastimageex/).
+
+> [!WARNING]
+> Como é um projeto de estudo, não é aconselhavel utilizar em ambientes de produção.
 
 <!--
 ![](docs/images/folder.png)

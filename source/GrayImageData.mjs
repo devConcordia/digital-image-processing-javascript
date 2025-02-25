@@ -4,20 +4,56 @@ import { clamp, calcCdf, outRange } from './common/utils.mjs';
 /** GrayImageData
  *	
  */
-export default class GrayImageData extends Uint8ClampedArray {
+export default class GrayImageData {
 	
-	constructor( w, h, data = null ) {
+	/** 
+	 *	
+	 *	@param {Number} width
+	 *	@param {Number} height
+	 *	or
+	 *	@param {TypedArray} dataArray
+	 *	@param {Number} width
+	 *	or
+	 *	@param {TypedArray} dataArray
+	 *	@param {Number} width
+	 *	@param {Number} height
+	 */
+	constructor() {
 		
-		if( data == null ) data = w * h;
+		let dataArray, width, height;
 		
-		super( data );
+		if( arguments.length == 3 ) {
+			
+			dataArray = arguments[0];
+			width = arguments[1];
+			height = arguments[2];
+			
+		} else {
+			
+			if( typeof arguments[0] == 'number' ) {
+				
+				width = arguments[0];
+				height = arguments[1];
+				
+				dataArray = width * height;
+				
+			} else {
+				
+				dataArray = arguments[0];
+				width = arguments[1];
+				height = dataArray.length / width;
+				
+			}
+			
+		}
 		
-		this.width = w;
-		this.height = h;
+		this.data = new Uint8ClampedArray( dataArray );
+		this.width = width;
+		this.height = height;
 		
 	}
 	
-	/** Create
+	/** From
 	 *	
 	 *	
 	 *	options.crop[0]				x to clip a frame. Default is 0
@@ -32,7 +68,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 	 *	@param {Object} options		{ crop: [ cropX, cropY, cropWidth, cropHeight ], scale: [ scaleX, scaleY ] }
 	 *	@return {GrayImageData}
 	 */
-	static Create( input, options = {} ) {
+	static From( input, options = {} ) {
 		
 		let width = input.width;
 		let data = input.data;
@@ -46,6 +82,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 		
 		/// 
 		let output = new GrayImageData( ow, oh );
+		let outdata = output.data;
 		
 		for( let y = 0; y < oh; y++ ) {
 			
@@ -59,7 +96,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 				
 				/// BT.601-7
 				/// @ref https://www.itu.int/rec/R-REC-BT.601-7-201103-I/en
-				output[ j ] = Math.round( data[i] * 0.2989 + data[i+1] * 0.5870 + data[i+2] * 0.1140 );
+				outdata[ j ] = Math.round( data[i] * 0.2989 + data[i+1] * 0.5870 + data[i+2] * 0.1140 );
 				
 			}
 			
@@ -71,12 +108,14 @@ export default class GrayImageData extends Uint8ClampedArray {
 	
 	getImageData() {
 		
+		let indata = this.data;
+		
 		let output = new ImageData( this.width, this.height );
 		let data = output.data;
 		
-		for( let i = 0; i < this.length; i++ ) {
+		for( let i = 0; i < indata.length; i++ ) {
 			
-			let v = this[ i ];
+			let v = indata[ i ];
 			
 			let k = i * 4;
 			
@@ -100,12 +139,14 @@ export default class GrayImageData extends Uint8ClampedArray {
 		let w = this.width,
 			h = this.height;
 			
+		let data = this.data;
+		
 		for( let y = 0; y < h; y++ ) {
 			
 			let offset = y * w;
 			
 			for( let x = 0; x < w; x++ )
-				output += characters.charAt( Math.floor( this[ offset+x ] / step ) );
+				output += characters.charAt( Math.floor( data[ offset+x ] / step ) );
 			
 			output += '\n';
 				
@@ -115,10 +156,19 @@ export default class GrayImageData extends Uint8ClampedArray {
 		
 	}
 	
-	////
-	////
-	////
-	
+	/** fill
+	 *	
+	 *	@param {Number} bytes			8 bits
+	 *	@return {GrayImageData}
+	 */
+	fill( bytes = 0x00000000 ) {
+		
+		this.data.fill( bytes );
+		
+		return this;
+		
+	}
+
 	/** getLine
 	 *	
 	 *	@param {Number} xa
@@ -135,6 +185,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 		let length = Math.hypot( dx, dy );
 		
 		let width = this.width;
+		let indata = this.data;
 		
 		let stepx = dx / length,
 			stepy = dy / length;
@@ -149,7 +200,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 			let x = Math.round( xa + n * stepx ),
 				y = Math.round( ya + n * stepy );
 			
-			output[ n ] = this[ y * width + x ];
+			output[ n ] = indata[ y * width + x ];
 			
 		}
 
@@ -169,6 +220,8 @@ export default class GrayImageData extends Uint8ClampedArray {
 	setLine( ax, ay, bx, by, bytes ) {
 		
 		const { width, height } = this;
+		
+		let indata = this.data;
 		
 		let dx = bx - ax,
 			dy = by - ay;
@@ -195,7 +248,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 				
 				if( outRange( x, 0, width ) || outRange( y, 0, height ) ) continue;
 				
-				this[ y * width + x ] = bytes[ Math.floor( k * stepi ) ];
+				indata[ y * width + x ] = bytes[ Math.floor( k * stepi ) ];
 				
 			}
 			
@@ -209,7 +262,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 				
 				if( outRange( x, 0, width ) || outRange( y, 0, height ) ) continue;
 				
-				this[ y * width + x ] = bytes;
+				indata[ y * width + x ] = bytes;
 				
 			}
 
@@ -230,8 +283,10 @@ export default class GrayImageData extends Uint8ClampedArray {
 	 */
 	brightness( s ) {
 		
-		for( let i = 0; i < this.length; i++ )
-			this[ i ] = clamp( this[ i ] * s );
+		let data = this.data;
+		
+		for( let i = 0; i < data.length; i++ )
+			data[ i ] = clamp( data[ i ] * s );
 		
 		return this;
 		
@@ -243,8 +298,10 @@ export default class GrayImageData extends Uint8ClampedArray {
 	 */
 	negative() {
 		
-		for( let i = 0; i < this.length; i++ )
-			this[ i ] = 255 - this[ i ];
+		let data = this.data;
+		
+		for( let i = 0; i < data.length; i++ )
+			data[ i ] = 255 - data[ i ];
 		
 		return this;
 		
@@ -257,10 +314,12 @@ export default class GrayImageData extends Uint8ClampedArray {
 	 */
 	contrast( c ) {
 		
+		let data = this.data;
+		
 		let f = ( 259 * (c + 255) ) / (255 * (259 - c) );
 		
-		for( let i = 0; i < this.length; i++ )
-			this[ i ] = clamp( f * (this[ i ] - 128) + 128 );
+		for( let i = 0; i < data.length; i++ )
+			data[ i ] = clamp( f * (data[ i ] - 128) + 128 );
 		
 		return this;
 		
@@ -272,9 +331,11 @@ export default class GrayImageData extends Uint8ClampedArray {
 	 */
 	threshold( value, min = 0, max = 255 ) {
 		
+		let data = this.data;
+		
 		///
-		for( let i = 0; i < this.length; i++ )
-			this[ i ] = this[ i ] > value? max : min;
+		for( let i = 0; i < data.length; i++ )
+			data[ i ] = data[ i ] > value? max : min;
 		
 		return this;
 		
@@ -285,15 +346,17 @@ export default class GrayImageData extends Uint8ClampedArray {
 	 */
 	thresholdMean( min = 0, max = 255, step = 5 ) {
 		
+		let data = this.data;
+		
 		let mean = 0;
 		
-		for( let i = 0; i < this.length; i += step )
-			mean += this[ i ];
+		for( let i = 0; i < data.length; i += step )
+			mean += data[ i ];
 		
-		mean = mean * step / this.length;
+		mean = mean * step / data.length;
 		
-		for( let i = 0; i < this.length; i++ )
-			this[ i ] = this[ i ] > mean? max : min;
+		for( let i = 0; i < data.length; i++ )
+			data[ i ] = data[ i ] > mean? max : min;
 		
 		return this;
 		
@@ -311,7 +374,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 	 */
 	clone() {
 		
-		return new GrayImageData( this.width, this.height, this );
+		return new GrayImageData( this.data, this.width, this.height );
 		
 	}
 	
@@ -326,8 +389,10 @@ export default class GrayImageData extends Uint8ClampedArray {
 	crop( sx, sy, sw, sh ) {
 		
 		let width = this.width;
+		let indata = this.data;
 		
 		let output = new GrayImageData( sw, sh );
+		let outdata = output.data;
 		
 		for( let y = 0; y < sh; y++ ) {
 			
@@ -339,7 +404,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 				let i = offset1 + (sx + x);
 				let j = offset2 + x;
 				
-				output[ j ] = this[ i ];
+				outdata[ j ] = indata[ i ];
 			
 			}
 			
@@ -358,11 +423,13 @@ export default class GrayImageData extends Uint8ClampedArray {
 	resize( scaleX, scaleY ) {
 		
 		let width = this.width;
+		let indata = this.data;
 		
 		let w = Math.floor( width * scaleX ),
 			h = Math.floor( this.height * scaleY );
 			
 		let output = new GrayImageData( w, h );
+		let outdata = output.data;
 		
 		for( let y = 0; y < h; y++ ) {
 			for( let x = 0; x < w; x++ ) {
@@ -370,7 +437,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 				let i = width * Math.floor(y/scaleY) + Math.floor(x/scaleX);
 				let j = w * y + x;
 				
-				output[ j ] = this[ i ];
+				outdata[ j ] = indata[ i ];
 				
 			}
 		}
@@ -395,9 +462,13 @@ export default class GrayImageData extends Uint8ClampedArray {
 		
 		///
 		let output = new GrayImageData( minw, minh );
+		let outdata = output.data;
 		
 		let aw = this.width,
 			bw = input.width;
+		
+		let adata = this.data;
+		let bdata = input.data;
 		
 		for( let y = 0; y < minh; y++ ) {
 			
@@ -410,7 +481,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 				let i = (y * aw + x);
 				let j = (y * bw + x);
 				
-				output[k] = clamp( this[i] * as + input[j] * bs );
+				outdata[k] = clamp( adata[i] * as + bdata[j] * bs );
 				
 			}
 		}
@@ -435,9 +506,13 @@ export default class GrayImageData extends Uint8ClampedArray {
 		
 		///
 		let output = new GrayImageData( minw, minh );
+		let outdata = output.data;
 		
 		let aw = this.width,
 			bw = input.width;
+		
+		let adata = this.data;
+		let bdata = input.data;
 		
 		for( let y = 0; y < minh; y++ ) {
 			
@@ -450,7 +525,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 				let i = (y * aw + x);
 				let j = (y * bw + x);
 				
-				output[k] = Math.min( this[i], input[j] );
+				outdata[k] = Math.min( adata[i], bdata[j] );
 				
 			}
 		}
@@ -475,9 +550,13 @@ export default class GrayImageData extends Uint8ClampedArray {
 		
 		///
 		let output = new GrayImageData( minw, minh );
+		let outdata = output.data;
 		
 		let aw = this.width,
 			bw = input.width;
+		
+		let adata = this.data;
+		let bdata = input.data;
 		
 		for( let y = 0; y < minh; y++ ) {
 			
@@ -490,7 +569,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 				let i = y * aw + x;
 				let j = y * bw + x;
 				
-				output[k] = Math.max( this[i], input[j] );
+				outdata[k] = Math.max( adata[i], bdata[j] );
 				
 			}
 		}
@@ -502,14 +581,13 @@ export default class GrayImageData extends Uint8ClampedArray {
 	/**	conv
 	 *	
 	 *	@param {Matrix} mask
-	 *	@return {GrayImageData} new
+	 *	@return {GrayImageData}
 	 */
 	conv( matrix ) {
 		
-		let { width, height } = this;
+		let { width, height, data } = this;
 		
-	//	let output = new GrayImageData( width, height );
-		let source = new Uint8Array( this );
+		let source = new Uint8Array( data );
 		
 		let w = width - 1, 
 			h = height - 1;
@@ -534,9 +612,6 @@ export default class GrayImageData extends Uint8ClampedArray {
 				for( let i = 0; i < matrix.height; i++ ) {
 					for( let j = 0; j < matrix.width; j++ ) {
 						
-					//	let xj = clamp(x+j, 0, w), 
-					//		yi = clamp(y+i, 0, h);
-						
 						let xj = clamp((x+j) - mhw, 0, w),
 							yi = clamp((y+i) - mhh, 0, h);
 						
@@ -548,7 +623,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 					}
 				}
 				
-				this[ y * width + x ] = clamp( Math.hypot( vx, vy )/gamma );
+				data[ y * width + x ] = clamp( Math.hypot( vx, vy )/gamma );
 				
 			}
 		}
@@ -570,10 +645,9 @@ export default class GrayImageData extends Uint8ClampedArray {
 	 */
 	dilate( matrix ) {
 		
-		let { width, height } = this;
+		let { width, height, data } = this;
 		
-	//	let output = new GrayImageData( width, height );
-		let source = new Uint8Array( this );
+		let source = new Uint8Array( data );
 		
 		let mw = matrix.width;
 		let mh = matrix.height;
@@ -581,26 +655,20 @@ export default class GrayImageData extends Uint8ClampedArray {
 		let mhw = Math.floor( mw/2 );
 		let mhh = Math.floor( mh/2 );
 		
-		for( var y = 0; y < height; y++ ) {
+		for( let y = 0; y < height; y++ ) {
 			
-			var offset_row = y * width;
+			let offset_row = y * width;
 			
-			for( var x = 0; x < width; x++ ) {
+			for( let x = 0; x < width; x++ ) {
 
-				var value = 0;
+				let value = 0;
 				
 				for( let i = 0; i < matrix.height; i++ ) {
 					for( let j = 0; j < matrix.width; j++ ) {
 						
-					//	if( matrix[ i*mw + j ] === 0 ) continue;
-						
-					//	let xj = clamp((x+j) - mhw, 0, width),
-					//		yi = clamp((y+i) - mhh, 0, height);
-						
 						let xj = clamp((x+j) - mhw, 0, width-1),
 							yi = clamp((y+i) - mhh, 0, height-1);
 						
-					//	let v = source[ yi * width + xj ];
 						let v = source[ yi * width + xj ] * matrix[ i*mw + j ];
 						
 						if( v > value ) value = v;
@@ -608,7 +676,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 					}
 				}
 				
-				this[ y * width + x ] = value;
+				data[ y * width + x ] = value;
 				
 			}
 
@@ -627,10 +695,9 @@ export default class GrayImageData extends Uint8ClampedArray {
 	 */
 	erode( matrix ) {
 		
-		let { width, height } = this;
+		let { width, height, data } = this;
 		
-	//	let output = new GrayImageData( width, height );
-		let source = new Uint8Array( this );
+		let source = new Uint8Array( data );
 		
 		let mw = matrix.width;
 		let mh = matrix.height;
@@ -649,15 +716,9 @@ export default class GrayImageData extends Uint8ClampedArray {
 				for( let i = 0; i < matrix.height; i++ ) {
 					for( let j = 0; j < matrix.width; j++ ) {
 						
-					//	if( matrix[ i*mw + j ] === 0 ) continue;
-						
-					//	let xj = clamp((x+j) - mhw, 0, width),
-					//		yi = clamp((y+i) - mhh, 0, height);
-						
 						let xj = clamp((x+j) - mhw, 0, width-1),
 							yi = clamp((y+i) - mhh, 0, height-1);
 						
-					//	let v = source[ yi * width + xj ];
 						let v = source[ yi * width + xj ] * matrix[ i*mw + j ];
 						
 						if( v < value ) value = v;
@@ -665,7 +726,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 					}
 				}
 				
-				this[ y * width + x ] = value;
+				data[ y * width + x ] = value;
 				
 			}
 
@@ -714,8 +775,11 @@ export default class GrayImageData extends Uint8ClampedArray {
 		let cdf = calcCdf( histogram );
 		
 		///
-		for( let i = 0; i < this.length; i++ )
-			this[ i ] = cdf[ this[ i ] ];
+		let data = this.data;
+		
+		///
+		for( let i = 0; i < data.length; i++ )
+			data[ i ] = cdf[ data[ i ] ];
 		
 		return this;
 		
@@ -725,6 +789,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 	getHistogram( wx, wy, ww, wh ) {
 		
 		let width = this.width;
+		let data = this.data;
 		
 		if( wx == undefined ) wx = 0;
 		if( wy == undefined ) wy = 0;
@@ -742,7 +807,7 @@ export default class GrayImageData extends Uint8ClampedArray {
 			
 			for( let x = wx; x < wmax; x++ ) {
 				
-				let v = this[ offset + x ];
+				let v = data[ offset + x ];
 				
 				if( !(v in output) ) output[ v ] = 0;
 				

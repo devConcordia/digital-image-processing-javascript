@@ -1,106 +1,193 @@
-# ImageBinary
 
-Na classe [ImageBinary](https://github.com/devConcordia/pixel/blob/main/src/ImageBinary.mjs),
-cada pixel é representado por um bit, ou seja, preto e branco.
+# BinaryImageData
+
+Com a classe [BinaryImageData](../../source/BinaryImageData.mjs), cada pixel é repesentado por um bit, ou seja, preto e braco.
 
 > [!WARNING]
 > Essa classe é uma extenção de [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array).
 
+## Índice
 
-É muito provavel que as imagens que forem carregadas será coloridas. Então precisamos converte-lá para tons de cinza. 
-Se precisar realizmos uma operação para ajustar o que deverá ser branco ou preto, no exemplo realizamos uma detecção de bordas.
-E então definimos um limiar para o que será considerado preto e branco.
+**Métodos básicos**
+- [clone](#clone)
+- [crop](#crop)
+- [resize](#resize)
+- [getOffset](#getOffset)
+- [get](#get)
+- [set](#set)
+- [getLine](#getLine)
+- [setLine](#setLine)
+- [getImageData](#getImageData)
+- [equals](#equals)
+- [countNonZero](#countNonZero)
+- [toString](#toString)
 
-```javascript
+**Bitwise**
+- [and](#and)
+- [or](#or)
+- [xor](#xor)
+- [inverse](#inverse)
 
-pixel.load("path/to/image", function(context, imagedata) {
-	
-    /// inicia um ImageGray
-    let image_g = pixel.ImageGray.FromImageData( imagedata );
-    
-    /// detecta as bordas
-    image_g = image_g.conv( pixel.Matrix.Sobel() );
-    
-	/// Inicia o ImageBinary, com um limiar de 127, ou seja, pixel 
-	/// com intencidade maior que 127, será brando, do contrário preto
-    let image_b = pixel.ImageBinary.FromImageGray( image_g, 127 );
-    
-	/// exibe resultado
-    pixel.createContext( image_b.getImageData(), document.body );
-	
-});
+**Morfologia**
+- [erode](#erode)
+- [dilate](#dilate)
+- [open](#open)
+- [close](#close)
+- [hitOrMiss](#hitOrMiss)
+- [boundary](#boundary)
+- [flood](#flood)
+- [filler](#filler)
+- [thinning](#thinning)
 
-```
 
-## Bitwise
+## Métodos
 
-Os métodos que temos para realizar essas operações são `inverse`, `or`, `and` e `xor`.
+### and
 
-![](https://github.com/devConcordia/pixel/blob/main/docs/images/bitwise.png)
+Realiza a operação binária [AND](https://en.wikipedia.org/wiki/Bitwise_operation#AND) entre duas imagens binárias.
 
-### inverse
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| input     | [BinaryImageData]() | Segunda imagem para relaizar a operação. **Ambas imagens devem possuir as mesmas dimensões**. |
 
-Não requer parâmetros. O resultado desse método é um novo [ImageBinary](https://github.com/devConcordia/pixel/blob/main/src/ImageBinary.mjs)
-com os bits invertidos, ou seja, `0b10101010 → 0b01010101`.
+#### Retorno
 
-### or, and e xor
+Uma nova [BinaryImageData]() com as mesmas dimenões.
 
-Reque que seja informado uma outra [ImageBinary](https://github.com/devConcordia/pixel/blob/main/src/ImageBinary.mjs)
-para realizar a operação. O resultado é um novo [ImageBinary](https://github.com/devConcordia/pixel/blob/main/src/ImageBinary.mjs).
+### boundary
 
-## hitOrMiss
 
-Esse método pode ser utilizado para remover ruidos de uma imagem.
 
-```javascript
+### clone
 
-let out = image_b.hitOrMiss( pixel.Matrix.Ones(3,3) );
+Cria uma nova instância de [BinaryImageData]() com as mesmas dimenões e valores.
 
-```
+#### Retorno
 
-| Antes  | Depois |
-|:-:|:-:|
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/figure-11.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-hitormiss.png" width="300" /> |
+Uma nova [BinaryImageData]().
 
-## holeFill
+### close
 
-Esse método pode ser utilizado para preencher "buracos" em uma imagem.
+O [Fechamento](https://en.wikipedia.org/wiki/Closing_(morphology)) é uma operação de morfologia, da qual realiza a [dilatação](#dilate) seguida de [erosão](#erode).
 
-```javascript
+Pode ser utilizada para preencher pequenos buracos e conectar regiões próximas, **fechando** espaços dentro de objetos e suavizando contornos.
 
-let out = image_b.holeFill();
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
 
-```
+#### Retorno
 
-| Antes  | Depois |
-|:-:|:-:|
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/figure-63.jpg" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-holefilling.png" width="300" /> |
+O retorno é uma nova instâcia ([BinaryImageData]()).
 
-## boundary 
+### countNonZero
 
-Esse método pode ser utilizado para delimitar as bordas.
+### dilate
 
-```javascript
+A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma operação em morfologia, da qual expande regiões claras, tornando os objetos maiores.
 
-let out = image_b.boundary( pixel.Matrix.Ones(3,3) );
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
 
-```
+#### Retorno
 
-| Antes  | Depois |
-|:-:|:-:|
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/figure-16.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-boundary.png" width="300" /> |
+O retorno é uma nova instâcia ([BinaryImageData]()).
 
-## thinning 
+### equals
 
-Esse método pode ser utilizado no processamento de imagens para reduzir a largura dos objetos presentes na imagem, mantendo a forma e a topologia desses objetos.
-Pode ser usado em reconhecimento de padrões, análise de imagens e visão computacional para simplificar a representação de objetos
+### erode
 
-```javascript
+A [erosão](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma operação em morfologia, da qual reduz as regiões claras, tornando os objetos menores.
 
-let out = image_b.thinning( pixel.Matrix.Radial(3) );
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
 
-```
+#### Retorno
 
-| Antes  | Depois |
-|:-:|:-:|
-| <img src="https://github.com/devConcordia/pixel/blob/main/docs/examples/src/horse.png" width="300" /> | <img src="https://github.com/devConcordia/pixel/blob/main/docs/images/binary-thinning.png" width="300" /> |
+O retorno é uma nova instâcia ([BinaryImageData]()).
+
+### filler
+
+### flood
+
+### get
+
+### getImageData
+
+Como [BinaryImageData]() possui somente um canal, é necessário converter em [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) para ser renderizado.
+
+#### Retorno
+
+O retorno é um [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData).
+
+### getOffset
+
+### hitOrMiss
+
+O [HitOrMiss](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma operação em morfologia, da qual reduz as regiões claras, tornando os objetos menores.
+
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
+
+#### Retorno
+
+O retorno é uma nova instâcia ([BinaryImageData]()).
+
+### not
+
+Realiza a operação binária [NOT](https://en.wikipedia.org/wiki/Bitwise_operation#NOT) entre duas imagens binárias.
+
+#### Retorno
+
+Uma nova [BinaryImageData]() com as mesmas dimenões.
+
+### open
+
+A [abertura](https://en.wikipedia.org/wiki/Opening_(morphology)) é uma operação de morfologia, da qual realiza a [erosão](#erode) seguida de [dilatação](#dilate).
+
+Pode ser utilizada usada para remover ruídos e suavizar contornos sem afetar significativamente o tamanho dos objetos principais.
+
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
+
+#### Retorno
+
+O retorno é uma nova instâcia ([BinaryImageData]()).
+
+### or
+
+Realiza a operação binária [OR](https://en.wikipedia.org/wiki/Bitwise_operation#OR) entre duas imagens binárias.
+
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| input     | [BinaryImageData]() | Segunda imagem para relaizar a operação. **Ambas imagens devem possuir as mesmas dimensões**. |
+
+#### Retorno
+
+Uma nova [BinaryImageData]() com as mesmas dimenões.
+
+### set
+
+### thinning
+
+### toString
+
+É possivel transformar a imagem em texto, de forma que os caracteres imitem um gradiente de tons de cinza.
+
+### xor
+
+Realiza a operação binária [XOR](https://en.wikipedia.org/wiki/Bitwise_operation#XOR) entre duas imagens binárias.
+
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| input     | [BinaryImageData]() | Segunda imagem para relaizar a operação. **Ambas imagens devem possuir as mesmas dimensões**. |
+
+#### Retorno
+
+Uma nova [BinaryImageData]() com as mesmas dimenões.
+
+

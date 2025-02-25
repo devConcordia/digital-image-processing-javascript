@@ -174,7 +174,7 @@ Pode ser utilizada para preencher pequenos buracos e conectar regiões próximas
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 
@@ -258,11 +258,11 @@ pixel.createContext( imageB, document.body );
 
 ### dilate
 
-A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma ooperação em morfologia, da qual expande regiões claras, tornando os objetos maiores.
+A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma operação em morfologia, da qual expande regiões claras, tornando os objetos maiores.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 
@@ -271,11 +271,11 @@ Desse modo é possivel realizar o encadeamento de métodos.
 
 ### erode
 
-A [erosão](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma ooperação em morfologia, da qual reduz as regiões claras, tornando os objetos menores.
+A [erosão](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma operação em morfologia, da qual reduz as regiões claras, tornando os objetos menores.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 
@@ -284,11 +284,11 @@ Desse modo é possivel realizar o encadeamento de métodos.
 
 ### fill
 
-Preenche toda a imgem com uma única cor.
+Preenche todos os pixeis da imgem com o mesmo valor.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| bytes     | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Cor em hexadecimal da linha a ser desenha (32 bits). **Recomendação:** Utilizar o método `getBytes()` de uma instância de [Color](Color.md#getBytes). |
+| bytes     | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Valor (32 bits) em que cada pixel será preenchido. **Recomendação:** Utilizar o método `getBytes()` de uma instância de [Color](Color.md#getBytes). |
 
 #### Retorno
 
@@ -377,7 +377,7 @@ Pode ser utilizada usada para remover ruídos e suavizar contornos sem afetar si
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
-| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da ooperação (Quadrado, Cruz, Círculo) |
+| matrix    | [Matrix](Matrix.md) | Uma matriz que define a estrutura da operação (Quadrado, Cruz, Círculo) |
 
 #### Retorno
 
@@ -409,7 +409,7 @@ Define o valor dos pixeis do ponto `ax,ay` ao `bx,by`. Note que o parâmetro `by
 | ay        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `Y` do inicio da linha |
 | bx        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `X` do final da linha |
 | by        | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `Y` do final da linha |
-| bytes     | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array) | Valores em que cada pixel que será preenchido na linha. **Recomendação:** Utilizar o método `getBytes()` de uma instância de [Color](Color.md#getBytes). |
+| bytes     | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) \| [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array) | Valores (32 bits) em que cada pixel que será preenchido na linha. **Recomendação:** Utilizar o método `getBytes()` de uma instância de [Color](Color.md#getBytes). |
 
 #### Retorno
 
