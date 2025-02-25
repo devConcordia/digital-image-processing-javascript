@@ -4,6 +4,8 @@
 Este projeto é um estudos que realizei alguns anos atrás.
 Entre as referências que utilizei está o livro Digital Image Processing 4e (Rafael C. Gonzalez, Richard E. Woods) e o projeto [FastImageEx](https://sourceforge.net/projects/fastimageex/).
 
+Você pode inicar a documentação pelo [docs/pt-BR/pixel.md](docs/pt-BR/pixel.md).
+
 > [!WARNING]
 > Como é um projeto de estudo, não é aconselhavel utilizar em ambientes de produção.
 

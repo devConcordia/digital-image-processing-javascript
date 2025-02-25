@@ -1,5 +1,5 @@
 
-import Color from './common/Color.mjs'
+import Color from './common/Color.mjs';
 
 /**	BinaryImageData
  *	

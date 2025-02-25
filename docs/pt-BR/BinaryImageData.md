@@ -12,7 +12,6 @@ Com a classe [BinaryImageData](../../source/BinaryImageData.mjs), cada pixel é 
 - [clone](#clone)
 - [crop](#crop)
 - [resize](#resize)
-- [getOffset](#getOffset)
 - [get](#get)
 - [set](#set)
 - [getLine](#getLine)
@@ -56,6 +55,11 @@ Uma nova [BinaryImageData]() com as mesmas dimenões.
 
 ### boundary
 
+Extrai o contorno dos obejtos em uma imagem.
+
+#### Retorno
+
+Uma nova [BinaryImageData]() com as mesmas dimenões.
 
 
 ### clone
@@ -82,6 +86,12 @@ O retorno é uma nova instâcia ([BinaryImageData]()).
 
 ### countNonZero
 
+Realiza a contagem de pixeis brancos.
+
+#### Retorno
+
+Retorna um [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number).
+
 ### dilate
 
 A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma operação em morfologia, da qual expande regiões claras, tornando os objetos maiores.
@@ -92,9 +102,15 @@ A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma oper
 
 #### Retorno
 
-O retorno é uma nova instâcia ([BinaryImageData]()).
+O retorno é uma nova instâcia [BinaryImageData]().
 
 ### equals
+
+Compara duas [BinaryImageData]()
+
+#### Retorno
+
+Retorna um [Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean).
 
 ### erode
 
@@ -110,9 +126,37 @@ O retorno é uma nova instâcia ([BinaryImageData]()).
 
 ### filler
 
+Preenche os buracos presentes na imagem.
+
+#### Retorno
+
+Uma nova [BinaryImageData]() com as mesmas dimenões.
+
 ### flood
 
+Preenche toda uma região de pixeis vizinhos a partir de um ponto `x, y`.
+
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| x         | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `x` do pixel inicial. |
+| y         | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `y` do pixel inicial. |
+
+#### Retorno
+
+Uma nova [BinaryImageData]() com as mesmas dimenões.
+
 ### get
+
+Obtem o valor de um pixel na posição `x, y`.
+
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| x         | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `x` do pixel |
+| y         | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `y` do pixel |
+
+#### Retorno
+
+Retorna um [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) (`0` ou `1`).
 
 ### getImageData
 
@@ -121,8 +165,6 @@ Como [BinaryImageData]() possui somente um canal, é necessário converter em [I
 #### Retorno
 
 O retorno é um [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData).
-
-### getOffset
 
 ### hitOrMiss
 
@@ -171,6 +213,18 @@ Realiza a operação binária [OR](https://en.wikipedia.org/wiki/Bitwise_operati
 Uma nova [BinaryImageData]() com as mesmas dimenões.
 
 ### set
+
+Define o valor de um pixel na posição `x, y`.
+
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| x         | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `x` do pixel. |
+| y         | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Posição `y` do pixel. |
+| v         | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Valor do pixel. Sendo `0` ou `1`. |
+
+#### Retorno
+
+Retorna a instância [BinaryImageData]().
 
 ### thinning
 
