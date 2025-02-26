@@ -66,6 +66,7 @@ export default class BinaryImageData {
 		
 		let indata = input.data;
 		
+		/// adaptação para o caso de ser ImageData/ColorImageData ou um GrayImageData
 		let setp = (input instanceof ImageData)? 4 : 1;
 		
 		let output = new BinaryImageData(w, h);
@@ -683,10 +684,10 @@ export default class BinaryImageData {
 		
 	}
 	
-	/** Hole Filling | filler
+	/** fillHoles
 	 *	
 	 */
-	filler() {
+	fillHoles() {
 		
 	//	return this.flood().not().or( this );
 		

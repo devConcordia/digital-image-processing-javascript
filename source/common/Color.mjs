@@ -60,47 +60,13 @@ export default class Color extends Uint8Array {
 	
 	/* */
 	
-	/** Hex
-	 *	
-	 *	Inicia uma cor, apartir de uma notação hexadecimal.
-	 *	
-	 */
-	static Hex( input ) {
-		
-		return new Color( (input>>16)&0xff, (input>>8)&0xff, input&0xff );
-		
-	}
-	
-	/** Random
-	 *	
-	 */
-	static Random( min = 35, max = 220 ) {
-		
-		return new Color(
-			Math.floor( Math.random() * max + min ), 
-			Math.floor( Math.random() * max + min ), 
-			Math.floor( Math.random() * max + min )
-		);
-		
-	}
-	
-	/* */
-	
-	inverse() {
-
-		this[0] = 255 - this[0];
-		this[1] = 255 - this[1];
-		this[2] = 255 - this[2];
-
-		return this;
-
-	}
 	
 	/** gray
 	 *	
 	 *	BT.601-7
 	 *	@ref https://www.itu.int/rec/R-REC-BT.601-7-201103-I/en
 	 *	
+	 *	@return {Color}
 	 */
 	gray() {
 		
@@ -116,12 +82,30 @@ export default class Color extends Uint8Array {
 
 	}
 	
+	/** negative
+	 *	
+	 *	@return {Color}
+	 */
+	negative() {
+
+		this[0] = 255 - this[0];
+		this[1] = 255 - this[1];
+		this[2] = 255 - this[2];
+
+		return this;
+
+	}
 	/* */
 	
 	getCMYK() {
 
 		let [ r, g, b ] = this;
 		
+		r = r/255;
+		g = g/255;
+		b = b/255;
+		
+		///
 		let c = 0, 
 			m = 0, 
 			y = 0,
@@ -158,6 +142,10 @@ export default class Color extends Uint8Array {
 		
 		let [ r, g, b ] = this;
 		
+		r = r/255;
+		g = g/255;
+		b = b/255;
+		
 		let max = Math.max( r, g, b ),
 			min = Math.min( r, g, b );
 
@@ -180,8 +168,13 @@ export default class Color extends Uint8Array {
 			}
 
 			h /= 6;
+			
 		}
-
+		
+		/// 
+		/// converte para graus
+		h = h * 360;
+		
 		return [ h, s, l ];
 
 	}
@@ -221,6 +214,11 @@ export default class Color extends Uint8Array {
 		
 		let [ r, g, b ] = this;
 		
+		r = r/255;
+		g = g/255;
+		b = b/255;
+		
+		///
 		let min = Math.min( r, g, b ),
 			max = Math.max( r, g, b ),
 			delta = max - min;
@@ -240,7 +238,11 @@ export default class Color extends Uint8Array {
 		h /= 6;
 
 		if( h < 0 ) h += 1;
-
+		
+		/// 
+		/// converte para graus
+		h = h * 360;
+		
 		return [ h, delta / max, max ];
 
 	}
@@ -327,7 +329,7 @@ export default class Color extends Uint8Array {
 		
 	}
 	
-//	getBytes() {}
+	//	getBytes() {}
 	
 	static FromByteLE( input ) {
 		
@@ -347,7 +349,36 @@ export default class Color extends Uint8Array {
 		
 	}
 	
-//	static FromByte() {}
+	//	static FromByte() {}
+	
+	/* */
+	
+	/** Hex
+	 *	
+	 *	Inicia uma cor, apartir de uma notação hexadecimal.
+	 *	
+	 *	@param {Number} input
+	 */
+	static Hex( input ) {
+		
+		return new Color( (input>>16)&0xff, (input>>8)&0xff, input&0xff );
+		
+	}
+	
+	/** Random
+	 *	
+	 *	@param {Number} min
+	 *	@param {Number} max
+	 */
+	static Random( min = 35, max = 220 ) {
+		
+		return new Color(
+			Math.floor( Math.random() * max + min ), 
+			Math.floor( Math.random() * max + min ), 
+			Math.floor( Math.random() * max + min )
+		);
+		
+	}
 	
 }
 

@@ -3,9 +3,6 @@
 
 A classe [GrayImageData](../../source/GrayImageData.mjs) realiza operações somente com um canal em tons de cinza.
 
-> [!WARNING]
-> Essa classe é uma extenção de [Uint8ClampedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray).
-
 ## Índice
 
 **Métodos básicos**
@@ -43,7 +40,70 @@ A classe [GrayImageData](../../source/GrayImageData.mjs) realiza operações som
 - [open](#open)
 - [close](#close)
 
-## Métodos
+
+## Constructor
+
+Seguindo o padrão do [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData/ImageData), o [GrayImageData]() pode ser inciado dos seguintes modos
+
+``` javascript
+
+new GrayImageData(width, height)
+
+new GrayImageData(dataArray, width)
+new GrayImageData(dataArray, width, height)
+
+```
+
+Sendo `width` e `height` do tipo [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number),
+e `dataArray` do tipo [Uint8ClampedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray).
+
+### Propriedades de instâcia
+
+| Propriedade | Tipo | Descrição |
+|-------------|------|-----------|
+| width       | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Um valor inteiro indicando a quantidade de colunas da imagem. |
+| height      | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Um valor inteiro indicando a quantidade de linhas da imagem. |
+| data        | [Uint8ClampedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray) | Os valores de cada um dos pixeis da imagem. |
+
+> [!NOTE]
+> `data` é um [Uint8ClampedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray) pois os valores resultante das operações deverão estar entre `0` e `255`.
+
+## Métodos estáticos
+
+### From
+
+Inicia [GrayImageData]() a partir de um [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData).
+
+| Argumento | Tipo | Descrição |
+|-----------|------|-----------|
+| input     | [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) | Imagem original |
+| options   | [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) | Opções para iniciar o [GrayImageData]() |
+
+> [!NOTE]
+> Em `options` podem ser especificado um recorte (*crop*) e/ou um redimensionamento (*scale*) da imagem original.<br>
+> *crop* deverá ser um [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) de 4 inteiros, os dois primeiros indicam a posição do recorte e os dois ultimos indicam as dimensões.<br>
+> *scale* deverá ser um [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) de 2 flutuantes, indicando a scala nos eixos x e y.
+
+No exemplo a seguir, o [GrayImageData]() é iniciado recortando (*crop*) um quadrado 100x100 pixels (deslocado 50 pixels da esquerda e do topo) é ampliado (*scale*) em 200%.
+
+```javascript
+
+DIP.Load('path/to/image', function( imagedata, context ) {
+	
+	let options = {
+		crop: [ 50, 50, 100, 100 ],
+		scale: [ 2, 2 ]
+	};
+	
+	let graySource = DIP.GrayImageData.From( imagedata, options );
+	
+	DIP.CreateContext( graySource.getImageData(), document.body );
+	
+});
+
+```
+
+## Métodos de instâcia
 
 ### blend
 
@@ -71,6 +131,8 @@ DIP.CreateContext( imageC, document.body );
 
 ```
 
+----
+
 ### blendMin
 
 Realiza a mesclagem dos menores valores entre dois [GrayImageData]().
@@ -82,6 +144,8 @@ Realiza a mesclagem dos menores valores entre dois [GrayImageData]().
 #### Retorno
 
 Uma nova [GrayImageData]() com a menor dimensão entre as duas imagens informadas.
+
+----
 
 ### blendMax
 
@@ -95,6 +159,8 @@ Realiza a mesclagem dos maiores valores entre dois [GrayImageData]().
 
 Uma nova [GrayImageData]() com a menor dimensão entre as duas imagens informadas.
 
+----
+
 ### brightness
 
 Ajuste global da intensidade dos pixels, é realizado multiplicando os valores de intensidade.
@@ -107,6 +173,8 @@ Ajuste global da intensidade dos pixels, é realizado multiplicando os valores d
 
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+----
 
 ### clahe
 
@@ -125,10 +193,12 @@ DIP.Load( "path/to/image", function( imagedata ) {
 
 ```
 
-| Antes  | Depois    |
+| Antes  | Depois |
 |:-:|:-:|
 | <img src="../examples/src/img/x-ray.jpg" width="300" /> | <img src="../images/gray-clahe.png" width="300" /> |
 | <img src="../images/gray-clahe-histogram-input.png" width="300" /> | <img src="../images/gray-clahe-histogram-output.png" width="300" /> |
+
+----
 
 ### clone
 
@@ -150,6 +220,8 @@ DIP.Load( "path/to/image", function( imagedata ) {
 
 ```
 
+----
+
 ### close
 
 O [Fechamento](https://en.wikipedia.org/wiki/Closing_(morphology)) é uma operação de morfologia, da qual realiza a [dilatação](#dilate) seguida de [erosão](#erode).
@@ -165,6 +237,8 @@ Pode ser utilizada para preencher pequenos buracos e conectar regiões próximas
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
+----
+
 ### contrast
 
 Realiza o contraste da [GrayImageData]().
@@ -178,6 +252,8 @@ Realiza o contraste da [GrayImageData]().
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
+----
+
 ### conv
 
 O metodo `conv` realiza a [convolução](https://en.wikipedia.org/wiki/Kernel_\(image_processing\)) em uma imagem.
@@ -190,6 +266,8 @@ O metodo `conv` realiza a [convolução](https://en.wikipedia.org/wiki/Kernel_\(
 
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+----
 
 ### crop
 
@@ -218,6 +296,8 @@ DIP.CreateContext( imageB, document.body );
 
 ```
 
+----
+
 ### dilate
 
 A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma operação em morfologia, da qual expande regiões claras, tornando os objetos maiores.
@@ -230,6 +310,8 @@ A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma oper
 
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+----
 
 ### erode
 
@@ -244,6 +326,8 @@ A [erosão](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma operaçã
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
+----
+
 ### fill
 
 Preenche todos os pixeis da imgem com o mesmo valor.
@@ -256,6 +340,8 @@ Preenche todos os pixeis da imgem com o mesmo valor.
 
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+----
 
 ### getHistogram
 
@@ -288,6 +374,8 @@ let blueChannel = histogramData[2];
 
 ```
 
+----
+
 ### getLine
 
 Realiza a leitura dos pixeis do ponto `ax,ay` ao `bx,by`.
@@ -303,6 +391,8 @@ Realiza a leitura dos pixeis do ponto `ax,ay` ao `bx,by`.
 
 O retorno é um [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array), em que cada item é a cor de um pixel (32 bits).
 
+----
+
 ### getImageData
 
 Como [GrayImageData]() possui somente um canal, é necessário converter em [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) para ser renderizado.
@@ -310,6 +400,8 @@ Como [GrayImageData]() possui somente um canal, é necessário converter em [Ima
 #### Retorno
 
 O retorno é um [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData).
+
+----
 
 ### negative
 
@@ -319,6 +411,8 @@ Inverte os valores de RGB.
 
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+----
 
 ### open
 
@@ -335,6 +429,8 @@ Pode ser utilizada usada para remover ruídos e suavizar contornos sem afetar si
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
+----
+
 ### resize
 
 Redimensiona a [GrayImageData]().
@@ -347,6 +443,8 @@ Redimensiona a [GrayImageData]().
 #### Retorno
 
 O retorno é uma nova instâcia de ([GrayImageData]()) com as dimensões multiplicadas (`sx*width, sy*height`).
+
+----
 
 ### setLine
 
@@ -367,6 +465,8 @@ Define o valor dos pixeis do ponto `ax,ay` ao `bx,by`. Note que o parâmetro `by
 O retorno é a própria instâcia ([RGBAImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
+----
+
 ### threshold
 
 Torna a imagem em preto e branco. Note que a imagem ainda possui os 4 canais (RGBA), porém os canais RGB possuem o mesmo valor.
@@ -381,6 +481,8 @@ Torna a imagem em preto e branco. Note que a imagem ainda possui os 4 canais (RG
 
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+----
 
 ### thresholdMean
 
@@ -397,6 +499,7 @@ Torna a imagem em preto e branco, em que o `threshold` é o valor medio das inte
 O retorno é a própria instâcia ([GrayImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
+----
 
 ### toString
 
@@ -404,7 +507,7 @@ Desse modo é possivel realizar o encadeamento de métodos.
 
 #### Retorno
 
-O retorno é uma [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+O retorno é uma [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
 
 #### Example
 

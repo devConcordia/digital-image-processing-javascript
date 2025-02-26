@@ -11,13 +11,10 @@ Esse documento descreve os recursos de [DIP](https://github.com/devConcordia/pix
 
 - [Color](Color.md)
 - [Matrix](Matrix.md)
-- [Point](Point.md)
-- [Rect](Rect.md)
 
 ## Métodos Estático
 
 ### DIP.Load
-----
 
 Este método é um auxílio para iniciar imagens em um [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
 
@@ -42,8 +39,9 @@ DIP.Load('path/to/image', function handlerCallback( source, context ) {
 
 ```
 
-### DIP.CreateContext
 ----
+
+### DIP.CreateContext
 
 Este método é um auxílio para criar um [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D) a partir de uma [Image](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image), [HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement) ou [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData).
 

@@ -104,7 +104,7 @@ window.addEventListener('load', function(e) {
 		/// 1. show input
 		addStep( '1. Input', binarySource.getImageData() );
 		
-		let output = binarySource.filler();
+		let output = binarySource.fillHoles();
 		
 		/// show output
 		addStep( '2. Output', output.getImageData() );

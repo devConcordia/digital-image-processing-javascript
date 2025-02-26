@@ -42,7 +42,70 @@ A classe [ColorImageData](../../source/ColorImageData.mjs) opera com os quatro c
 - [open](#open)
 - [close](#close)
 
-## Métodos Estático
+## Constructor
+
+O **constructor** do [ColorImageData]() é o mesmo de [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData/ImageData), pode ser inciado dos seguintes modos
+
+``` javascript
+
+new ColorImageData(width, height)
+
+new ColorImageData(dataArray, width)
+new ColorImageData(dataArray, width, height)
+
+```
+
+Sendo `width` e `height` do tipo [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number),
+e `dataArray` do tipo [Uint8ClampedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray).
+
+### Propriedades de instâcia
+
+| Propriedade | Tipo | Descrição |
+|-------------|------|-----------|
+| width       | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Um valor inteiro indicando a quantidade de colunas da imagem. |
+| height      | [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) | Um valor inteiro indicando a quantidade de linhas da imagem. |
+| data        | [Uint8ClampedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray) | Os valores de cada um dos pixeis da imagem. |
+
+#### data32
+
+`data32` é um [getter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get) que obtem um buffer compartilhado do tipo [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array).
+Essa possibilidade ajuda a otimizar alguns processos, por exemplo, se alterar a cor de uma imagem:
+
+```javascript
+
+let data = imagedata.data;
+
+for( let i = 0; i < data.length; i += 4 ) {
+	
+	data[ i   ] = 255;
+	data[ i+1 ] = 0;
+	data[ i+2 ] = 0;
+	data[ i+3 ] = 255;
+	
+}
+
+```
+
+Agora com o `data32`, podemos simplemente utilizar o metodo [fill](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/fill).
+
+```javascript
+
+/// caso o imagedata não ter sido instanciado com ColorImageData
+DIP.ColorImageData.Extends( imagedata );
+
+/// Calcula os bytes da cor vermelha (RGBA)
+const red = new DIP.Color( 255, 0, 0, 255 ).getBytes();
+
+imagedata.data32.fill( red );
+
+```
+
+> [!WARNING]
+> Aqui surge as questões de [Endianness](https://en.wikipedia.org/wiki/Endianness), em que pode haver padrões diferentes na estrutura da memória em cada dispositivo.
+> A classe [Color](Color.md) é responsável por gerar os bytes da cor na ordem do dispositivo (BE, LE, ME). 
+
+
+## Métodos estáticos
 
 ### Extends
 
@@ -91,6 +154,8 @@ DIP.CreateContext( imageC, document.body );
 
 ```
 
+----
+
 ### blendMin
 
 Realiza a mesclagem dos menores valores entre dois [ColorImageData]().
@@ -103,6 +168,8 @@ Realiza a mesclagem dos menores valores entre dois [ColorImageData]().
 
 Uma nova [ColorImageData]() com a menor dimensão entre as duas imagens informadas.
 
+----
+
 ### blendMax
 
 Realiza a mesclagem dos maiores valores entre dois [ColorImageData]().
@@ -114,6 +181,8 @@ Realiza a mesclagem dos maiores valores entre dois [ColorImageData]().
 #### Retorno
 
 Uma nova [ColorImageData]() com a menor dimensão entre as duas imagens informadas.
+
+----
 
 ### brightness
 
@@ -129,6 +198,8 @@ Ajuste global da intensidade dos pixels, é realizado multiplicando os valores d
 
 O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+----
 
 ### clahe
 
@@ -152,6 +223,8 @@ DIP.Load( "path/to/image", function( imagedata ) {
 | <img src="../examples/src/img/rock.jpg" width="300" /> | <img src="../images/rgb-clahe.png" width="300" /> |
 | <img src="../images/rgb-clahe-histogram-input.png" width="300" /> | <img src="../images/rgb-clahe-histogram-output.png" width="300" /> |
 
+----
+
 ### clone
 
 Cria uma nova instacia com os mesmos valores.
@@ -168,6 +241,8 @@ DIP.Load( "path/to/image", function( imagedata ) {
 
 ```
 
+----
+
 ### close
 
 O [Fechamento](https://en.wikipedia.org/wiki/Closing_(morphology)) é uma operação de morfologia, da qual realiza a [dilatação](#dilate) seguida de [erosão](#erode).
@@ -183,6 +258,8 @@ Pode ser utilizada para preencher pequenos buracos e conectar regiões próximas
 O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
+----
+
 ### contrast
 
 Realiza o contraste da [ColorImageData]().
@@ -195,6 +272,8 @@ Realiza o contraste da [ColorImageData]().
 
 O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+----
 
 ### conv
 
@@ -231,6 +310,8 @@ DIP.Load( "path/to/image", function( imagedata ) {
 
 ```
 
+----
+
 ### crop
 
 Realiza o recorte da [ColorImageData]().
@@ -258,6 +339,8 @@ DIP.CreateContext( imageB, document.body );
 
 ```
 
+----
+
 ### dilate
 
 A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma operação em morfologia, da qual expande regiões claras, tornando os objetos maiores.
@@ -271,6 +354,8 @@ A [dilatação](https://en.wikipedia.org/wiki/Dilation_(morphology)) é uma oper
 O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
+----
+
 ### erode
 
 A [erosão](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma operação em morfologia, da qual reduz as regiões claras, tornando os objetos menores.
@@ -283,6 +368,8 @@ A [erosão](https://en.wikipedia.org/wiki/Erosion_(morphology)) é uma operaçã
 
 O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+----
 
 ### fill
 
@@ -306,6 +393,8 @@ Seja `source` uma instância de [ColorImageData](), a imagem será preenchida po
 source.fill( DIP.Color.Hex( 0xff0000 ) );
 
 ```
+
+----
 
 ### getHistogram
 
@@ -338,6 +427,8 @@ let blueChannel = histogramData[2];
 
 ```
 
+----
+
 ### getLine
 
 Realiza a leitura dos pixeis do ponto `ax,ay` ao `bx,by`.
@@ -353,6 +444,8 @@ Realiza a leitura dos pixeis do ponto `ax,ay` ao `bx,by`.
 
 O retorno é um [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array), em que cada item é a cor de um pixel (32 bits).
 
+----
+
 ### grayScale
 
 Altera a imagem para tons de cinza. Note que a imagem ainda possui os 4 canais (RGBA), porém os canais RGB possuem o mesmo valor.
@@ -362,6 +455,8 @@ Altera a imagem para tons de cinza. Note que a imagem ainda possui os 4 canais (
 O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
+----
+
 ### negative
 
 Inverte os valores de RGB.
@@ -370,6 +465,8 @@ Inverte os valores de RGB.
 
 O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+----
 
 ### open
 
@@ -386,6 +483,8 @@ Pode ser utilizada usada para remover ruídos e suavizar contornos sem afetar si
 O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
+----
+
 ### resize
 
 Redimensiona a [ColorImageData]().
@@ -398,6 +497,8 @@ Redimensiona a [ColorImageData]().
 #### Retorno
 
 O retorno é uma nova instâcia de ([ColorImageData]()) com as dimensões multiplicadas (`sx*width, sy*height`).
+
+----
 
 ### setLine
 
@@ -418,6 +519,8 @@ Define o valor dos pixeis do ponto `ax,ay` ao `bx,by`. Note que o parâmetro `by
 O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
 
+----
+
 ### threshold
 
 Torna a imagem em preto e branco. Note que a imagem ainda possui os 4 canais (RGBA), porém os canais RGB possuem o mesmo valor.
@@ -432,6 +535,8 @@ Torna a imagem em preto e branco. Note que a imagem ainda possui os 4 canais (RG
 
 O retorno é a própria instâcia ([ColorImageData]()), ou seja, os valores da *instância são alterados*.
 Desse modo é possivel realizar o encadeamento de métodos.
+
+----
 
 ### thresholdMean
 
