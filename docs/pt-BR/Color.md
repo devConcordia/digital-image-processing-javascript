@@ -27,7 +27,7 @@ Inicia uma instância de [Color]() a partir de um Uint32 respeitando o [Endianne
 
 ```javascript
 
-const RED = DIP.Color.FromByte( 0xff0000ff );
+const color = DIP.Color.FromByte( 0xff0000ff );
 
 ```
 

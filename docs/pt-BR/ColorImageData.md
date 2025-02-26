@@ -69,7 +69,7 @@ e `dataArray` do tipo [Uint8ClampedArray](https://developer.mozilla.org/en-US/do
 #### data32
 
 `data32` é um [getter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get) que obtem um buffer compartilhado do tipo [Uint32Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array).
-Essa possibilidade ajuda a otimizar alguns processos, por exemplo, se alterar a cor de uma imagem:
+Essa possibilidade ajuda a otimizar alguns processos, como alterar a cor de uma imagem, por exemplo:
 
 ```javascript
 
