@@ -1,15 +1,15 @@
 
-# pixel
+# DIP (Digital Image Processing) 
 
 Este projeto é um estudos que realizei alguns anos atrás.
 Entre as referências que utilizei está o livro Digital Image Processing 4e (Rafael C. Gonzalez, Richard E. Woods) e o projeto [FastImageEx](https://sourceforge.net/projects/fastimageex/).
 
-Você pode inicar a documentação pelo [docs/pt-BR/pixel.md](docs/pt-BR/pixel.md).
+Você pode inicar a documentação pelo [docs/pt-BR/DIP.md](docs/pt-BR/DIP.md).
 
 > [!WARNING]
 > Como é um projeto de estudo, não é aconselhavel utilizar em ambientes de produção.
 
-<!--
+<!-- 
 ![](docs/images/folder.png)
 -->
 
@@ -88,15 +88,15 @@ será preciso iniciar um servidor local, no exmplo a seguir utilizamos o python 
 Em seguida, abra o localhost em um browser.
 
 ```
-git clone https://github.com/devConcordia/pixel.git
+git clone https://github.com/devConcordia/DIP.git
 
-cd pixel
+cd DIP
 
 python -m http.server
 ```
 
 > [!NOTE]
-> Observe que nos exemplos, definimos o `style` dos canvas com `image-rendering: pixelated`.
+> Observe que nos exemplos, definimos o `style` dos canvas com `image-rendering: DIPated`.
 > Isso altera a visualização da imagem de modo que ela fique mais "quadriculada".
 
 

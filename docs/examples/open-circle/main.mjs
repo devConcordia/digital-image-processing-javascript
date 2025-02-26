@@ -1,13 +1,13 @@
 
-import pixel from "../../../index.mjs";
+import DIP from "../../../index.mjs";
 import Renderer2D from "../src/js/Renderer2D.mjs";
 
 ///
 window.addEventListener('load', function(e) {
 	
 	///
-	const BLACK = pixel.Color.Hex(0x000000).getBytes();
-	const RED = pixel.Color.Hex(0xff0000).getBytes();
+	const BLACK = DIP.Color.Hex(0x000000).getBytes();
+	const RED = DIP.Color.Hex(0xff0000).getBytes();
 	
 	/** addStep
 	 *	
@@ -25,36 +25,37 @@ window.addEventListener('load', function(e) {
 		div.appendChild( p );
 		
 		///
-		pixel.createContext( source, div );
+		if( source ) 
+			DIP.CreateContext( source, div );
 		
 		document.body.appendChild( div );
 		
 	}
 	
-	/// pixel.load() load a image as ColorImageData
-//	pixel.load('../src/img/iris.png', function( source, ctx ) {
-	pixel.load('../src/img/circles.jpg', function( source, ctx ) {
+	/// DIP.Load() load a image as ColorImageData
+//	DIP.Load('../src/img/iris.png', function( source, ctx ) {
+	DIP.Load('../src/img/circles.jpg', function( source, ctx ) {
 		
 		let input = source.clone();
 		
-	//	let graySource = pixel.GrayImageData.Create( source );
+	//	let graySource = DIP.GrayImageData.Create( source );
 		
 		/// 1. show input
-		addStep( '1. Input (RGBA)', source );
+		addStep( '1. Input', source );
 		
 		source.grayScale();
 		
 		/// 2.2. border detection with Sobel
-		source.conv( pixel.Matrix.Sobel(5) );
+		source.conv( DIP.Matrix.Sobel(5) );
 		
 		/// 2.3. close operation (morphology)
-		source.close( pixel.Matrix.Ones( 5, 5 ) );
+		source.close( DIP.Matrix.Ones( 5, 5 ) );
 		
 		/// 2.4. binarization (with simple thresholding)
 		source.threshold(75);
 		
 		/// 2.5. init Run Length Encoding Segmentation (RLESegmentation)
-		let objects = pixel.RLESegmentation.Create( source );
+		let objects = DIP.RLESegmentation.Create( source );
 		
 		objects.close();
 		
@@ -65,11 +66,12 @@ window.addEventListener('load', function(e) {
 		source.fill( BLACK );
 		/// plot objects of RLE on source
 		objects.stamp( source );
-		addStep( 'Debug', source );
+		addStep( '2. Debug', source );
+		
+		
+		addStep( '3. Output' );
 		
 		for( let object of objects ) {
-			
-		//	console.log( object )
 			
 			let cropped = input.crop( object.x, object.y, object.width, object.height );
 			
@@ -107,8 +109,8 @@ window.addEventListener('load', function(e) {
 			let oh = lines.length,
 				ow = lines[0].length;
 			
-		//	let output = new pixel.ColorImageData( ow, oh );
-			let output = new pixel.ColorImageData( oh, ow );
+		//	let output = new DIP.ColorImageData( ow, oh );
+			let output = new DIP.ColorImageData( oh, ow );
 			let buffer = new Uint32Array( output.data.buffer );
 			
 			for( let y = 0; y < oh; y++ ) {

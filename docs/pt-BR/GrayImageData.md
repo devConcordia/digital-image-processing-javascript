@@ -67,7 +67,7 @@ Seja, `imageA` e `imageB` instâncias de [GrayImageData](). É gerado uma nova i
 
 let imageC = imageA.blend( imageB, .5, .5 );
 
-pixel.createContext( imageC, document.body );
+DIP.CreateContext( imageC, document.body );
 
 ```
 
@@ -115,11 +115,11 @@ Ela é uma extensão do método de equalização de histograma, que redistribui 
 
 ```javascript
 
-pixel.load( "path/to/image", function( imagedata ) {
+DIP.Load( "path/to/image", function( imagedata ) {
 	
 	imagedata.clahe();
 	
-	pixel.createContext( imagedata, document.body );
+	DIP.CreateContext( imagedata, document.body );
 	
 });
 
@@ -142,7 +142,7 @@ Uma nova [GrayImageData]().
 
 ```javascript
 
-pixel.load( "path/to/image", function( imagedata ) {
+DIP.Load( "path/to/image", function( imagedata ) {
 	
 	let copied = imagedata.clone();
 	
@@ -214,7 +214,7 @@ Seja `imageA` uma instância de [GrayImageData]().
 
 let imageB = imageA.blend( 0, 0, 50, 50 );
 
-pixel.createContext( imageB, document.body );
+DIP.CreateContext( imageB, document.body );
 
 ```
 

@@ -1,7 +1,7 @@
 
 # ColorImageData
 
-A classe [ColorImageData](../../source/ColorImageData.mjs) realiza operações com os três canais de cores (Red, Green, Blue).
+A classe [ColorImageData](../../source/ColorImageData.mjs) opera com os quatro canais [RGBA](https://en.wikipedia.org/wiki/RGBA_color_model) (Red, Green, Blue e Aplha).
 
 > [!WARNING]
 > Essa classe é uma extenção de [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData).
@@ -42,14 +42,14 @@ A classe [ColorImageData](../../source/ColorImageData.mjs) realiza operações c
 - [open](#open)
 - [close](#close)
 
-## Métodos
+## Métodos Estático
 
-### (static) Extends
+### Extends
 
 Altera o [prototype](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Object/proto) de um [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) como [ColorImageData](../../source/ColorImageData.mjs).
 
 > [!Note]
-> Por padrão, ao utilizar o método `pixel.load()`, o [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) resultante já terá sido realizado o `ColorImageData.Extends()`.
+> Por padrão, ao utilizar o método `DIP.Load()`, o [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) resultante já terá sido realizado o `ColorImageData.Extends()`.
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
@@ -59,9 +59,11 @@ Altera o [prototype](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Ref
 
 ```javascript
 
-pixel.ColorImageData.Extends( imagedata );
+DIP.ColorImageData.Extends( imagedata );
 
 ```
+
+## Métodos de instância
 
 ### blend
 
@@ -85,7 +87,7 @@ Seja, `imageA` e `imageB` instâncias de [ColorImageData](). É gerado uma nova 
 
 let imageC = imageA.blend( imageB, .5, .5 );
 
-pixel.createContext( imageC, document.body );
+DIP.CreateContext( imageC, document.body );
 
 ```
 
@@ -135,11 +137,11 @@ Ela é uma extensão do método de equalização de histograma, que redistribui 
 
 ```javascript
 
-pixel.load( "path/to/image", function( imagedata ) {
+DIP.Load( "path/to/image", function( imagedata ) {
 	
 	imagedata.clahe();
 	
-	pixel.createContext( imagedata, document.body );
+	DIP.CreateContext( imagedata, document.body );
 	
 });
 
@@ -158,7 +160,7 @@ Cria uma nova instacia com os mesmos valores.
 
 ```javascript
 
-pixel.load( "path/to/image", function( imagedata ) {
+DIP.Load( "path/to/image", function( imagedata ) {
 	
 	let original = imagedata.clone();
 	
@@ -219,11 +221,11 @@ Desse modo é possivel realizar o encadeamento de métodos.
 
 ```javascript
 
-pixel.load( "path/to/image", function( imagedata ) {
+DIP.Load( "path/to/image", function( imagedata ) {
 	
-	imagedata.conv( pixel.Matrix.Sobel() );
+	imagedata.conv( DIP.Matrix.Sobel() );
 	
-	pixel.createContext( imagedata, document.body );
+	DIP.CreateContext( imagedata, document.body );
 	
 });
 
@@ -252,7 +254,7 @@ Seja `imageA` uma instância de [ColorImageData]().
 
 let imageB = imageA.blend( 0, 0, 50, 50 );
 
-pixel.createContext( imageB, document.body );
+DIP.CreateContext( imageB, document.body );
 
 ```
 
@@ -301,7 +303,7 @@ Seja `source` uma instância de [ColorImageData](), a imagem será preenchida po
 
 ```javascript
 
-source.fill( pixel.Color.Hex( 0xff0000 ) );
+source.fill( DIP.Color.Hex( 0xff0000 ) );
 
 ```
 

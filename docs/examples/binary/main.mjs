@@ -1,12 +1,12 @@
 
-import pixel from "../../../index.mjs";
+import DIP from "../../../index.mjs";
 import Renderer2D from "../src/js/Renderer2D.mjs";
 
 ///
 window.addEventListener('load', function(e) {
 	
 	///
-	const BLACK = pixel.Color.Hex(0x000000).getBytes();
+	const BLACK = DIP.Color.Hex(0x000000).getBytes();
 	
 	/** addStep
 	 *	
@@ -26,15 +26,15 @@ window.addEventListener('load', function(e) {
 		div.appendChild( p );
 		
 		///
-		pixel.createContext( source, div );
+		DIP.CreateContext( source, div );
 		
 		document.body.appendChild( div );
 		
 	}
 	
 	
-	/// pixel.load() load a image as ColorImageData
-	pixel.load('../src/img/figure-11.png', function( source, ctx ) {
+	/// DIP.Load() load a image as ColorImageData
+	DIP.Load('../src/img/figure-11.png', function( source, ctx ) {
 		
 		let p = document.createElement('p');
 			p.innerHTML = 'Remove noise';
@@ -42,7 +42,7 @@ window.addEventListener('load', function(e) {
 		document.body.appendChild( p );
 		
 		///
-		let binarySource = pixel.BinaryImageData.From( source );
+		let binarySource = DIP.BinaryImageData.From( source );
 		
 	//	console.log( binarySource )
 		
@@ -50,7 +50,7 @@ window.addEventListener('load', function(e) {
 		addStep( '1. Input', binarySource.getImageData() );
 		
 		/// 
-		let matrix = pixel.Matrix.Ones(3,3);
+		let matrix = DIP.Matrix.Ones(3,3);
 		
 		/// remove noise (whit morphology)
 		let output = binarySource.hitOrMiss( matrix );
@@ -61,8 +61,8 @@ window.addEventListener('load', function(e) {
 	});
 	
 	
-	/// pixel.load() load a image as ColorImageData
-	pixel.load('../src/img/figure-16.png', function( source, ctx ) {
+	/// DIP.Load() load a image as ColorImageData
+	DIP.Load('../src/img/figure-16.png', function( source, ctx ) {
 		
 		let p = document.createElement('p');
 			p.innerHTML = 'Extract Boundary';
@@ -71,13 +71,13 @@ window.addEventListener('load', function(e) {
 		
 		
 		
-		let binarySource = pixel.BinaryImageData.From( source );
+		let binarySource = DIP.BinaryImageData.From( source );
 		
 		/// 1. show input
 		addStep( '1. Input', binarySource.getImageData() );
 		
 		/// 
-		let matrix = pixel.Matrix.Ones(3,3);
+		let matrix = DIP.Matrix.Ones(3,3);
 		
 		/// boundary extraction (with morphology)
 		let output = binarySource.boundary( matrix );
@@ -89,8 +89,8 @@ window.addEventListener('load', function(e) {
 	
 	
 	
-	/// pixel.load() load a image as ColorImageData
-	pixel.load('../src/img/figure-63.jpg', function( source, ctx ) {
+	/// DIP.Load() load a image as ColorImageData
+	DIP.Load('../src/img/figure-63.jpg', function( source, ctx ) {
 		
 		let p = document.createElement('p');
 			p.innerHTML = 'Fill Holes';
@@ -99,7 +99,7 @@ window.addEventListener('load', function(e) {
 		
 		
 		
-		let binarySource = pixel.BinaryImageData.From( source );
+		let binarySource = DIP.BinaryImageData.From( source );
 		
 		/// 1. show input
 		addStep( '1. Input', binarySource.getImageData() );
@@ -112,8 +112,8 @@ window.addEventListener('load', function(e) {
 	});
 	
 	
-	/// pixel.load() load a image as ColorImageData
-	pixel.load('../src/img/horse.png', function( source, ctx ) {
+	/// DIP.Load() load a image as ColorImageData
+	DIP.Load('../src/img/horse.png', function( source, ctx ) {
 		
 		let p = document.createElement('p');
 			p.innerHTML = 'Thinning';
@@ -122,13 +122,13 @@ window.addEventListener('load', function(e) {
 		
 		
 		
-		let binarySource = pixel.BinaryImageData.From( source );
+		let binarySource = DIP.BinaryImageData.From( source );
 		
 		/// 1. show input
 		addStep( '1. Input', binarySource.getImageData() );
 		
 		/// 
-		let matrix = pixel.Matrix.Radial(3);
+		let matrix = DIP.Matrix.Radial(3);
 		
 		let output = binarySource.thinning( matrix );
 		

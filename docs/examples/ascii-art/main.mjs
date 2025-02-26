@@ -1,12 +1,12 @@
 
-import pixel from "../../../index.mjs";
+import DIP from "../../../index.mjs";
 import Renderer2D from "../src/js/Renderer2D.mjs";
 
 ///
 window.addEventListener('load', function(e) {
 	
 	///
-	const BLACK = pixel.Color.Hex(0x000000).getBytes();
+	const BLACK = DIP.Color.Hex(0x000000).getBytes();
 	
 	/** addStep
 	 *	
@@ -24,7 +24,7 @@ window.addEventListener('load', function(e) {
 		div.appendChild( p );
 		
 		///
-		pixel.createContext( source, div );
+		DIP.CreateContext( source, div );
 		
 		document.body.appendChild( div );
 		
@@ -49,10 +49,10 @@ window.addEventListener('load', function(e) {
 		
 	}
 	
-	/// pixel.load() load a image as ColorImageData
-	pixel.load('../src/img/octocat.png', function( source, ctx ) {
+	/// DIP.Load() load a image as ColorImageData
+	DIP.Load('../src/img/octocat.png', function( source, ctx ) {
 		
-		const graySource = pixel.GrayImageData.From( source, { scale: [.25,.25] });
+		const graySource = DIP.GrayImageData.From( source, { scale: [.25,.25] });
 		
 		///
 		addStep( '1. Input', source );

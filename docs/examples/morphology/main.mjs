@@ -1,5 +1,5 @@
 
-import pixel from "../../../index.mjs";
+import DIP from "../../../index.mjs";
 import Renderer2D from "../src/js/Renderer2D.mjs";
 
 ///
@@ -21,19 +21,19 @@ window.addEventListener('load', function(e) {
 		div.appendChild( p );
 		
 		///
-		pixel.createContext( source, div );
+		DIP.CreateContext( source, div );
 		
 		document.body.appendChild( div );
 		
 	}
 
 
-	/// pixel.load() load a image as ColorImageData
-	pixel.load('../src/img/valve.png', function( source, ctx ) {
+	/// DIP.Load() load a image as ColorImageData
+	DIP.Load('../src/img/valve.png', function( source, ctx ) {
 		
-		const graySource = pixel.GrayImageData.From( source );
+		const graySource = DIP.GrayImageData.From( source );
 		
-		let m7 = pixel.Matrix.Ones(7,7);
+		let m7 = DIP.Matrix.Ones(7,7);
 		
 		/// gray
 		addStep( '1. Input (Gray)', graySource.getImageData() );
@@ -42,16 +42,16 @@ window.addEventListener('load', function(e) {
 		
 	});
 	
-	/// pixel.load() load a image as ColorImageData
-	pixel.load('../src/img/nuts-and-bolts.jpg', function( source, ctx ) {
+	/// DIP.Load() load a image as ColorImageData
+	DIP.Load('../src/img/nuts-and-bolts.jpg', function( source, ctx ) {
 		
-		const graySource = pixel.GrayImageData.From( source );
+		const graySource = DIP.GrayImageData.From( source );
 		
-		graySource.conv( pixel.Matrix.Sobel() );
+		graySource.conv( DIP.Matrix.Sobel() );
 		
-		const binarySource = pixel.BinaryImageData.From( graySource );
+		const binarySource = DIP.BinaryImageData.From( graySource );
 		
-		let m3 = pixel.Matrix.Ones(3,3);
+		let m3 = DIP.Matrix.Ones(3,3);
 		
 		/// Binary
 		addStep( '4. Input (Binary)', binarySource.getImageData() );

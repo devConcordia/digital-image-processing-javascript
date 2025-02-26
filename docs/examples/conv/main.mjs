@@ -1,12 +1,12 @@
 
-import pixel from "../../../index.mjs";
+import DIP from "../../../index.mjs";
 import Renderer2D from "../src/js/Renderer2D.mjs";
 
 ///
 window.addEventListener('load', function(e) {
 	
 	///
-	const BLACK = pixel.Color.Hex(0x000000).getBytes();
+	const BLACK = DIP.Color.Hex(0x000000).getBytes();
 	
 	/** addStep
 	 *	
@@ -24,29 +24,29 @@ window.addEventListener('load', function(e) {
 		div.appendChild( p );
 		
 		///
-		pixel.createContext( source, div );
+		DIP.CreateContext( source, div );
 		
 		document.body.appendChild( div );
 		
 	}
 	
-	/// pixel.load() load a image as ColorImageData
-	pixel.load('../src/img/valve.png', function( source, ctx ) {
+	/// DIP.Load() load a image as ColorImageData
+	DIP.Load('../src/img/valve.png', function( source, ctx ) {
 		
 		/// copy a grayScale image
-		const graySource = pixel.GrayImageData.From( source );
+		const graySource = DIP.GrayImageData.From( source );
 		
 		
 		
 		/// 
 		addStep( '1. Input (RGBA)', source );
 		
-		source.conv( pixel.Matrix.Sobel() );
-	//	source.conv( pixel.Matrix.Feldman() );
-	//	source.conv( pixel.Matrix.Prewitt() );
-	//	source.conv( pixel.Matrix.Sharpen() );
-	//	source.conv( pixel.Matrix.Emboss() );
-	//	source.conv( pixel.Matrix.GaussianBlur(7) );
+		source.conv( DIP.Matrix.Sobel() );
+	//	source.conv( DIP.Matrix.Feldman() );
+	//	source.conv( DIP.Matrix.Prewitt() );
+	//	source.conv( DIP.Matrix.Sharpen() );
+	//	source.conv( DIP.Matrix.Emboss() );
+	//	source.conv( DIP.Matrix.GaussianBlur(7) );
 		
 		addStep( '2. Output (RGBA)', source );
 		
@@ -57,7 +57,7 @@ window.addEventListener('load', function(e) {
 		addStep( '3. Input (Gray)', graySource.getImageData() );
 		
 		/// 
-		graySource.conv( pixel.Matrix.Sobel() );
+		graySource.conv( DIP.Matrix.Sobel() );
 		
 		addStep( '4. Output (Gray)', graySource.getImageData() );
 		

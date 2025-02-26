@@ -1,12 +1,12 @@
 
-import pixel from "../../../index.mjs";
+import DIP from "../../../index.mjs";
 import Renderer2D from "../src/js/Renderer2D.mjs";
 
 ///
 window.addEventListener('load', function(e) {
 	
 	///
-	const BLACK = pixel.Color.Hex(0x000000).getBytes();
+	const BLACK = DIP.Color.Hex(0x000000).getBytes();
 	
 	/** addStep
 	 *	
@@ -24,7 +24,7 @@ window.addEventListener('load', function(e) {
 		div.appendChild( p );
 		
 		///
-		pixel.createContext( source, div );
+		DIP.CreateContext( source, div );
 		
 		document.body.appendChild( div );
 		
@@ -109,8 +109,8 @@ window.addEventListener('load', function(e) {
 	
 	
 	
-	/// pixel.load() load a image as ColorImageData
-	pixel.load('../src/img/rock.jpg', function( source, ctx ) {
+	/// DIP.Load() load a image as ColorImageData
+	DIP.Load('../src/img/rock.jpg', function( source, ctx ) {
 		
 		/// 1. show input
 		addStep( '1.1. Input', source );
@@ -131,11 +131,11 @@ window.addEventListener('load', function(e) {
 	});
 	
 	
-	/// pixel.load() load a image as ColorImageData
-	pixel.load('../src/img/x-ray.jpg', function( source, ctx ) {
+	/// DIP.Load() load a image as ColorImageData
+	DIP.Load('../src/img/x-ray.jpg', function( source, ctx ) {
 		
 		///
-		let graySource = pixel.GrayImageData.From( source );
+		let graySource = DIP.GrayImageData.From( source );
 		
 		/// 3. show input
 		addStep( '3.1. Input', graySource.getImageData() );

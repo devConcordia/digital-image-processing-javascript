@@ -1,7 +1,7 @@
 
-# pixel
+# DIP
 
-Esse documento descreve os recursos de [pixel](https://github.com/devConcordia/pixel/blob/main/index.mjs).
+Esse documento descreve os recursos de [DIP](https://github.com/devConcordia/pixel/blob/main/index.mjs).
 
 - [ColorImageData](ColorImageData.md)
 - [GrayImageData](GrayImageData.md)
@@ -14,9 +14,11 @@ Esse documento descreve os recursos de [pixel](https://github.com/devConcordia/p
 - [Point](Point.md)
 - [Rect](Rect.md)
 
-## pixel.load
+## Métodos Estático
 
-Este método é um auxílio para iniciar imagens já em um [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
+## DIP.Load
+
+Este método é um auxílio para iniciar imagens em um [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
 
 | Argumento | Tipo | Descrição |
 |-----------|------|-----------|
@@ -24,14 +26,14 @@ Este método é um auxílio para iniciar imagens já em um [Canvas](https://deve
 | handlerCallback | [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function) | Função chamada quando a imagem carregar. |
 
 O `handlerCallback` é chamado com dois argumentos: 
-- `source` será uma instância de [ColorImageData](ColorImageData.md) (que é uma extensão de [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData)); e
+- `source` será uma instância de [ColorImageData](ColorImageData.md); e
 - `context` será uma instância de [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D).
 
 No exemplo a seguir, uma imagem é carragada e o canvas informado é adicionado ao body pad página.
 
 ```javascript
 
-pixel.load('path/to/image', function handlerCallback( source, context ) {
+DIP.Load('path/to/image', function handlerCallback( source, context ) {
 	
 	document.body.appendChild( context.canvas );
 	
@@ -39,7 +41,7 @@ pixel.load('path/to/image', function handlerCallback( source, context ) {
 
 ```
 
-## pixel.createContext
+## DIP.CreateContext
 
 Este método é um auxílio para criar um [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D) a partir de uma [Image](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image), [HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement) ou [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData).
 
@@ -56,7 +58,7 @@ let img = new Image();
     img.onload = function() {
     	
 		/// CanvasRenderingContext2D
-		let context = pixel.createContext( img, document.body );
+		let context = DIP.CreateContext( img, document.body );
 		
 		/// TODO
 		
