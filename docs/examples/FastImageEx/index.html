@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset='UTF-8' />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=yes" />
+		<title>FastImageEx</title>
+		<style>
+			
+			button { display:inline-block; margin:5px; }
+			
+			#divHead {
+				background:#fafafa;
+				border-radius:5px;
+				padding:5px;
+			}
+			
+			#divView {
+				display:flex;
+				align-items: stretch;
+				border-radius:5px;
+				padding:5px;
+			}
+			
+			#divView > canvas {
+				flex: 1 1 auto;
+				max-width:500px;
+				margin:10px; 
+				box-shadow:2px 3px 15px #777;
+				image-rendering: pixelated;
+			}
+			
+			#divView > pre {
+				flex: 1 1 auto;
+				max-width:300px;
+				white-space:pre-wrap;
+				font-family:Courier new;
+				padding:10px;
+				
+				border-radius:5px;
+				background:#fafafa;
+			}
+			
+			
+		</style>
+        <script type="module" src="main.mjs" ></script>
+    </head>
+    <body>
+		<h1>FastImageEx - Example</h1>
+		<p>The original project can be accessed at <a href="https://sourceforge.net/projects/fastimageex/">sourceforge</a></p>
+		<div>
+			<div id="divHead" ></div>
+			<div id="divView" ></div>
+		</div>
+    </body>
+</html>

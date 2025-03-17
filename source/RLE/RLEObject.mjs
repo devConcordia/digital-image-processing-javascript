@@ -221,6 +221,11 @@ export default class RLEObject {
 	
 	getBorderData() {
 		
+		/// if already processed
+		if( this.boderData )
+			return this.boderData;
+		
+		///
 		let data = this.data;
 		let points = new Array();
 		
@@ -278,7 +283,6 @@ export default class RLEObject {
 		
 		}
 		
-		
 		///
 		///
 		let dx = 0;
@@ -329,12 +333,11 @@ export default class RLEObject {
 		
 		distDeviation = Math.sqrt( distDeviation );
 		
-		
 		///
 		///
 		points = connectPoints( points );
 		
-		return { points, center, near, far, distAverage, distDeviation };
+		return this.boderData = { points, center, near, far, distAverage, distDeviation };
 		
 	}
 	

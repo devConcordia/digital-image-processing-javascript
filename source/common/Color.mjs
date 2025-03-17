@@ -22,7 +22,6 @@ function hue( t, p, q ) {
 
 };
 
-
 /** Color [ R, G, B, A ]
  *	
  */

@@ -17,14 +17,14 @@ Você pode inicar a documentação pelo [docs/pt-BR/DIP.md](docs/pt-BR/DIP.md).
 
 ### Segmentação
 
-O [RLESegmentation](docs/pt-BR/RLE.md) (Run-Length-Encoding Segmentation) é um metodo de [segmentação de imagem](https://en.wikipedia.org/wiki/Image_segmentation) basedo no projeto [FastImageEx](https://sourceforge.net/projects/fastimageex/).
+O [RLESegmentation](docs/pt-BR/RLE.md) (Run-Length-Encoding Segmentation) é um metodo de [segmentação de imagem](https://en.wikipedia.org/wiki/Image_segmentation).
 
-Veja o exemplo em [/docs/examples/rle-segmentation/](docs/examples/rle-segmentation/).
+O projeto original, utilizado como referência, pode ser encontrado em [https://sourceforge.net/projects/fastimageex/](https://sourceforge.net/projects/fastimageex/).
 
-![](docs/images/rle-sample.png)
+![](docs/images/fastimageex.png)
 
 > [!NOTE]
-> A imagem é uma ilustração abreviada das etapas necessarias para realizar a segmentação, veja o exemplo para mais informações.
+> A ilustração é uma abreviação das etapas necessarias para realizar a segmentação e reconhecimento, para mais informações veja o exemplo [/docs/examples/FastImageEx/](docs/examples/FastImageEx/).
 
 ### Clahe 
 
