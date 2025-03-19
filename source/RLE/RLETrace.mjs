@@ -26,11 +26,6 @@ export default class RLETrace {
 				(inRange(t.xa, this.xa, this.xb)) ||
 				(inRange(t.xb, this.xa, this.xb))
 	
-	//	return  ((this.xa >= t.xa) && (this.xa <= t.xb)) ||
-	//			((this.xb >= t.xa) && (this.xb <= t.xb)) ||
-	//			((t.xa >= this.xa) && (t.xa <= this.xb)) ||
-	//			((t.xb >= this.xa) && (t.xb <= this.xb))
-	
 	}
 	
 }
