@@ -101,7 +101,55 @@ export default class BinaryImageData {
 		
 	}
 	
+	/** getChannel
+	 *	
+	 *	@return {Uint8Array}
+	 */
+	getChannel() {
+		
+		let w = this.width;
+		let h = this.height;
+		let indata = this.data;
+		
+		let output = new Uint8ClampedArray( w * h );
+		
+		let byteStep = Math.ceil( w/8 );
+		
+		for( let i = 0; i < h; i++ ) {
+			
+			/// distancia em bits (y)
+			let offset = i * w;
+			
+			for( let j = 0; j < byteStep; j++ ) {
+				
+				let b = indata[ i * byteStep + j ];
+				
+				/// distancia em bits (x)
+				let wj = j * 8;
+				
+				for( let n = 0; n < 8; n++ ) {
+					
+					/// distancia em bits (x)
+					let wi = wj + n;
+					
+					if( wi > w ) break;
+					
+					output[ offset + wi ] = ((b >> (7-n)) & 1) > 0? 0xff : 0x00;
+					
+				}
+				
+			}
+		}
+		
+		return output;
+		
+	}
 	
+	
+	/** getImageData
+	 *	
+	 *	@return {ImageData}
+	 */
 	getImageData() {
 		
 		let w = this.width;
@@ -173,6 +221,8 @@ export default class BinaryImageData {
 		return output; // + "("+ this.width +"x"+ h +")";
 		
 	}
+	
+	
 	
 	///
 	/// 

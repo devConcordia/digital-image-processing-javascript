@@ -56,16 +56,23 @@ window.addEventListener('load', function(e) {
 		///
 		const source = input.clone();
 		
+		let graySource = null;
+		let binarySource = null;
 		let objects = null;
 		
 		addButton( "grayScale", false, function() {
 			
 			let T = Date.now();
 			
-			source.grayScale();
+		//	source.grayScale();
+		//	
+		//	/// update
+		//	context2d.putImageData( source, 0, 0 );
+			
+			graySource = DIP.GrayImageData.From( source );
 			
 			/// update
-			context2d.putImageData( source, 0, 0 );
+			context2d.putImageData( graySource.getImageData(), 0, 0 );
 			
 			///
 			writeLog("["+ (Date.now()-T) +" ms] grayScale");
@@ -74,12 +81,20 @@ window.addEventListener('load', function(e) {
 		
 		addButton( "Sobel", true, function() {
 			
+			if( graySource == null )
+				return writeLog("GrayImageData not started", "#f00");
+			
 			let T = Date.now();
 			
-			source.conv( DIP.Matrix.Sobel(5) );
+		//	source.conv( DIP.Matrix.Sobel(5) );
+		//	
+		//	/// update
+		//	context2d.putImageData( source, 0, 0 );
+			
+			graySource.conv( DIP.Matrix.Sobel(5) );
 			
 			/// update
-			context2d.putImageData( source, 0, 0 );
+			context2d.putImageData( graySource.getImageData(), 0, 0 );
 			
 			///
 			writeLog("["+ (Date.now()-T) +" ms] Sobel");
@@ -102,12 +117,20 @@ window.addEventListener('load', function(e) {
 		
 		addButton( "Binarization", true, function() {
 			
+			if( graySource == null )
+				return writeLog("GrayImageData not started", "#f00");
+			
 			let T = Date.now();
 			
-			source.threshold(90);
+		//	source.threshold(90);
+		//	
+		//	/// update
+		//	context2d.putImageData( source, 0, 0 );
+			
+			binarySource = DIP.BinaryImageData.From( graySource, 90 );
 			
 			/// update
-			context2d.putImageData( source, 0, 0 );
+			context2d.putImageData( binarySource.getImageData(), 0, 0 );
 			
 			///
 			writeLog("["+ (Date.now()-T) +" ms] Binarization");
@@ -116,12 +139,20 @@ window.addEventListener('load', function(e) {
 		
 		addButton( "Morphology Close", true, function() {
 			
+			if( binarySource == null )
+				return writeLog("BinaryImageData not started", "#f00");
+			
 			let T = Date.now();
 			
-			source.close( DIP.Matrix.Ones(3,3) );
+		//	source.close( DIP.Matrix.Ones(3,3) );
+		//	
+		//	/// update
+		//	context2d.putImageData( source, 0, 0 );
+			
+			binarySource = binarySource.close( DIP.Matrix.Ones(3,3) );
 			
 			/// update
-			context2d.putImageData( source, 0, 0 );
+			context2d.putImageData( binarySource.getImageData(), 0, 0 );
 			
 			///
 			writeLog("["+ (Date.now()-T) +" ms] Morphology Close");
@@ -131,15 +162,22 @@ window.addEventListener('load', function(e) {
 		
 		addButton( "RLESegmentation", true, function() {
 			
+			if( binarySource == null )
+				return writeLog("BinaryImageData not started", "#f00");
+			
 			let T = Date.now();
 			
-			objects = DIP.RLESegmentation.Create( source );
+		//	let graySource = new DIP.GrayImageData( source.getChannel(0), source.width );
+			let finalSource = new DIP.GrayImageData( binarySource.getChannel(), binarySource.width );
+			
+			
+			objects = new DIP.RLESegmentation( finalSource );
 			
 			/// clear source
 			source.fill( BLACK );
 			
 			/// plot objects of RLE on source
-			objects.stamp( source );
+			objects.debug( source );
 			
 			/// update
 			context2d.putImageData( source, 0, 0 );
@@ -157,7 +195,7 @@ window.addEventListener('load', function(e) {
 			let T = Date.now();
 			
 			/// remove objects with area smaller than 200 pixels
-			objects.remove(function(object) {
+			objects.filter(function(object) {
 				return object.pixels < 200
 			});
 			
@@ -165,7 +203,7 @@ window.addEventListener('load', function(e) {
 			source.fill( BLACK );
 			
 			/// plot objects of RLE on source
-			objects.stamp( source );
+			objects.debug( source );
 			
 			/// update
 			context2d.putImageData( source, 0, 0 );
@@ -189,7 +227,7 @@ window.addEventListener('load', function(e) {
 			source.fill( BLACK );
 			
 			/// plot objects of RLE on source
-			objects.stamp( source );
+			objects.debug( source );
 			
 			/// update
 			context2d.putImageData( source, 0, 0 );
@@ -212,7 +250,7 @@ window.addEventListener('load', function(e) {
 			source.fill( BLACK );
 			
 			/// plot objects of RLE on source
-			objects.stamp( source );
+			objects.debug( source );
 			
 			/// update
 			context2d.putImageData( source, 0, 0 );
@@ -317,7 +355,7 @@ window.addEventListener('load', function(e) {
 			source.fill( BLACK );
 			
 			/// plot objects of RLE on source
-			objects.stamp( source );
+			objects.debug( source );
 			
 			/// blen input with objects recognized
 			const output = input.blend( source, 1.0, .5 );
@@ -383,7 +421,7 @@ window.addEventListener('load', function(e) {
 		/// clear source
 		source.fill( BLACK );
 		/// plot objects of RLE on source
-		objects.stamp( source );
+		objects.debug( source );
 		addStep( '2.5. Init RLESegmentation', source );
 		
 		
@@ -393,7 +431,7 @@ window.addEventListener('load', function(e) {
 		/// clear source
 		source.fill( BLACK );
 		/// plot objects of RLE on source
-		objects.stamp( source );
+		objects.debug( source );
 		addStep( '2.6. Remove Objects with are smaller than 200 pixels', source );
 		
 		
@@ -403,7 +441,7 @@ window.addEventListener('load', function(e) {
 		/// clear source
 		source.fill( BLACK );
 		/// plot objects of RLE on source
-		objects.stamp( source );
+		objects.debug( source );
 		addStep( '2.7. Merge objects', source );
 		
 		/// close objects of RLE (remove internal holes)
@@ -412,7 +450,7 @@ window.addEventListener('load', function(e) {
 		/// clear source
 		source.fill( BLACK );
 		/// plot objects of RLE on source
-		objects.stamp( source );
+		objects.debug( source );
 		addStep( '2.8. Fill holes', source );
 
 		

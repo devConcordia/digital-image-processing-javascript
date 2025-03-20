@@ -22,67 +22,14 @@ export function distance( a, b ) {
 ///
 ///
 
-/** getLinesFrom
- *	
- *	@param {ImageData} imagedata
- *	@return {Array[][]} 				[ [ RLETrace, ... ], ... ]
- */
-export function getLinesFromImageData( imagedata ) {
-	
-	const { width, height, data } = imagedata;
-	
-	let w = width - 1,
-		h = height - 1;
-	
-	const lines = new Array();
-	
-	///
-	for( let y = 0; y < h; y++ ) {
-		
-		let offset = y * width;
-		
-		let line = new Array(),
-			xi = 0;
-		
-		do {
-			
-			while( xi < width && data[ (offset + xi) * 4 ] == 0 ) xi++;
-			
-			if( xi == width ) break;
-			
-			if( xi == w ) {
-				line.push( new RLETrace( xi, xi, y ) );
-				break;
-			}
-			
-			let xf = xi + 1;
-			
-			while( xf < width && data[ (offset + xf) * 4 ] > 0 ) xf++;
-			
-			xf--;
-			
-			line.push( new RLETrace( xi, xf, y ) );
-			
-			xi = xf + 1;
-			
-		} while( xi < width );
-		
-		lines.push( line );
-		
-	}
-	
-	return lines;
-	
-}
-
 /** getLinesFromGrayImageData
  *	
  *	@param {GrayImageData} imagedata
  *	@return {Array[][]} 				[ [ RLETrace, ... ], ... ]
  */
-export function getLinesFromGrayImageData( data ) {
+export function getLinesFromGrayImageData( grayImageData ) {
 	
-	const { width, height } = data;
+	const { width, height, data } = grayImageData;
 	
 	let lines = new Array();
 	

@@ -1,7 +1,6 @@
 
 import { clamp, calcCdf, outRange } from './common/utils.mjs';
 
-
 /** ColorImageData
  *	
  */
@@ -19,6 +18,31 @@ export default class ColorImageData extends ImageData {
 				throw new Error('@param target is\'t a ImageData');
 		
 		Object.setPrototypeOf( target, ColorImageData.prototype );
+		
+	}
+	
+	/// channels
+	static R = 0;
+	static G = 1;
+	static B = 2;
+	static A = 3;
+	
+	/** getChannel
+	 *	
+	 *	@param {Number} channel		R:0 | G:1 | B:2 | A:0
+	 */
+	getChannel( channel ) {
+		
+		if( !channel ) channel = ColorImageData.R;
+		
+		let { data, width, height } = this;
+		
+		let output = new Uint8ClampedArray( width * height );
+		
+		for( let i = 0; i < output.length; i++ )
+			output[i] = data[ i*4 + channel ];
+		
+		return output;
 		
 	}
 	

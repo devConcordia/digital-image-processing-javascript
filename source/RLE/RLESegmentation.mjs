@@ -1,9 +1,6 @@
 
-import GrayImageData from '../GrayImageData.mjs';
-
 ///
 import { 
-	getLinesFromImageData, 
 	getLinesFromGrayImageData, 
 	connectTraces, 
 	distance 
@@ -14,35 +11,21 @@ import RLEObject from './RLEObject.mjs';
 
 /** RLESegmentation
  *	
- *	
  */
 export default class RLESegmentation {
 	
-	/** Create
+	/** 
 	 *	
-	 *	@param  {ImageData | ColorImageData | GrayImageData} input
+	 *	@param  {GrayImageData} input
 	 *	@return  {RLESegmentation}
 	 */
-	static Create( input ) {
+	constructor( input ) {
 		
 		/// {Array[][]} lines		[[ {RLETrace}, ... ], ...]
-		let lines;
-		
-		if( input instanceof GrayImageData ) {
-			
-			lines = getLinesFromGrayImageData( input );
-			
-		} else {
-			
-			lines = getLinesFromImageData( input );
-			
-		}
+		let lines = getLinesFromGrayImageData( input );
 		
 		///
 		connectTraces( lines );
-		
-		///
-		let output = new RLESegmentation();
 		
 		///
 		for( let line of lines ) {
@@ -50,39 +33,37 @@ export default class RLESegmentation {
 				
 				let id = trace.id;
 				
-				if( !(id in output) ) 
-					output[ id ] = new RLEObject( id );
+				if( !(id in this) ) 
+					this[ id ] = new RLEObject( id );
 				
-				output[ id ].append( trace );
+				this[ id ].append( trace );
 				
 			}
 		}
 		
-		return output;
-		
 	}
 	
-	/* ... */
+	get length() { return Object.keys( this ).length }
 	
-	clear() {
-		
-		for( let id in this )
-			delete this[ id ];
-		
-	}
-	
-	remove( method ) {
-		
-		for( let id in this ) 
-			if( method( this[ id ] ) ) 
-				delete this[ id ];
-		
-	}
-	
+	/** 
+	 *	
+	 */
 	close() {
 		
 		for( let id in this ) 
 			this[ id ].close();
+		
+	}
+	
+	/** filter
+	 *	
+	 *	@param {Function} statement
+	 */
+	filter( statement ) {
+		
+		for( let id in this ) 
+			if( statement( this[ id ] ) ) 
+				delete this[ id ];
 		
 	}
 	
@@ -119,12 +100,11 @@ export default class RLESegmentation {
 		
 	}
 	
-	
-	/** stamp
+	/** debug
 	 *	
 	 *	@param {ImageData} imagedata
 	 */
-	stamp( imagedata ) {
+	debug( imagedata ) {
 		
 		let width = imagedata.width;
 		let buffer = new Uint32Array( imagedata.data.buffer );
@@ -151,10 +131,6 @@ export default class RLESegmentation {
 		}
 		
 	}
-	
-	/* ... */
-	
-	get length() { return Object.keys( this ).length }
 	
 	[Symbol.iterator]() {
 		
