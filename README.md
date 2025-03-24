@@ -88,15 +88,15 @@ será preciso iniciar um servidor local, no exmplo a seguir utilizamos o python 
 Em seguida, abra o localhost em um browser.
 
 ```
-git clone https://github.com/devConcordia/DIP.git
+git clone https://github.com/devConcordia/digital-image-processing-javascript.git
 
-cd DIP
+cd digital-image-processing-javascript
 
 python -m http.server
 ```
 
 > [!NOTE]
-> Observe que nos exemplos, definimos o `style` dos canvas com `image-rendering: DIPated`.
+> Observe que nos exemplos, definimos o `style` dos canvas com `image-rendering: pixelate`.
 > Isso altera a visualização da imagem de modo que ela fique mais "quadriculada".
 
 
