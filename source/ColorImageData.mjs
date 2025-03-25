@@ -303,7 +303,7 @@ export default class ColorImageData extends ImageData {
 		return this;
 		
 	}
-
+	
 	/**	brightness
 	 *	
 	 *	@param {Number} sr		red brightness scale
@@ -727,14 +727,22 @@ export default class ColorImageData extends ImageData {
 				let vg = 0;
 				let vb = 0;
 
-				for( let i = -mh2; i < mh2; i++ ) {
-					for( let j = -mw2; j < mw2; j++ ) {
+			//	for( let i = -mh2; i < mh2; i++ ) {
+			//		for( let j = -mw2; j < mw2; j++ ) {
 						
-						let n = 4 * ( width*( y + i ) + x + j );
+				for( let i = 0; i < mh; i++ ) {
+					for( let j = 0; j < mw; j++ ) {
 						
-						if( source[n  ] > vr ) vr = source[n  ];
-						if( source[n+1] > vg ) vg = source[n+1];
-						if( source[n+2] > vb ) vb = source[n+2];
+						/// ignore if value equal a zero
+						if( matrix[ i*mw + j ] == 1 ) {
+						
+							let n = 4 * ( width*( y + i ) + x + j );
+							
+							if( source[n  ] > vr ) vr = source[n  ];
+							if( source[n+1] > vg ) vg = source[n+1];
+							if( source[n+2] > vb ) vb = source[n+2];
+						
+						}
 						
 					}
 				}
@@ -780,14 +788,19 @@ export default class ColorImageData extends ImageData {
 				let vg = 255;
 				let vb = 255;
 
-				for( let i = -mh2; i < mh2; i++ ) {
-					for( let j = -mw2; j < mw2; j++ ) {
+				for( let i = 0; i < mh; i++ ) {
+					for( let j = 0; j < mw; j++ ) {
 						
-						let n = 4 * ( width*( y + i ) + x + j );
+						/// ignore if value equal a zero
+						if( matrix[ i*mw + j ] == 1 ) {
+						
+							let n = 4 * ( width*( y + i ) + x + j );
 
-						if( source[n  ] < vr ) vr = source[n  ];
-						if( source[n+1] < vg ) vg = source[n+1];
-						if( source[n+2] < vb ) vb = source[n+2];
+							if( source[n  ] < vr ) vr = source[n  ];
+							if( source[n+1] < vg ) vg = source[n+1];
+							if( source[n+2] < vb ) vb = source[n+2];
+						
+						}
 						
 					}
 				}
@@ -910,4 +923,3 @@ export default class ColorImageData extends ImageData {
 	}
 
 }
-

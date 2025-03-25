@@ -666,12 +666,16 @@ export default class GrayImageData {
 				for( let i = 0; i < matrix.height; i++ ) {
 					for( let j = 0; j < matrix.width; j++ ) {
 						
-						let xj = clamp((x+j) - mhw, 0, width-1),
-							yi = clamp((y+i) - mhh, 0, height-1);
+						if( matrix[ i*mw + j ] == 1 ) {
 						
-						let v = source[ yi * width + xj ] * matrix[ i*mw + j ];
+							let xj = clamp((x+j) - mhw, 0, width-1),
+								yi = clamp((y+i) - mhh, 0, height-1);
+							
+							let v = source[ yi * width + xj ] * matrix[ i*mw + j ];
+							
+							if( v > value ) value = v;
 						
-						if( v > value ) value = v;
+						}
 						
 					}
 				}
@@ -716,12 +720,16 @@ export default class GrayImageData {
 				for( let i = 0; i < matrix.height; i++ ) {
 					for( let j = 0; j < matrix.width; j++ ) {
 						
-						let xj = clamp((x+j) - mhw, 0, width-1),
-							yi = clamp((y+i) - mhh, 0, height-1);
+						if( matrix[ i*mw + j ] == 1 ) {
 						
-						let v = source[ yi * width + xj ] * matrix[ i*mw + j ];
+							let xj = clamp((x+j) - mhw, 0, width-1),
+								yi = clamp((y+i) - mhh, 0, height-1);
+							
+							let v = source[ yi * width + xj ] * matrix[ i*mw + j ];
+							
+							if( v < value ) value = v;
 						
-						if( v < value ) value = v;
+						}
 						
 					}
 				}
