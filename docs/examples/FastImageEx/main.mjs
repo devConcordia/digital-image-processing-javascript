@@ -1,5 +1,5 @@
 
-import DIP from "../../../index.mjs";
+import DIP from "../../../source/index.mjs";
 
 window.addEventListener('load', function(e) {
 	

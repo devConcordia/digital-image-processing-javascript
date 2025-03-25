@@ -1,5 +1,5 @@
 
-import DIP from "../../../index.mjs";
+import DIP from "../../../source/index.mjs";
 import Renderer2D from "../src/js/Renderer2D.mjs";
 
 ///

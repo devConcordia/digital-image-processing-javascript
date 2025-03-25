@@ -1,14 +1,15 @@
 
-import Rect from './source/common/Rect.mjs';
-import Point from './source/common/Point.mjs';
-import Color from './source/common/Color.mjs';
-import Matrix from './source/common/Matrix.mjs';
 
-import ColorImageData from './source/ColorImageData.mjs';
-import GrayImageData from './source/GrayImageData.mjs';
-import BinaryImageData from './source/BinaryImageData.mjs';
+import Rect from './common/Rect.mjs';
+import Point from './common/Point.mjs';
+import Color from './common/Color.mjs';
+import Matrix from './common/Matrix.mjs';
 
-import RLESegmentation from './source/RLE/RLESegmentation.mjs';
+import ColorImageData from './ColorImageData.mjs';
+import GrayImageData from './GrayImageData.mjs';
+import BinaryImageData from './BinaryImageData.mjs';
+
+import RLESegmentation from './RLE/RLESegmentation.mjs';
 
 ///
 ///
