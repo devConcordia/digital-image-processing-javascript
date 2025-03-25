@@ -728,9 +728,6 @@ export default class ColorImageData extends ImageData {
 				let vg = 0;
 				let vb = 0;
 
-			//	for( let i = -mh2; i < mh2; i++ ) {
-			//		for( let j = -mw2; j < mw2; j++ ) {
-						
 				for( let i = 0; i < mh; i++ ) {
 					for( let j = 0; j < mw; j++ ) {
 						
@@ -819,7 +816,7 @@ export default class ColorImageData extends ImageData {
 		return this;
 		
 	}
-		
+	
 	/** open
 	 *	
 	 *	@param {Matrix} matrix
@@ -932,16 +929,11 @@ export default class ColorImageData extends ImageData {
 		
 		this.data.set( gray, 0 );
 		
+		return this;
+		
 	}
 	
 	convOptimizer( matrix ) {
-		
-		console.log( this.data.length,
-			this.width,
-			this.height,
-			matrix.length,
-			matrix.width,
-			matrix.height )
 		
 		let data = wasm.rgba_conv( 
 			this.data,
@@ -954,6 +946,88 @@ export default class ColorImageData extends ImageData {
 		
 		this.data.set( data, 0 );
 		
+		return this;
+		
 	}
+	
+	erodeOptimizer( matrix ) {
+		
+		let data = wasm.rgba_erode( 
+			this.data,
+			this.width,
+			this.height,
+			matrix,
+			matrix.width,
+			matrix.height
+		);
+		
+		this.data.set( data, 0 );
+		
+		return this;
+		
+	}
+	
+	dilateOptimizer( matrix ) {
+		
+		let data = wasm.rgba_dilate( 
+			this.data,
+			this.width,
+			this.height,
+			matrix,
+			matrix.width,
+			matrix.height
+		);
+		
+		this.data.set( data, 0 );
+		
+		return this;
+		
+	}
+	
+	
+	/** open
+	 *	
+	 *	@param {Matrix} matrix
+	 *	@return {ColorImageData}
+	 */
+	openOptimizer( matrix ) {
+		
+		let data = wasm.rgba_open( 
+			this.data,
+			this.width,
+			this.height,
+			matrix,
+			matrix.width,
+			matrix.height
+		);
+		
+		this.data.set( data, 0 );
+		
+		return this;
+		
+	}
+
+	/** close
+	 *	
+	 *	@param {Matrix} matrix
+	 *	@return {ColorImageData}
+	 */
+	closeOptimizer( matrix ) {
+		
+		let data = wasm.rgba_close( 
+			this.data,
+			this.width,
+			this.height,
+			matrix,
+			matrix.width,
+			matrix.height
+		);
+		
+		this.data.set( data, 0 );
+		
+		return this;
+		
+	}
+
 	
 }

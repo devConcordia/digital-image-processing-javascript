@@ -111,9 +111,11 @@ pub fn dilate(image: &[u8], image_w: i32, image_h: i32,
 	// init with 255 values, default to alpha (RGBA)
 	let mut output: Vec<u8> = vec![255; image.len()];
 	
-	let mwh: i32 = matrix_w/2;
-	let mhh: i32 = matrix_h/2;
+	let mwh: i32 = matrix_w/2; // matrix width half
+	let mhh: i32 = matrix_h/2;	// matrix height half
 	
+	let w: i32 = image_w - 1;
+	let h: i32 = image_h - 1;
 	
 	for y in 0..image_h {
 		
@@ -121,45 +123,124 @@ pub fn dilate(image: &[u8], image_w: i32, image_h: i32,
 		
 		for x in 0..image_w {
 			
-			let i32 
+			let mut vr: u8 = 0;
+			let mut vg: u8 = 0;
+			let mut vb: u8 = 0;
 			
+			for i in 0..matrix_h {
+				for j in 0..matrix_w {
+					
+					// ignore if value equals zero
+					if matrix[ (i*matrix_w + j) as usize ] == 1.0 {
+						
+						let xj = clamp_i32( x + (j - mwh), 0, w );
+						let yi = clamp_i32( y + (i - mhh), 0, h );
+						
+					//	let n = (4 * ( image_w*( y + i ) + x + j )) as usize;
+						let n = 4 * ( image_w*yi + xj ) as usize;
+						
+						if image[n  ] > vr { vr = image[n  ] }
+						if image[n+1] > vg { vg = image[n+1] }
+						if image[n+2] > vb { vb = image[n+2] }
+					
+					}
+					
+				}
+			}
+			
+			let index = 4 * (offset_row + x) as usize;
+			
+			output[ index   ] = vr;
+			output[ index+1 ] = vg;
+			output[ index+2 ] = vb;
+				
 		}
 	}
-	
-	
-	for( let y = 0; y < height; y++ ) {
-			
-			let offset_row = y * width;
-			
-			for( let x = 0; x < width; x++ ) {
-
-				let vr = 0;
-				let vg = 0;
-				let vb = 0;
-
-				for( let i = -mh2; i < mh2; i++ ) {
-					for( let j = -mw2; j < mw2; j++ ) {
-						
-						let n = 4 * ( width*( y + i ) + x + j );
-						
-						if( source[n  ] > vr ) vr = source[n  ];
-						if( source[n+1] > vg ) vg = source[n+1];
-						if( source[n+2] > vb ) vb = source[n+2];
-						
-					}
-				}
-				
-				let index = (offset_row + x) * 4;
-				
-				data[ index   ] = vr;
-				data[ index+1 ] = vg;
-				data[ index+2 ] = vb;
-				
-			}
-
-		}
-	
 	
 	output
 	
 }
+
+
+
+pub fn erode(image: &[u8], image_w: i32, image_h: i32, 
+			matrix: &[f32], matrix_w: i32, matrix_h: i32 ) -> Vec<u8> {
+	
+	// init with 255 values, default to alpha (RGBA)
+	let mut output: Vec<u8> = vec![255; image.len()];
+	
+	let mwh: i32 = matrix_w/2; // matrix width half
+	let mhh: i32 = matrix_h/2;	// matrix height half
+	
+	let w: i32 = image_w - 1;
+	let h: i32 = image_h - 1;
+	
+	for y in 0..image_h {
+		
+		let offset_row = y * image_w;
+		
+		for x in 0..image_w {
+			
+			let mut vr: u8 = 255;
+			let mut vg: u8 = 255;
+			let mut vb: u8 = 255;
+			
+			for i in 0..matrix_h {
+				for j in 0..matrix_w {
+					
+					// ignore if value equals zero
+					if matrix[ (i*matrix_w + j) as usize ] == 1.0 {
+					
+						let xj = clamp_i32( x + (j - mwh), 0, w );
+						let yi = clamp_i32( y + (i - mhh), 0, h );
+						
+					//	let n = (4 * ( image_w*( y + i ) + x + j )) as usize;
+						let n = 4 * ( image_w*yi + xj ) as usize;
+						
+						if image[n  ] < vr  { vr = image[n  ]; }
+						if image[n+1] < vg  { vg = image[n+1]; }
+						if image[n+2] < vb  { vb = image[n+2]; }
+					
+					}
+					
+				}
+			}
+			
+			let index = 4 * (offset_row + x) as usize;
+			
+			output[ index   ] = vr;
+			output[ index+1 ] = vg;
+			output[ index+2 ] = vb;
+				
+		}
+	}
+	
+	output
+	
+}
+
+
+
+pub fn open(image: &[u8], image_w: i32, image_h: i32, 
+			matrix: &[f32], matrix_w: i32, matrix_h: i32 ) -> Vec<u8> {
+	
+	let mut data: Vec<u8>;
+	
+	data = erode( image, image_w, image_h, matrix, matrix_w, matrix_h );
+	data = dilate( &data, image_w, image_h, matrix, matrix_w, matrix_h );
+	data
+	
+}
+
+
+pub fn close(image: &[u8], image_w: i32, image_h: i32, 
+			matrix: &[f32], matrix_w: i32, matrix_h: i32 ) -> Vec<u8> {
+	
+	let mut data: Vec<u8>;
+	
+	data = dilate( image, image_w, image_h, matrix, matrix_w, matrix_h );
+	data = erode( &data, image_w, image_h, matrix, matrix_w, matrix_h );
+	data
+	
+}
+
