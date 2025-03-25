@@ -1,4 +1,5 @@
 
+import { initOptimizer } from './optimizer.mjs';
 
 import Rect from './common/Rect.mjs';
 import Point from './common/Point.mjs';
@@ -77,10 +78,27 @@ function CreateContext( source, parentNode = null ) {
 	
 }
 
+/** LoadWasm
+ *	
+ *	@param {String} path
+ *	@param {Function} onLoaded
+ */
+async function LoadWasm( path, onLoaded ) {
+	
+	//await initOptimizer( new URL( path, location.href ) );
+	//await initOptimizer( fetch( new URL( path, location.href ) ) );
+	await initOptimizer({ module_or_path: new URL( path, location.href ) });
+	
+	if( typeof onLoaded == 'function' ) onLoaded();
+	
+}
+
+
 ///
 export default {
 	
 	Load,
+	LoadWasm,
 	CreateContext,
 	
 	Rect,

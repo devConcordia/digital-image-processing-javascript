@@ -1,5 +1,6 @@
 
 import { clamp, calcCdf, outRange } from './common/utils.mjs';
+import { wasm } from './optimizer.mjs'
 
 /** ColorImageData
  *	
@@ -921,5 +922,38 @@ export default class ColorImageData extends ImageData {
 		return this;
 		
 	}
-
+	
+	
+	/// 
+	
+	grayScaleOptimizer() {
+		
+		let gray = wasm.rgba_gray_scale( this.data );
+		
+		this.data.set( gray, 0 );
+		
+	}
+	
+	convOptimizer( matrix ) {
+		
+		console.log( this.data.length,
+			this.width,
+			this.height,
+			matrix.length,
+			matrix.width,
+			matrix.height )
+		
+		let data = wasm.rgba_conv( 
+			this.data,
+			this.width,
+			this.height,
+			matrix,
+			matrix.width,
+			matrix.height
+		);
+		
+		this.data.set( data, 0 );
+		
+	}
+	
 }
