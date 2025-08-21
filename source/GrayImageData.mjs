@@ -1,6 +1,6 @@
 
 import { clamp, calcCdf, outRange } from './common/utils.mjs';
-import { wasm } from './optimizer.mjs'
+//import { wasm } from './optimizer.mjs'
 
 /** GrayImageData
  *	
@@ -829,104 +829,4 @@ export default class GrayImageData {
 		
 	}
 	
-	/// 
-	/// 
-	/// 
-	
-	convOptimizer( matrix ) {
-		
-		let data = wasm.gray_conv( 
-			this.data,
-			this.width,
-			this.height,
-			matrix,
-			matrix.width,
-			matrix.height
-		);
-		
-		this.data.set( data, 0 );
-		
-		return this;
-		
-	}
-	
-	erodeOptimizer( matrix ) {
-		
-		let data = wasm.gray_erode( 
-			this.data,
-			this.width,
-			this.height,
-			matrix,
-			matrix.width,
-			matrix.height
-		);
-		
-		this.data.set( data, 0 );
-		
-		return this;
-		
-	}
-	
-	dilateOptimizer( matrix ) {
-		
-		let data = wasm.gray_dilate( 
-			this.data,
-			this.width,
-			this.height,
-			matrix,
-			matrix.width,
-			matrix.height
-		);
-		
-		this.data.set( data, 0 );
-		
-		return this;
-		
-	}
-	
-	
-	/** open
-	 *	
-	 *	@param {Matrix} matrix
-	 *	@return {ColorImageData}
-	 */
-	openOptimizer( matrix ) {
-		
-		let data = wasm.gray_open( 
-			this.data,
-			this.width,
-			this.height,
-			matrix,
-			matrix.width,
-			matrix.height
-		);
-		
-		this.data.set( data, 0 );
-		
-		return this;
-		
-	}
-
-	/** close
-	 *	
-	 *	@param {Matrix} matrix
-	 *	@return {ColorImageData}
-	 */
-	closeOptimizer( matrix ) {
-		
-		let data = wasm.gray_close( 
-			this.data,
-			this.width,
-			this.height,
-			matrix,
-			matrix.width,
-			matrix.height
-		);
-		
-		this.data.set( data, 0 );
-		
-		return this;
-		
-	}
-
 }

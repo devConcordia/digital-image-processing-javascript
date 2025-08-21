@@ -1,6 +1,6 @@
 
 import { clamp, calcCdf, outRange } from './common/utils.mjs';
-import { wasm } from './optimizer.mjs'
+//import { wasm } from './optimizer.mjs'
 
 /** ColorImageData
  *	
@@ -923,111 +923,5 @@ export default class ColorImageData extends ImageData {
 	
 	/// 
 	
-	grayScaleOptimizer() {
-		
-		let gray = wasm.rgba_gray_scale( this.data );
-		
-		this.data.set( gray, 0 );
-		
-		return this;
-		
-	}
-	
-	convOptimizer( matrix ) {
-		
-		let data = wasm.rgba_conv( 
-			this.data,
-			this.width,
-			this.height,
-			matrix,
-			matrix.width,
-			matrix.height
-		);
-		
-		this.data.set( data, 0 );
-		
-		return this;
-		
-	}
-	
-	erodeOptimizer( matrix ) {
-		
-		let data = wasm.rgba_erode( 
-			this.data,
-			this.width,
-			this.height,
-			matrix,
-			matrix.width,
-			matrix.height
-		);
-		
-		this.data.set( data, 0 );
-		
-		return this;
-		
-	}
-	
-	dilateOptimizer( matrix ) {
-		
-		let data = wasm.rgba_dilate( 
-			this.data,
-			this.width,
-			this.height,
-			matrix,
-			matrix.width,
-			matrix.height
-		);
-		
-		this.data.set( data, 0 );
-		
-		return this;
-		
-	}
-	
-	
-	/** open
-	 *	
-	 *	@param {Matrix} matrix
-	 *	@return {ColorImageData}
-	 */
-	openOptimizer( matrix ) {
-		
-		let data = wasm.rgba_open( 
-			this.data,
-			this.width,
-			this.height,
-			matrix,
-			matrix.width,
-			matrix.height
-		);
-		
-		this.data.set( data, 0 );
-		
-		return this;
-		
-	}
-
-	/** close
-	 *	
-	 *	@param {Matrix} matrix
-	 *	@return {ColorImageData}
-	 */
-	closeOptimizer( matrix ) {
-		
-		let data = wasm.rgba_close( 
-			this.data,
-			this.width,
-			this.height,
-			matrix,
-			matrix.width,
-			matrix.height
-		);
-		
-		this.data.set( data, 0 );
-		
-		return this;
-		
-	}
-
 	
 }
