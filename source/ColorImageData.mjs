@@ -920,8 +920,4 @@ export default class ColorImageData extends ImageData {
 		
 	}
 	
-	
-	/// 
-	
-	
 }

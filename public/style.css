@@ -1,0 +1,44 @@
+body {
+	background-color: #f8f9fa;
+}
+
+.section-box {
+	background-color: #fff;
+	border-radius: 0.5rem;
+	padding: 1.5rem;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	margin-bottom: 1.5rem;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.section-box canvas { max-width:200px; box-shadow:2px 3px 5px #777}
+
+.step-item {
+	border: 1px solid #e9ecef;
+	border-radius: 0.25rem;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	position: relative;
+}
+
+.step-item.inactive {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+.remove-step-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	font-size: 0.8rem;
+	line-height: 1;
+}
+
+.output-box img {
+	max-width: 100%;
+	height: auto;
+	border: 1px solid #dee2e6;
+	border-radius: 0.25rem;
+}
