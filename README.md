@@ -4,6 +4,9 @@
 Este projeto é um estudos que realizei alguns anos atrás.
 Entre as referências que utilizei está o livro Digital Image Processing 4e (Rafael C. Gonzalez, Richard E. Woods) e o projeto [FastImageEx](https://sourceforge.net/projects/fastimageex/).
 
+Veja as páginas de [demonstração](https://devconcordia.github.io/digital-image-processing-javascript/)
+e [FastImageEx](https://devconcordia.github.io/digital-image-processing-javascript/FastImageEx/).
+
 Você pode inicar a documentação pelo [docs/pt-BR/DIP.md](docs/pt-BR/DIP.md).
 
 > [!WARNING]
