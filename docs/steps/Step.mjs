@@ -83,6 +83,10 @@ export default class Step {
 		let btnJpeg = createIconButton('download', 'JPEG');
 		let btnWebp = createIconButton('download', 'WEBP');
 		
+		btnPng.button.onclick = function() { self.download('png'); }
+		btnJpeg.button.onclick = function() { self.download('jpeg'); }
+		btnWebp.button.onclick = function() { self.download('webp'); }
+		
 		divDownloads.appendChild( btnPng.button );
 		divDownloads.appendChild( btnJpeg.button );
 		divDownloads.appendChild( btnWebp.button );
